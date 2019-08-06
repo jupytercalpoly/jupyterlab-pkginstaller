@@ -4,16 +4,11 @@ import { Kernel } from '@jupyterlab/services';
 import React, { useState } from 'react';
 
 //Execute a silent pip install in the current active kernel using a line magic
-function runPip(input: string, install: boolean, notebookName: string): void {
-  let pipCommand: string = '%pip '
-  Kernel.getSpecs().then(kernelSpecs => {
-    console.log('Default spec:', kernelSpecs.default);
-    console.log('Available specs', Object.keys(kernelSpecs.kernelspecs));
-  });
+function runPip(input: string, install: boolean, kernelId: string): void {
+  let pipCommand: string = '';
+  install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
   Kernel.listRunning().then(kernelModels => {
-    install ? pipCommand += 'install ' : pipCommand += 'uninstall -y ';
-    console.log(kernelModels, kernelModels[0])
-    const kernel = Kernel.connectTo(kernelModels[0]);
+    const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === kernelId))[0]);
     if (kernel) {
       kernel.requestExecute({ code: pipCommand + input, silent: true }).onIOPub = msg => {console.log(msg.content);};
 
@@ -60,13 +55,13 @@ export function PackageSearcher(props: any) {
         name='packageName'
         required
       />
-      <button onClick={() => {if (!isInstalled(input, packages)) {runPip(input, true, props.notebookName); setPackages(packages.concat([input]));}}}>
+      <button onClick={() => {if (!isInstalled(input, packages)) {runPip(input, true, props.kernelId); setPackages(packages.concat([input]));}}}>
         Install
       </button>
-      <button onClick={() => {if (isInstalled(input, packages)) {runPip(input, false, props.notebookName); }}}>
+      <button onClick={() => {if (isInstalled(input, packages)) {runPip(input, false, props.kernelId); }}}>
         Uninstall
       </button>
-      <p>{props.notebookName}</p>
+      <p>{props.kernelId}</p>
       {packages.map(pkg => <span key={pkg}>{pkg} </span>)}
       <div style={{padding: 20}}></div>
     </div>
