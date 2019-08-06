@@ -7,23 +7,24 @@ import StyleClasses from './styles';
 
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
+function printContent(msg: any) {
+  console.log("Printed msg:", msg.content);
+  return msg.content;
+}
 //Execute a silent pip install in the current active kernel using a line magic
-function runPip(input: string, install: boolean, kernelId: string): void {
+function runPip(input: string, install: boolean, kernelId: string): any {
   let pipCommand: string = '';
   install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
   Kernel.listRunning().then(kernelModels => {
     const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === kernelId))[0]);
-    if (kernel) {
-      kernel.requestExecute({ code: pipCommand + input, silent: true }).onIOPub = msg => {console.log(msg.content);};
-
-    }
+    kernel.requestExecute({ code: pipCommand + input, silent: true }).onIOPub = msg => {return printContent(msg)};
   });
 }
 
 // Check if the searched package is already installed to avoid duplicates
-function isInstalled(input: string, packages: Array<string>): boolean {
-  return packages.indexOf(input) >= 0; 
-}
+//function isInstalled(input: string, packages: Array<string>): boolean {
+//  return packages.indexOf(input) >= 0; 
+//}
 
 // Scrape available packages on PyPI using CORS
 // function getAvailablePackages(): any {
@@ -48,11 +49,12 @@ function isInstalled(input: string, packages: Array<string>): boolean {
 // Render a component to search for a package to install
 export function PackageSearcher(props: any) {
   const [input, setInput] = useState('');
-  const [packages, setPackages] = useState([]);
+  const [progress, setProgress] = useState('');
   return (
-    <div className={PackageBarStyleClasses.pipButton}>
-      <p>Install Packages</p>
-      <input
+    <div className={PackageBarStyleClasses.packageContainer}>
+      <h2>Install Packages</h2>
+      <label className={PackageBarStyleClasses.packageLabel}>Search</label>
+      <input className={PackageBarStyleClasses.packageInput}
         value={input}
         onChange={e => setInput(e.target.value)}
         placeholder='Package Name'
@@ -61,16 +63,15 @@ export function PackageSearcher(props: any) {
         required
       />
       <button className={PackageBarStyleClasses.pipButton}
-      onClick={() => {if (!isInstalled(input, packages)) {runPip(input, true, props.kernelId); setPackages(packages.concat([input]));}}}>
+      onClick={() => {setProgress(runPip(input, true, props.kernelId));}}>
         Install
       </button>
       <button className={PackageBarStyleClasses.pipButton}
-      onClick={() => {if (isInstalled(input, packages)) {runPip(input, false, props.kernelId); }}}>
+      onClick={() => {setProgress(runPip(input, false, props.kernelId));}}>
         Uninstall
       </button>
-      <p>{props.kernelId}</p>
-      {packages.map(pkg => <span key={pkg}>{pkg} </span>)}
-      <div style={{padding: 20}}></div>
+      <p>Current kernel: {props.kernelId}</p>
+      <p>Pro: {progress}</p>
     </div>
   );
 }

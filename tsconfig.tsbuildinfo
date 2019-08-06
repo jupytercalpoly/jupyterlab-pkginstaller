@@ -914,15 +914,15 @@
         "signature": "19c36cf5f5046e07eaf957cc01255f4fe3446d54087354ad617cfec7e1d962a4"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/styles/packagebar-styles.ts": {
-        "version": "60aebd75a7e84699fd919238fca46621c26129c164266dc95e0e85c146b9fb69",
-        "signature": "c28070d4e12a7fc5c96fc77ea529161c4bf7ea9807c3fff3894013a5aa06a49d"
+        "version": "96b7c65d8d2eb814b549faa3a954e74d588889a9654756b3a32364ab263db95c",
+        "signature": "b4f0ba982ee9aacd0cf3074e39405e9948fc446a3963caf9a218c7544757a1d4"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/styles/index.ts": {
         "version": "6a09bcf8d15bc16782cc8a89669e346cdd9a679d3cab7526f90ac21f3238b362",
         "signature": "1b90d012205d223c41c65a4149674203d9c94dd18155df38d7742d8279a08cd1"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/packagebar.tsx": {
-        "version": "8429b9d09990e34ab4041cdd502d8a0794e33dd762c6846afc7b8d588a90a32b",
+        "version": "5466a265efe60d8b0d5b972104ca458ed56d3fe3d71bfa43657ed70dde59ba1d",
         "signature": "f9eb42bdacb458760141b1e92cd389c3859e2d6b11ff3db3d4f3577fcf999dff"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/packagetool.tsx": {
@@ -3570,11 +3570,11 @@
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/typestyle.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/utilities.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/index.d.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/styles/packagebar-styles.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/styles/index.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/packagebar.tsx",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/packagetool.tsx",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/index.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/styles/packagebar-styles.ts"
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/components/packagebar.tsx"
     ]
   },
   "version": "3.5.3"
