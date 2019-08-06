@@ -19,7 +19,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     console.log('JupyterLab extension pkgmanager is activated!');
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
-    console.log(2);
+    console.log(3);
   }
 };
 
