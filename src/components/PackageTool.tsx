@@ -1,7 +1,4 @@
-import {
-  NotebookTools,
-  INotebookTracker,
-} from '@jupyterlab/notebook';
+import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
 
 import { PanelLayout } from '@phosphor/widgets';
 
@@ -27,17 +24,15 @@ class PackageTool extends NotebookTools.Tool {
     for (let i = 0; i < count; i++) {
       layout.widgets[0].dispose();
     }
-      //const panel: NotebookPanel = this.notebookTracker.currentWidget;
   } 
   protected onActiveCellChanged(msg: Message): void {
     this.notebookTracker.currentWidget.context.ready.then(() => {
-      console.log(this.notebookTracker.currentWidget.session.name);
       let layout = this.layout as PanelLayout;
       let count = layout.widgets.length;
       for (let i = 0; i < count; i++) {
         layout.widgets[0].dispose();
       }
-      const cellWidget = ReactWidget.create(<PackageSearcher notebookName={this.notebookTracker.currentWidget.session.name}/>);
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernel.id}/>);
       layout.addWidget(cellWidget);
     });
   }
