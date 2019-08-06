@@ -3,6 +3,10 @@ import { Kernel } from '@jupyterlab/services';
 
 import React, { useState } from 'react';
 
+import StyleClasses from './styles';
+
+const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
+
 //Execute a silent pip install in the current active kernel using a line magic
 function runPip(input: string, install: boolean, kernelId: string): void {
   let pipCommand: string = '';
@@ -46,7 +50,8 @@ export function PackageSearcher(props: any) {
   const [input, setInput] = useState('');
   const [packages, setPackages] = useState([]);
   return (
-    <div>
+    <div className={PackageBarStyleClasses.pipButton}>
+      <p>Install Packages</p>
       <input
         value={input}
         onChange={e => setInput(e.target.value)}
@@ -55,10 +60,12 @@ export function PackageSearcher(props: any) {
         name='packageName'
         required
       />
-      <button onClick={() => {if (!isInstalled(input, packages)) {runPip(input, true, props.kernelId); setPackages(packages.concat([input]));}}}>
+      <button className={PackageBarStyleClasses.pipButton}
+      onClick={() => {if (!isInstalled(input, packages)) {runPip(input, true, props.kernelId); setPackages(packages.concat([input]));}}}>
         Install
       </button>
-      <button onClick={() => {if (isInstalled(input, packages)) {runPip(input, false, props.kernelId); }}}>
+      <button className={PackageBarStyleClasses.pipButton}
+      onClick={() => {if (isInstalled(input, packages)) {runPip(input, false, props.kernelId); }}}>
         Uninstall
       </button>
       <p>{props.kernelId}</p>
