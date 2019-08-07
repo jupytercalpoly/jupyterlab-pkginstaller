@@ -19,13 +19,19 @@ class PackageTool extends NotebookTools.Tool {
     this.app = app;
     this.notebookTracker = notebookTracker;
     this.layout = new PanelLayout();
-    let layout = this.layout as PanelLayout;
-    let count = layout.widgets.length;
-    for (let i = 0; i < count; i++) {
-      layout.widgets[0].dispose();
-    }
   } 
-  protected onActiveCellChanged(msg: Message): void {
+  protected onAfterAttach(msg: Message): void {
+    this.notebookTracker.currentWidget.context.ready.then(() => {
+      let layout = this.layout as PanelLayout;
+      let count = layout.widgets.length;
+      for (let i = 0; i < count; i++) {
+        layout.widgets[0].dispose();
+      }
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernel.id}/>);
+      layout.addWidget(cellWidget);
+    });
+  }
+  protected onActiveNotebookPanelChanged(msg: Message): void {
     this.notebookTracker.currentWidget.context.ready.then(() => {
       let layout = this.layout as PanelLayout;
       let count = layout.widgets.length;

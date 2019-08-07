@@ -31,7 +31,9 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^1.0.0"
+    "@jupyterlab/application": "^1.0.0",
+    "react": "^16.8.6",
+    "react-select": "^3.0.4"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
