@@ -2,7 +2,7 @@ import {
   JupyterFrontEnd, JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import PackageTool from './components/PackageTool';
+import PackageTool from './PackageTool';
 
 import {
   INotebookTools, INotebookTracker
