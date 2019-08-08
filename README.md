@@ -1,7 +1,7 @@
-# pkgmanager
+# Meet pkgmanager 👋
 
-a package manager
-
+**pkgmanager** is s a JupyterLab UI extension that installs the packages you need within your open kernel. ✨
+You can look for a package in the search bar and install it with just a button-click.
 
 ## Prerequisites
 
@@ -29,4 +29,3 @@ To rebuild the package and the JupyterLab app:
 npm run build
 jupyter lab build
 ```
-

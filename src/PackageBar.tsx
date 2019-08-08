@@ -2,7 +2,7 @@ import { Kernel } from '@jupyterlab/services';
 
 import React, { useState, useEffect, useCallback } from 'react';//useEffect
 
-import StyleClasses from './styles';
+import StyleClasses from '../../style';
 
 import Select from 'react-select';
 
