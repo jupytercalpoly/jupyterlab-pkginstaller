@@ -3,11 +3,10 @@ import { style } from 'typestyle';
 export namespace PackageBarStyleClasses {
   export const packageContainer = style({
     backgroundColor: '#F2F2F2',
-    padding: '2em 0em',
+    padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '3px',
-    width: '100%',
     margin: 'auto',
   });
   export const pipButton = style({
@@ -21,7 +20,6 @@ export namespace PackageBarStyleClasses {
   export const packageInput = style({
     border: '1px solid var(--md-grey-400)',
     padding: 8,
-    width: '100%',
     marginRight: 8,
   });
   export const packageLabel = style({
@@ -45,6 +43,6 @@ export namespace PackageBarStyleClasses {
     marginTop: '0.5em',
     display: 'grid',
     gridTemplateColumns: '1fr 1fr',
-    gridGap: '16px',
+    gridGap: '0.5em',
   });
 }
