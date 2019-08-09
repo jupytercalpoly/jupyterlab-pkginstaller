@@ -1,5 +1,5 @@
 {
-  "name": "jupyter-pkgmanager",
+  "name": "jupyterlab-pkginstaller",
   "version": "0.1.0",
   "description": "A JupyterLab UI extension that installs PyPI packages into the active kernel's environment.",
   "keywords": [
@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/jupytercalpoly/pkgmanager",
+  "homepage": "https://github.com/jupytercalpoly/jupyterlab-pkginstaller",
   "bugs": {
-    "url": "https://github.com/jupytercalpoly/pkgmanager/issues"
+    "url": "https://github.com/jupytercalpoly/jupyterlab-pkginstaller/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Marisa Aquilina",
@@ -23,7 +23,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jupytercalpoly/pkgmanager.git"
+    "url": "https://github.com/jupytercalpoly/jupyterlab-pkginstaller.git"
   },
   "scripts": {
     "build": "tsc",
