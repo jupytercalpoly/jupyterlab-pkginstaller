@@ -418,15 +418,15 @@
         "signature": "19c36cf5f5046e07eaf957cc01255f4fe3446d54087354ad617cfec7e1d962a4"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts": {
-        "version": "d8895f320ac1e82827983fa5e612bbef457dbda7b0e81089578ab01e206e2286",
-        "signature": "5a22d619c131c1cc2120520c4f6ed30070b56924a8a97cd72e8626f4535735da"
+        "version": "2ac1720819426d4c6c34286736778fd20b022db717a5593cef64b0e533001b3a",
+        "signature": "b0f53314b50a9e451c7992fe7475943b55f4833299df52cb8b83c542b29da083"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts": {
         "version": "6a09bcf8d15bc16782cc8a89669e346cdd9a679d3cab7526f90ac21f3238b362",
         "signature": "1b90d012205d223c41c65a4149674203d9c94dd18155df38d7742d8279a08cd1"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx": {
-        "version": "dfc3f5698631cf64532b2838c2b59dd0ef1b9b74904d0f250400e1fa535da5a8",
+        "version": "960f534ab69bb6c05f8c11b369727ba0de708f743a54688b257d4f12849985ac",
         "signature": "f9eb42bdacb458760141b1e92cd389c3859e2d6b11ff3db3d4f3577fcf999dff"
       },
       "/users/marisaaquilina/projects/pkg/node_modules/@jupyterlab/services/lib/index.d.ts": {
@@ -3416,8 +3416,6 @@
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/typestyle.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/utilities.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/index.d.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts",
       "/users/marisaaquilina/projects/pkg/node_modules/@jupyterlab/services/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkg/node_modules/@phosphor/algorithm/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkg/node_modules/@phosphor/disposable/lib/index.d.ts",
@@ -3541,10 +3539,12 @@
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/@jupyterlab/application/lib/mimerenderers.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/@jupyterlab/application/lib/router.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/@jupyterlab/application/lib/index.d.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagetool.tsx",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/declaration.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/index.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx"
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagetool.tsx"
     ]
   },
   "version": "3.5.3"

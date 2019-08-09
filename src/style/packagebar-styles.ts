@@ -12,6 +12,7 @@ export namespace PackageBarStyleClasses {
   export const topBar = style({
     display: 'flex',
     justifyContent: 'space-between',
+    paddingTop: 5,
   })
   export const pipButton = style({
     backgroundColor: 'var(--md-blue-700)',
@@ -82,5 +83,8 @@ export namespace PackageBarStyleClasses {
     backgroundPositionX:'98%',
     backgroundPositionY: '50%',
     backgroundSize: '20px',
+  });
+  export const restartPrompt = style({
+    paddingTop: 5,
   });
 }

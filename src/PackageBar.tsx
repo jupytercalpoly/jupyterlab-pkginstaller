@@ -48,7 +48,7 @@ const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 //Determine which pip message to show on button click
 function getPipMessage(install: boolean, messageSuccess: boolean, packageName: string): string {
-  if (!messageSuccess) {return 'No PyPI package found. Something went wrong.';}
+  if (!messageSuccess) {return packageName + ' could not be installed.';}
   let baseMsg: string = '✨ ';
   install ? baseMsg += 'Installed ' : baseMsg += 'Uninstalled ';
   return baseMsg + packageName + '!';
@@ -70,6 +70,7 @@ function getPipMessage(install: boolean, messageSuccess: boolean, packageName: s
 //Render a component to search for a package to install
 export function PackageSearcher(props: any) {
   const [input, setInput] = useState('');
+  const [packageName, setPackageName] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [messageSuccess, setMessageSuccess] = useState(false);
@@ -91,6 +92,7 @@ export function PackageSearcher(props: any) {
   const sendRequest = useCallback(async (input: string, install: boolean) => {
     // don't send again while we are sending
     setIsSending(true);
+    setPackageName(input);
     let pipCommand: string = '';
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
@@ -111,7 +113,7 @@ export function PackageSearcher(props: any) {
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Search</p>
           {isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
-          {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, input)}</p>}
+          {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, packageName)}</p>}
         </div>
         <input className={PackageBarStyleClasses.packageInput}
               value={input}
@@ -131,8 +133,8 @@ export function PackageSearcher(props: any) {
         onClick={() => {sendRequest(input, false); setInstall(false);}}>
           Uninstall
         </button>
-        {!isSending && messageSuccess && <p>You may need to restart the kernel to use updated packages.</p>}
       </div>
+      {!isSending && messageSuccess && <p className={PackageBarStyleClasses.restartPrompt}>You may need to restart the kernel to use updated packages.</p>}
     </div>
   );
 }
