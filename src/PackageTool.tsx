@@ -21,7 +21,7 @@ class PackageTool extends NotebookTools.Tool {
     this.layout = new PanelLayout();
   } 
   protected onAfterAttach(msg: Message): void {
-    this.notebookTracker.currentWidget.context.ready.then(() => {
+    this.notebookTracker.currentWidget.session.ready.then(() => {
       let layout = this.layout as PanelLayout;
       let count = layout.widgets.length;
       for (let i = 0; i < count; i++) {

@@ -922,7 +922,7 @@
         "signature": "7a7e8dec050f4ad9d6b093812a3a203acb13a32364079db20f7a6fde38f8427c"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagetool.tsx": {
-        "version": "dac9a445d9c077961b2ab2d1107a04731a8633cdb6622ee57815ab7d8e1c2d1a",
+        "version": "2aa335256ab7007333d1e10ed87c444b929042880538ee01bdadf34c479173ec",
         "signature": "ea883ce2922825fca519dcfde9a8148103bba5ea8cd02f5335b45f69060f1bf6"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/declaration.d.ts": {
@@ -3416,6 +3416,9 @@
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/typestyle.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/internal/utilities.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/typestyle/lib/index.d.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts",
+      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx",
       "/users/marisaaquilina/projects/pkg/node_modules/@jupyterlab/services/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkg/node_modules/@phosphor/algorithm/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkg/node_modules/@phosphor/disposable/lib/index.d.ts",
@@ -3541,9 +3544,6 @@
       "/users/marisaaquilina/projects/pkg/pkgmanager/node_modules/@jupyterlab/application/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/declaration.d.ts",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/index.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts",
-      "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx",
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagetool.tsx"
     ]
   },
