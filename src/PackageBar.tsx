@@ -47,7 +47,8 @@ const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 // );
 
 //Determine which pip message to show on button click
-function getPipMessage(install: boolean): string {
+function getPipMessage(install: boolean, messageSuccess: boolean): string {
+  if (!messageSuccess) {return 'No PyPI package found. Something went wrong.';}
   let baseMsg: string = 'Successfully ';
   install ? baseMsg += 'installed!' : baseMsg += 'uninstalled!';
   return baseMsg + ' ✨ You may need to restart the kernel to use updated packages.';
@@ -66,31 +67,36 @@ function getPipMessage(install: boolean): string {
 //   });
 // }
 
-//Parse stdout message: returns 1 if successful change, 0 if no change, -1 if error
-function parseMessage(msgContent: any): number {
-  if (msgContent.hasOwnProperty('text')) {
-    if (msgContent.text.includes('Successfully')) {
-      console.log(msgContent.text, 1);
-      return 1
-    } 
-  }
-}
-
 //Render a component to search for a package to install
 export function PackageSearcher(props: any) {
   const [input, setInput] = useState('');
   const [install, setInstall] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageSuccess, setMessageSuccess] = useState(false);
   setInput;
   const [isSending, setIsSending] = useState(false)
-  const sendRequest = useCallback(async (input: string, install: boolean, kernelId: string) => {
+  //Parse stdout message: returns 1 if successful change, 0 if no change, -1 if error
+  function parseMessage(msgContent: any): void {
+    if (msgContent.hasOwnProperty('text')) {
+      if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied') || msgContent.text.includes('Skipping')) {
+        setIsSending(false);
+        setMessageSuccess(true);
+      } else if (msgContent.text.includes('ERROR')) {
+        setIsSending(false);
+        setMessageSuccess(false);
+      } 
+    }
+    setShowMessage(true);
+  }
+  const sendRequest = useCallback(async (input: string, install: boolean) => {
     // don't send again while we are sending
     setIsSending(true);
     let pipCommand: string = '';
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
-      const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === kernelId))[0]);
+      const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]);
       kernel.requestExecute({ code: pipCommand + input, silent: true }).onIOPub = msg => {parseMessage(msg.content)}; //.done.then(() => {
-        //setIsSending(false);
+        //
       //})
       //
     });
@@ -101,7 +107,8 @@ export function PackageSearcher(props: any) {
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
       <div className={PackageBarStyleClasses.search}>
-         <p>Search</p>
+        <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelId}</p>
+         <p className={PackageBarStyleClasses.searchTitle}>Search</p>
             <input className={PackageBarStyleClasses.packageInput}
               value={input}
               onChange={e => setInput(e.target.value)}
@@ -113,19 +120,17 @@ export function PackageSearcher(props: any) {
       </div>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}
-        onClick={() => {sendRequest(input, true, props.kernelId); setInstall(true);}}>
+        onClick={() => {sendRequest(input, true); setInstall(true);}}>
           Install
         </button>
         <button className={PackageBarStyleClasses.pipButton}
-        onClick={() => {sendRequest(input, false, props.kernelId); setInstall(false);}}>
+        onClick={() => {sendRequest(input, false); setInstall(false);}}>
           Uninstall
         </button>
       </div>
       {/*isSending && <img src={require('./sta')}/>*/}
-      {isSending && <p>Packages in orbit...</p>}
-      {!isSending && <p>{getPipMessage(install)}</p>}
-      <p>Current kernel: {props.kernelId}</p>
-      <p>{input}</p>
+      {isSending && showMessage && <p>Working... ⌛</p>}
+      {!isSending && showMessage && <p>{getPipMessage(install, messageSuccess)}</p>}
     </div>
   );
 }
