@@ -27,7 +27,8 @@ class PackageTool extends NotebookTools.Tool {
       for (let i = 0; i < count; i++) {
         layout.widgets[0].dispose();
       }
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernel.id}/>);
+      let session = this.notebookTracker.currentWidget.session
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName}/>);
       layout.addWidget(cellWidget);
     });
   }
@@ -38,7 +39,8 @@ class PackageTool extends NotebookTools.Tool {
       for (let i = 0; i < count; i++) {
         layout.widgets[0].dispose();
       }
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernel.id}/>);
+      let session = this.notebookTracker.currentWidget.session
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName}/>);
       layout.addWidget(cellWidget);
     });
   }

@@ -25,6 +25,7 @@ export namespace PackageBarStyleClasses {
     border: '1px solid var(--md-grey-400)',
     padding: 8,
     boxSizing: 'border-box',
+    fontSize: '1em',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',
@@ -43,6 +44,13 @@ export namespace PackageBarStyleClasses {
     display: 'flex',
     flexDirection: 'column',
   });
+  export const messageText = style({
+    color: '#4F4F4F',
+    fontWeight: 'bold',
+    fontSize: '10.88px',
+    lineHeight: '13px',
+    marginBottom: '0.75em',
+  });
   export const searchTitle = style({
     display: 'flex',
     justifyContent: 'space-between',
@@ -55,6 +63,12 @@ export namespace PackageBarStyleClasses {
     fontSize: '10.88px',
     lineHeight: '13px',
     marginBottom: '0.75em',
+  });
+  export const heading = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    minHeight: '2.5em',
   });
   export const buttonContainer = style({
     marginTop: '0.5em',

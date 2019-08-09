@@ -47,11 +47,11 @@ const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 // );
 
 //Determine which pip message to show on button click
-function getPipMessage(install: boolean, messageSuccess: boolean): string {
+function getPipMessage(install: boolean, messageSuccess: boolean, packageName: string): string {
   if (!messageSuccess) {return 'No PyPI package found. Something went wrong.';}
-  let baseMsg: string = 'Successfully ';
-  install ? baseMsg += 'installed!' : baseMsg += 'uninstalled!';
-  return baseMsg + ' ✨ You may need to restart the kernel to use updated packages.';
+  let baseMsg: string = '✨ ';
+  install ? baseMsg += 'Installed ' : baseMsg += 'Uninstalled ';
+  return baseMsg + packageName + '!';
 }
 
 // async function runPip(input: string, install: boolean, kernelId: string) {
@@ -106,10 +106,14 @@ export function PackageSearcher(props: any) {
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
+      <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
-        <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelId}</p>
-         <p className={PackageBarStyleClasses.searchTitle}>Search</p>
-            <input className={PackageBarStyleClasses.packageInput}
+        <div className={PackageBarStyleClasses.heading}>
+          <p className={PackageBarStyleClasses.searchTitle}>Search</p>
+          {isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
+          {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, input)}</p>}
+        </div>
+        <input className={PackageBarStyleClasses.packageInput}
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder='Package Name'
@@ -127,10 +131,8 @@ export function PackageSearcher(props: any) {
         onClick={() => {sendRequest(input, false); setInstall(false);}}>
           Uninstall
         </button>
+        {!isSending && messageSuccess && <p>You may need to restart the kernel to use updated packages.</p>}
       </div>
-      {/*isSending && <img src={require('./sta')}/>*/}
-      {isSending && showMessage && <p>Working... ⌛</p>}
-      {!isSending && showMessage && <p>{getPipMessage(install, messageSuccess)}</p>}
     </div>
   );
 }
