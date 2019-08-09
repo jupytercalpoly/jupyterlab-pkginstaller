@@ -32,17 +32,19 @@ class PackageTool extends NotebookTools.Tool {
       layout.addWidget(cellWidget);
     });
   }
-  protected onActiveNotebookPanelChanged(msg: Message): void {
-    this.notebookTracker.currentWidget.context.ready.then(() => {
-      let layout = this.layout as PanelLayout;
-      let count = layout.widgets.length;
-      for (let i = 0; i < count; i++) {
-        layout.widgets[0].dispose();
-      }
-      let session = this.notebookTracker.currentWidget.session
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} kernel={session.kernel}/>);
-      layout.addWidget(cellWidget);
-    });
+  protected onActiveCellChanged(msg: Message): void {
+    if (this.notebookTracker.currentWidget && this.notebookTracker.currentWidget.session) {
+      this.notebookTracker.currentWidget.session.ready.then(() => {
+        let layout = this.layout as PanelLayout;
+        let count = layout.widgets.length;
+        for (let i = 0; i < count; i++) {
+          layout.widgets[0].dispose();
+        }
+        let session = this.notebookTracker.currentWidget.session
+        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} kernel={session.kernel}/>);
+        layout.addWidget(cellWidget);
+      });
+    }
   }
   private notebookTracker:INotebookTracker;
 }
