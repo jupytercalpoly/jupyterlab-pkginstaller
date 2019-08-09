@@ -84,7 +84,4 @@ export namespace PackageBarStyleClasses {
     backgroundPositionY: '50%',
     backgroundSize: '20px',
   });
-  export const restartPrompt = style({
-    paddingTop: 5,
-  });
 }

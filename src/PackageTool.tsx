@@ -40,7 +40,7 @@ class PackageTool extends NotebookTools.Tool {
         layout.widgets[0].dispose();
       }
       let session = this.notebookTracker.currentWidget.session
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName}/>);
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} kernel={session.kernel}/>);
       layout.addWidget(cellWidget);
     });
   }
