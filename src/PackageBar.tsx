@@ -27,10 +27,10 @@ export function PackageSearcher(props: any) {
   const [messageSuccess, setMessageSuccess] = useState(false);
   setInput;
   const [isSending, setIsSending] = useState(false)
-  async function restartKernel() {
-    await props.kernel.restart();
-    await props.kernel.ready;
-  }
+  // async function restartKernel() {
+  //   await props.kernel.restart();
+  //   await props.kernel.ready;
+  // }
   //Parse stdout message: returns 1 if successful change, 0 if no change, -1 if error
   function parseMessage(msgContent: any): void {
     if (msgContent.hasOwnProperty('text')) {
@@ -38,7 +38,6 @@ export function PackageSearcher(props: any) {
       if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied')) {
         setIsSending(false);
         setMessageSuccess(true);
-        restartKernel();
       } else if (msgContent.text.includes('ERROR') || msgContent.text.includes('Skipping')) {
         setIsSending(false);
         setMessageSuccess(false);
@@ -85,6 +84,7 @@ export function PackageSearcher(props: any) {
           Uninstall
         </button>
       </div>
+      {messageSuccess && showMessage && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
     </div>
   );
 }

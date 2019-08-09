@@ -13,6 +13,9 @@ export namespace PackageBarStyleClasses {
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: 5,
+  });
+  export const kernelPrompt = style({
+    paddingTop: 5,
   })
   export const pipButton = style({
     backgroundColor: 'var(--md-blue-700)',
