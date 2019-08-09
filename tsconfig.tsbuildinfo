@@ -418,15 +418,15 @@
         "signature": "19c36cf5f5046e07eaf957cc01255f4fe3446d54087354ad617cfec7e1d962a4"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/packagebar-styles.ts": {
-        "version": "0444d595be2b4d30aa8667d4409e552539cda086e46dcb757f7e4efb80fcbe31",
-        "signature": "a657c73ffc19856a8a38190b172db000ea8d769c2a3735bf7b31512e250ab4c8"
+        "version": "d8895f320ac1e82827983fa5e612bbef457dbda7b0e81089578ab01e206e2286",
+        "signature": "5a22d619c131c1cc2120520c4f6ed30070b56924a8a97cd72e8626f4535735da"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/style/index.ts": {
         "version": "6a09bcf8d15bc16782cc8a89669e346cdd9a679d3cab7526f90ac21f3238b362",
         "signature": "1b90d012205d223c41c65a4149674203d9c94dd18155df38d7742d8279a08cd1"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagebar.tsx": {
-        "version": "4017c4c7da2a09aa350370e3810dc1d4dfea771190aca458390280cb3817aae9",
+        "version": "dfc3f5698631cf64532b2838c2b59dd0ef1b9b74904d0f250400e1fa535da5a8",
         "signature": "f9eb42bdacb458760141b1e92cd389c3859e2d6b11ff3db3d4f3577fcf999dff"
       },
       "/users/marisaaquilina/projects/pkg/node_modules/@jupyterlab/services/lib/index.d.ts": {
@@ -922,7 +922,7 @@
         "signature": "7a7e8dec050f4ad9d6b093812a3a203acb13a32364079db20f7a6fde38f8427c"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/packagetool.tsx": {
-        "version": "b36a185d8681ad9187b5e648f1cfd0f9e4a09d09150a09dd12ef5fd875a6fe53",
+        "version": "495b641dd3b3de54bd4909c132c25c9cb534bc872467b4491096413b551b8a84",
         "signature": "ea883ce2922825fca519dcfde9a8148103bba5ea8cd02f5335b45f69060f1bf6"
       },
       "/users/marisaaquilina/projects/pkg/pkgmanager/src/declaration.d.ts": {
