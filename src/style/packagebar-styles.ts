@@ -3,7 +3,7 @@ import { style } from 'typestyle';
 export namespace PackageBarStyleClasses {
   export const packageContainer = style({
     backgroundColor: '#F2F2F2',
-    padding: '2em 1em',
+    padding: '2em 1em 10em 1em',
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '3px',
@@ -12,7 +12,7 @@ export namespace PackageBarStyleClasses {
   export const topBar = style({
     display: 'flex',
     justifyContent: 'space-between',
-    paddingTop: 5,
+    paddingTop: 10,
   });
   export const kernelPrompt = style({
     paddingTop: 5,
@@ -30,6 +30,16 @@ export namespace PackageBarStyleClasses {
     padding: 8,
     boxSizing: 'border-box',
     fontSize: '1em',
+  });
+  export const logsButton = style({
+    backgroundColor: 'none',
+    color: 'var(--md-blue-700)',
+    border: 'none',
+    padding: '8px',
+    margin: 0,
+    marginTop: 4,
+    borderRadius: 2,
+    float: 'right',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',

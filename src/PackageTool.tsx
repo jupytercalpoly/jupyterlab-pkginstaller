@@ -10,8 +10,25 @@ import { PackageSearcher } from './PackageBar';
 
 import { ReactWidget } from '@jupyterlab/apputils';
 
+import { Kernel } from '@jupyterlab/services';
+
+import { OutputArea, OutputAreaModel } from '@jupyterlab/outputarea';
+
+import {
+  RenderMimeRegistry,
+  standardRendererFactories as initialFactories
+} from '@jupyterlab/rendermime';
+
 import * as React from 'react';
 
+async function main(kernel: any) {
+  const model = new OutputAreaModel();
+          const rendermime = new RenderMimeRegistry({ initialFactories });
+          const outputArea = new OutputArea({ model, rendermime });
+          console.log(outputArea.node, outputArea.future.msg.header.msg_type);
+          await outputArea.future.done;
+          console.log('Test complete!');
+}
 class PackageTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;
   constructor(app: JupyterFrontEnd, notebookTracker: INotebookTracker) {
@@ -43,6 +60,10 @@ class PackageTool extends NotebookTools.Tool {
         let session = this.notebookTracker.currentWidget.session
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} kernel={session.kernel}/>);
         layout.addWidget(cellWidget);
+        Kernel.listRunning().then(kernelModels => {
+          const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === session.kernel.id))[0]);
+          main(kernel);
+        });
       });
     }
   }

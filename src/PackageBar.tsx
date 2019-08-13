@@ -4,6 +4,9 @@ import React, { useState, useCallback } from 'react';
 
 import StyleClasses from './style';
 
+import { Dropdown } from './Dropdown';
+
+
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 //Determine which pip message to show on button click
@@ -25,8 +28,9 @@ export function PackageSearcher(props: any) {
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [messageSuccess, setMessageSuccess] = useState(false);
-  setInput;
   const [isSending, setIsSending] = useState(false)
+  const [stdOut, setStdOut] = useState([]);
+  setStdOut;
   // async function restartKernel() {
   //   await props.kernel.restart();
   //   await props.kernel.ready;
@@ -34,15 +38,14 @@ export function PackageSearcher(props: any) {
   //Parse stdout message: returns 1 if successful change, 0 if no change, -1 if error
   function parseMessage(msgContent: any): void {
     if (msgContent.hasOwnProperty('text')) {
-      //console.log(msgContent.text);
+      stdOut.unshift({value: msgContent.text, label: msgContent.text});
       if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied')) {
-        setIsSending(false);
         setMessageSuccess(true);
       } else if (msgContent.text.includes('ERROR') || msgContent.text.includes('Skipping')) {
-        setIsSending(false);
         setMessageSuccess(false);
       } 
     }
+    setIsSending(false);
     setShowMessage(true);
   }
   const sendRequest = useCallback(async (input: string, install: boolean) => {
@@ -85,6 +88,7 @@ export function PackageSearcher(props: any) {
         </button>
       </div>
       {messageSuccess && showMessage && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
+      {showMessage && <Dropdown stdOut={stdOut} pipMessage={getPipMessage(install, messageSuccess, packageName)}/>}
     </div>
   );
 }
