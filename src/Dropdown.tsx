@@ -19,6 +19,7 @@ const customStyles = {
     borderRadius: 0,
     marginTop: 40,
     position: 'relative',
+    backgroundColor: 'var(--jp-ui-inverse-font-color0)',
   }),
   control: () => ({
     height: 0,

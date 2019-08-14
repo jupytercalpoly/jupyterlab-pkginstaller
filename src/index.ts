@@ -5,9 +5,10 @@ import {
 import PackageTool from './PackageTool';
 
 import {
-  INotebookTools, INotebookTracker,
+  INotebookTools, INotebookTracker, NotebookPanel
 } from '@jupyterlab/notebook';
 
+import CellFactory from './CellFactory';
 /**
  * Initialization data for the pkginstaller extension.
  */
@@ -18,9 +19,21 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
+    console.log('Pkg 1+');
+  }
+};
+
+const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = {
+  id: 'addEditorExtension',
+  autoStart: true,
+  provides: NotebookPanel.IContentFactory,
+  activate: (app: JupyterFrontEnd) => {
+    console.log('Pkg 2+')
+    return new CellFactory();
   }
 };
 
 export default [
-  extension
+  extension,
+  codeCellExtension
 ];

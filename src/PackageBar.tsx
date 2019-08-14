@@ -91,7 +91,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
           Uninstall
         </button>
       </div>
-      {messageSuccess && showMessage && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
+      {messageSuccess && showMessage && !isSending && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
     </div>
   );
