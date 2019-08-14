@@ -6,7 +6,6 @@ import StyleClasses from './style';
 
 import { Dropdown } from './Dropdown';
 
-
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 interface PackageSearcherProps {
