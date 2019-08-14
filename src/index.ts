@@ -5,14 +5,14 @@ import {
 import PackageTool from './PackageTool';
 
 import {
-  INotebookTools, INotebookTracker
+  INotebookTools, INotebookTracker,
 } from '@jupyterlab/notebook';
 
 /**
- * Initialization data for the pkgmanager extension.
+ * Initialization data for the pkginstaller extension.
  */
 const extension: JupyterFrontEndPlugin<void> = {
-  id: 'pkgmanager',
+  id: 'pkginstaller',
   autoStart: true,
   requires: [INotebookTools, INotebookTracker],
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {
@@ -21,4 +21,6 @@ const extension: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default extension;
+export default [
+  extension
+];
