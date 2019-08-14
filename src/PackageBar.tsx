@@ -1,4 +1,4 @@
-import { Kernel } from '@jupyterlab/services';
+import { Kernel, KernelMessage } from '@jupyterlab/services';
 
 import React, { useState, useCallback } from 'react'; 
 
@@ -8,6 +8,11 @@ import { Dropdown } from './Dropdown';
 
 
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
+
+interface PackageSearcherProps {
+  kernelId: string;
+  kernelName: string;
+}
 
 //Determine which pip message to show on button click
 function getPipMessage(install: boolean, messageSuccess: boolean, packageName: string): string {
@@ -22,7 +27,7 @@ function getPipMessage(install: boolean, messageSuccess: boolean, packageName: s
 }
 
 //Render a component to search for a package to install
-export function PackageSearcher(props: any) {
+export function PackageSearcher(props: PackageSearcherProps) {
   const [input, setInput] = useState('');
   const [packageName, setPackageName] = useState('');
   const [install, setInstall] = useState(true);
@@ -30,20 +35,21 @@ export function PackageSearcher(props: any) {
   const [messageSuccess, setMessageSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  setStdOut;
   
-  //Parse stdout
-  function parseMessage(msgContent: any): void {
+  //Parse stdout to determine status message
+  function parseMessage(msg: KernelMessage.IStreamMsg): void {
+    let msgContent = msg.content;
     if (msgContent.hasOwnProperty('text')) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});
+      setStdOut(stdOut);
       if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied')) {
         setMessageSuccess(true);
       } else if (msgContent.text.includes('ERROR') || msgContent.text.includes('Skipping')) {
         setMessageSuccess(false);
       } 
+      setShowMessage(true);
+      setIsSending(false);
     }
-    setIsSending(false);
-    setShowMessage(true);
   }
   const sendRequest = useCallback(async (input: string, install: boolean) => {
     setIsSending(true);
@@ -52,7 +58,9 @@ export function PackageSearcher(props: any) {
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
       const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]);
-      kernel.requestExecute({ code: pipCommand + input, silent: true }).onIOPub = msg => {parseMessage(msg.content)}; //.done.then(() => {}
+      kernel.requestExecute({
+        code: pipCommand + input, silent: true
+      }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg)}; 
     });
   }, [isSending]) 
   return (
@@ -62,7 +70,7 @@ export function PackageSearcher(props: any) {
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Search</p>
-          {isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
+          {isSending && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
           {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, packageName)}</p>}
         </div>
         <input className={PackageBarStyleClasses.packageInput}

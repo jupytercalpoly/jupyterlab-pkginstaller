@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-//import Select from 'react-select';
-import StyleClasses from './style';
+
 import Async from 'react-select';
+
+import StyleClasses from './style';
+
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 const customStyles = {
   option: (provided: any, state: any) => ({
     ...provided,
-    backgroundColor: '--jp-ui-inverse-font-color0',
+    backgroundColor: 'var(--jp-ui-inverse-font-color0)',
     color: 'var(--jp-ui-font-color1)',
     fontSize: 10,
     wordWrap: 'break-word',
@@ -41,7 +43,7 @@ export function Dropdown(props: any) {
         options={props.stdOut}
         defaultValue={{ label: '', value: '' }}
         maxMenuHeight={100}
-        isOptionDisabled={(option: any) => true}
+        isOptionDisabled={(option: JSON) => true}
         styles={customStyles}
         isClearable={false}
         backspaceRemovesValue={false}
