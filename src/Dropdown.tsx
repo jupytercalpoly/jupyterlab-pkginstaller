@@ -7,14 +7,14 @@ import StyleClasses from './style';
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 const customStyles = {
-  option: (provided: any, state: any) => ({
+  option: (provided: JSON, state: JSON) => ({
     ...provided,
     backgroundColor: 'var(--jp-ui-inverse-font-color0)',
     color: 'var(--jp-ui-font-color1)',
     fontSize: 10,
     wordWrap: 'break-word',
   }),
-  menu: (provided: any, state: any) => ({
+  menu: (provided: JSON, state: JSON) => ({
     ...provided,
     borderRadius: 0,
     marginTop: 40,
@@ -24,13 +24,17 @@ const customStyles = {
     height: 0,
     width: 0,
   }),
-  container: (provided: any, state: any) => ({
+  container: (provided: JSON, state: JSON) => ({
     ...provided,
     position: 'initial',
   })
 }
 
-export function Dropdown(props: any) {
+interface DropdownProps {
+  stdOut: Array<string>;
+}
+
+export function Dropdown(props: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   function toggleOpen() { 
     setIsOpen(!isOpen);

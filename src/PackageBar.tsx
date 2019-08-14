@@ -93,7 +93,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {messageSuccess && showMessage && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
-      {showMessage && <Dropdown stdOut={stdOut} pipMessage={getPipMessage(install, messageSuccess, packageName)}/>}
+      {showMessage && <Dropdown stdOut={stdOut}/>}
     </div>
   );
 }
