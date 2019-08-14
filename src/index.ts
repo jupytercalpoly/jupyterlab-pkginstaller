@@ -19,7 +19,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
-    console.log('Pkg 1+');
+    console.log('ErrorModule1');
   }
 };
 
@@ -28,7 +28,7 @@ const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = 
   autoStart: true,
   provides: NotebookPanel.IContentFactory,
   activate: (app: JupyterFrontEnd) => {
-    console.log('Pkg 2+')
+    console.log('ErrorModule2')
     return new CellFactory();
   }
 };
