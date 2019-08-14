@@ -31,11 +31,8 @@ export function PackageSearcher(props: any) {
   const [isSending, setIsSending] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   setStdOut;
-  // async function restartKernel() {
-  //   await props.kernel.restart();
-  //   await props.kernel.ready;
-  // }
-  //Parse stdout message: returns 1 if successful change, 0 if no change, -1 if error
+  
+  //Parse stdout
   function parseMessage(msgContent: any): void {
     if (msgContent.hasOwnProperty('text')) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});

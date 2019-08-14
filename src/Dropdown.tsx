@@ -7,18 +7,24 @@ const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 const customStyles = {
   option: (provided: any, state: any) => ({
     ...provided,
-    backgroundColor: 'white',
+    backgroundColor: '--jp-ui-inverse-font-color0',
     color: 'var(--jp-ui-font-color1)',
     fontSize: 10,
+    wordWrap: 'break-word',
   }),
   menu: (provided: any, state: any) => ({
     ...provided,
     borderRadius: 0,
     marginTop: 40,
+    position: 'relative',
   }),
   control: () => ({
     height: 0,
     width: 0,
+  }),
+  container: (provided: any, state: any) => ({
+    ...provided,
+    position: 'initial',
   })
 }
 

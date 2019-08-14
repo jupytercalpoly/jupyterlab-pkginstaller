@@ -2,12 +2,11 @@ import { style } from 'typestyle';
 
 export namespace PackageBarStyleClasses {
   export const packageContainer = style({
-    backgroundColor: '#F2F2F2',
-    padding: '2em 1em 10em 1em',
+    padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: '3px',
     margin: 'auto',
+    borderTop: '1px solid var(--jp-border-color2)',
   });
   export const topBar = style({
     display: 'flex',
@@ -19,7 +18,7 @@ export namespace PackageBarStyleClasses {
   })
   export const pipButton = style({
     backgroundColor: 'var(--md-blue-700)',
-    color: '#f2f2f2',
+    color: 'var(--jp-ui-inverse-font-color1)',
     border: 'none',
     padding: '8px 0px',
     margin: 0,
@@ -51,7 +50,7 @@ export namespace PackageBarStyleClasses {
     fontWeight: 'bold',
     fontSize: '18px',
     lineHeight: '21px',
-    color: '#202020',
+    color: 'var(--jp-ui-font-color1)',
   });
   export const search = style({
     marginTop: '1em',
@@ -59,7 +58,7 @@ export namespace PackageBarStyleClasses {
     flexDirection: 'column',
   });
   export const messageText = style({
-    color: '#4F4F4F',
+    color: 'var(--jp-ui-font-color2)',
     fontWeight: 'bold',
     fontSize: '10.88px',
     lineHeight: '13px',
@@ -72,7 +71,7 @@ export namespace PackageBarStyleClasses {
     minHeight: '2.5em',
     textTransform: 'uppercase',
     letterSpacing: '0.06em',
-    color: '#4F4F4F',
+    color: 'var(--jp-ui-font-color2)',
     fontWeight: 'bold',
     fontSize: '10.88px',
     lineHeight: '13px',
