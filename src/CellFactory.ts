@@ -1,6 +1,6 @@
 import { CodeCell, Cell } from '@jupyterlab/cells';
 
-import { ErrorModel, getData } from './ErrorModel';
+import { CellOutputModel } from './CellOutputModel';
 
 import {
   NotebookPanel, StaticNotebook
@@ -17,11 +17,11 @@ export default class ContentFactoryEditor extends NotebookPanel.ContentFactory {
    * @param parent 
    */
   createCodeCell(options: CodeCell.IOptions, parent: StaticNotebook): CodeCell {
+    console.log("HI");
       if(options.model.outputs) {
         for (let i = 0; i < options.model.outputs.length; i++) {
-          let outputModel = (options.model.outputs.get(i) as ErrorModel)
+          let outputModel = (options.model.outputs.get(i) as CellOutputModel)
           if (outputModel._raw.output_type == "error") {
-            console.log(getData(outputModel.toJSON()));
             console.log(outputModel._raw.evalue);
           };
         }

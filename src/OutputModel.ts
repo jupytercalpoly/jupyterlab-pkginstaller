@@ -1,3 +1,7 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|----------------------------------------------------------------------------*/
 import {
   JSONExt,
   JSONObject,
@@ -9,11 +13,11 @@ import { ISignal, Signal } from '@phosphor/signaling';
 
 import { nbformat } from '@jupyterlab/coreutils';
 
-import { IObservableJSON } from '@jupyterlab/observables';
+import { IObservableJSON, ObservableJSON } from '@jupyterlab/observables';
 
 import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
-//import { MimeModel } from './mimemodel';
+import { MimeModel } from './mimemodel';
 
 /**
  * The interface for an output model.
@@ -73,17 +77,17 @@ export namespace IOutputModel {
 /**
  * The default implementation of a notebook output model.
  */
-export class ErrorModel implements IOutputModel {
+export class OutputModel implements IOutputModel {
   /**
    * Construct a new output model.
    */
   constructor(options: IOutputModel.IOptions) {
-    //let { data, metadata, trusted } = Private.getBundleOptions(options);
-    // this._data = new ObservableJSON({ values: data as JSONObject });
-    // this._rawData = data;
-    // this._metadata = new ObservableJSON({ values: metadata as JSONObject });
-    // this._rawMetadata = metadata;
-    // this.trusted = trusted;
+    let { data, metadata, trusted } = Private.getBundleOptions(options);
+    this._data = new ObservableJSON({ values: data as JSONObject });
+    this._rawData = data;
+    this._metadata = new ObservableJSON({ values: metadata as JSONObject });
+    this._rawMetadata = metadata;
+    this.trusted = trusted;
     // Make a copy of the data.
     let value = options.value;
     for (let key in value) {
@@ -93,7 +97,7 @@ export class ErrorModel implements IOutputModel {
         case 'metadata':
           break;
         default:
-          this._raw[key] = extract(value, key);
+          this._raw[key] = Private.extract(value, key);
       }
     }
     this.type = value.output_type;
@@ -174,7 +178,7 @@ export class ErrorModel implements IOutputModel {
   toJSON(): nbformat.IOutput {
     let output: JSONValue = {};
     for (let key in this._raw) {
-      output[key] = extract(this._raw, key);
+      output[key] = Private.extract(this._raw, key);
     }
     switch (this.type) {
       case 'display_data':
@@ -238,7 +242,7 @@ export namespace OutputModel {
    * @returns - The data for the payload.
    */
   export function getData(output: nbformat.IOutput): JSONObject {
-    return getData(output);
+    return Private.getData(output);
   }
 
   /**
@@ -249,12 +253,16 @@ export namespace OutputModel {
    * @returns - The metadata for the payload.
    */
   export function getMetadata(output: nbformat.IOutput): JSONObject {
-    return getMetadata(output);
+    return Private.getMetadata(output);
   }
 }
 
-
-   /* Get the data from a notebook output.
+/**
+ * The namespace for module private data.
+ */
+namespace Private {
+  /**
+   * Get the data from a notebook output.
    */
   export function getData(output: nbformat.IOutput): JSONObject {
     let bundle: nbformat.IMimeBundle = {};
@@ -273,7 +281,7 @@ export namespace OutputModel {
     } else if (nbformat.isError(output)) {
       let traceback = output.traceback.join('\n');
       bundle['application/vnd.jupyter.stderr'] =
-        traceback || `Uh...oh...${output.ename}: ${output.evalue}`;
+        traceback || `${output.ename}: ${output.evalue}`;
     }
     return convertBundle(bundle);
   }
@@ -294,14 +302,14 @@ export namespace OutputModel {
   /**
    * Get the bundle options given output model options.
    */
-  // export function getBundleOptions(
-  //   options: IOutputModel.IOptions
-  // ): MimeModel.IOptions {
-  //   let data = getData(options.value);
-  //   let metadata = getMetadata(options.value);
-  //   let trusted = !!options.trusted;
-  //   return { data, metadata, trusted };
-  // }
+  export function getBundleOptions(
+    options: IOutputModel.IOptions
+  ): MimeModel.IOptions {
+    let data = getData(options.value);
+    let metadata = getMetadata(options.value);
+    let trusted = !!options.trusted;
+    return { data, metadata, trusted };
+  }
 
   /**
    * Extract a value from a JSONObject.
@@ -324,3 +332,4 @@ export namespace OutputModel {
     }
     return map;
   }
+}

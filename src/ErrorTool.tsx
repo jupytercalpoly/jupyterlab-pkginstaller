@@ -12,7 +12,7 @@ import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
 
-class PackageTool extends NotebookTools.Tool {
+class ErrorTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;
   constructor(app: JupyterFrontEnd, notebookTracker: INotebookTracker) {
     super();
