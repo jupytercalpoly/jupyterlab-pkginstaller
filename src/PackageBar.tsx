@@ -93,6 +93,12 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {messageSuccess && showMessage && !isSending && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
+      {importError && <div>
+        <p>Do you want to install {props.packageError} in this kernel?</p>
+        <button onClick={() => {sendRequest(input, true); setInstall(true);}}>Install!</button>
+      </div>}
     </div>
   );
 }
+
+

@@ -82,12 +82,13 @@ export class OutputModel implements IOutputModel {
    * Construct a new output model.
    */
   constructor(options: IOutputModel.IOptions) {
-    let { data, metadata, trusted } = Private.getBundleOptions(options);
+    let { data, metadata, trusted } = getBundleOptions(options);
     this._data = new ObservableJSON({ values: data as JSONObject });
     this._rawData = data;
     this._metadata = new ObservableJSON({ values: metadata as JSONObject });
     this._rawMetadata = metadata;
     this.trusted = trusted;
+    console.log("hit constructor");
     // Make a copy of the data.
     let value = options.value;
     for (let key in value) {
@@ -97,7 +98,7 @@ export class OutputModel implements IOutputModel {
         case 'metadata':
           break;
         default:
-          this._raw[key] = Private.extract(value, key);
+          this._raw[key] = extract(value, key);
       }
     }
     this.type = value.output_type;
@@ -107,7 +108,9 @@ export class OutputModel implements IOutputModel {
       this.executionCount = null;
     }
   }
-
+  print() {
+    console.log('printy');
+  }
   /**
    * A signal emitted when the output model changes.
    */
@@ -178,7 +181,7 @@ export class OutputModel implements IOutputModel {
   toJSON(): nbformat.IOutput {
     let output: JSONValue = {};
     for (let key in this._raw) {
-      output[key] = Private.extract(this._raw, key);
+      output[key] = extract(this._raw, key);
     }
     switch (this.type) {
       case 'display_data':
@@ -242,7 +245,7 @@ export namespace OutputModel {
    * @returns - The data for the payload.
    */
   export function getData(output: nbformat.IOutput): JSONObject {
-    return Private.getData(output);
+    return getData(output);
   }
 
   /**
@@ -253,18 +256,19 @@ export namespace OutputModel {
    * @returns - The metadata for the payload.
    */
   export function getMetadata(output: nbformat.IOutput): JSONObject {
-    return Private.getMetadata(output);
+    return getMetadata(output);
   }
 }
 
 /**
  * The namespace for module private data.
  */
-namespace Private {
+//namespace Private {
   /**
    * Get the data from a notebook output.
    */
   export function getData(output: nbformat.IOutput): JSONObject {
+    console.log("Hit getData");
     let bundle: nbformat.IMimeBundle = {};
     if (
       nbformat.isExecuteResult(output) ||
@@ -281,7 +285,7 @@ namespace Private {
     } else if (nbformat.isError(output)) {
       let traceback = output.traceback.join('\n');
       bundle['application/vnd.jupyter.stderr'] =
-        traceback || `${output.ename}: ${output.evalue}`;
+        traceback || `Problem: ${output.ename}: ${output.evalue}`;
     }
     return convertBundle(bundle);
   }
@@ -332,4 +336,4 @@ namespace Private {
     }
     return map;
   }
-}
+//}

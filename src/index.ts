@@ -4,7 +4,7 @@ import {
 
 import PackageTool from './PackageTool';
 
-import ErrorTool from './ErrorTool';
+//import ErrorTool from './ErrorTool';
 
 import {
   INotebookTools, INotebookTracker, NotebookPanel
@@ -23,7 +23,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
-    console.log('1+');
+    console.log('+');
   }
 };
 
@@ -32,9 +32,9 @@ const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = 
   autoStart: true,
   provides: NotebookPanel.IContentFactory,
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools) => {
-    console.log('2++')
-    const errorTool = new ErrorTool();
-    cellTools.addItem({ tool: errorTool });
+    console.log(3)
+    // const errorTool = new ErrorTool();
+    // cellTools.addItem({ tool: errorTool });
     return new CellFactory();
   }
 };
