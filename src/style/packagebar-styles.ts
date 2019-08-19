@@ -24,6 +24,32 @@ export namespace PackageBarStyleClasses {
     margin: 0,
     borderRadius: '2px',
   });
+  export const pipInstallButton = style({
+    backgroundColor: 'var(--md-blue-700)',
+    color: 'var(--jp-ui-inverse-font-color1)',
+    border: 'none',
+    padding: '8px 0px',
+    margin: 0,
+    float: 'right',
+    borderRadius: '2px',
+    width: '40px'
+  });
+  export const errorContainer = style({
+    backgroundColor: 'var(--md-orange-100)',
+    border: '1px solid var(--md-orange-300)',
+    padding: '8px',
+    display: 'flex',
+    flexDirection: 'column',
+  });
+  export const errorContainerActions = style({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'baseline'
+  });
+  export const uninstalledPackage = style({
+    backgroundColor: 'var(--md-grey-200)',
+    padding: '2px 4px',
+  });
   export const packageInput = style({
     border: '1px solid var(--md-grey-400)',
     padding: 8,

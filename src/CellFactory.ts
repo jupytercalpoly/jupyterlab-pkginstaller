@@ -2,6 +2,8 @@ import { CodeCell, Cell } from '@jupyterlab/cells';
 
 import { OutputModel } from './OutputModel';
 
+import { setUninstalledPackage } from './PackageTool';
+
 import {
   NotebookPanel, StaticNotebook
 } from '@jupyterlab/notebook';
@@ -17,12 +19,12 @@ export default class ContentFactoryEditor extends NotebookPanel.ContentFactory {
    * @param parent 
    */
   createCodeCell(options: CodeCell.IOptions, parent: StaticNotebook): CodeCell {
-    console.log("HEY");
       if(options.model.outputs) {
         for (let i = 0; i < options.model.outputs.length; i++) {
           let outputModel = (options.model.outputs.get(i) as OutputModel)
           if (outputModel._raw.output_type == "error") {
-            console.log(outputModel._raw.evalue);
+            let uninstalledPackage = outputModel._raw.evalue.toString().split("'")[1];
+            setUninstalledPackage(uninstalledPackage);
           };
         }
       }

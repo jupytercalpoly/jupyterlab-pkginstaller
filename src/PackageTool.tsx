@@ -12,6 +12,10 @@ import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
 
+export function setUninstalledPackage(uninstalledPackage: string) {
+  console.log("New func", uninstalledPackage);
+}
+
 class PackageTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;
   constructor(app: JupyterFrontEnd, notebookTracker: INotebookTracker) {
@@ -28,11 +32,11 @@ class PackageTool extends NotebookTools.Tool {
         layout.widgets[0].dispose();
       }
       let session = this.notebookTracker.currentWidget.session
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName}/>);
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
       layout.addWidget(cellWidget);
     });
   }
-  protected onActiveNotebookPanelChanged(msg: Message): void {
+  protected onActiveNotebookPanelChanged(msg: Message, uninstalledPackage: string = ''): void {
     if (this.notebookTracker.currentWidget && this.notebookTracker.currentWidget.session) {
       this.notebookTracker.currentWidget.session.ready.then(() => {
         let layout = this.layout as PanelLayout;
@@ -41,7 +45,7 @@ class PackageTool extends NotebookTools.Tool {
           layout.widgets[0].dispose();
         }
         let session = this.notebookTracker.currentWidget.session
-        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName}/>);
+        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
         layout.addWidget(cellWidget);
       });
     }

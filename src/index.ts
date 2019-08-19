@@ -32,7 +32,7 @@ const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = 
   autoStart: true,
   provides: NotebookPanel.IContentFactory,
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools) => {
-    console.log(3)
+    console.log(17)
     // const errorTool = new ErrorTool();
     // cellTools.addItem({ tool: errorTool });
     return new CellFactory();
