@@ -802,7 +802,7 @@
         "signature": "c03247b9d5b88491ca41870ea156bc8e53b5f8ab2d4b97ec8080cd070ff93f87"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/cellfactory.ts": {
-        "version": "4e7a8ab91236de44c96b13258bdb86dbf5cf74851731dc1f2de7c04bef783c52",
+        "version": "d0d7c1ba204bbbb7e68ed5407b53b3c4e445f930d558904d11c46109f912fbde",
         "signature": "ceb1dabf10e8397a3ab44fe510abd31d280f6297e5616588c4f2de96312fce6d"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/celloutputmodel.ts": {
@@ -846,7 +846,7 @@
         "signature": "10ac1946aff6542bf4e8f7f5a8e12c44d3d925bac42bc7eb4672658f2ef87063"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagebar.tsx": {
-        "version": "ca8d0a0e851f420d39c7d1ad2ac73eced9a215a582b563f106d52fd93299388e",
+        "version": "854c136e4967eed52f61ee0a3920d3b7b2902a361d476c079341db3b9f786411",
         "signature": "e5b01c7dbaf71741c68688b2a6ac0bd687e681c739771e66b71c065bd632629e"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/tokens.d.ts": {
@@ -3288,6 +3288,7 @@
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/style/index.ts",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/dropdown.tsx",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts",
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagebar.tsx",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/tokens.d.ts",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/connectionlost.d.ts",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/application/lib/index.d.ts",
@@ -3301,8 +3302,7 @@
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx",
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/declaration.d.ts",
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts",
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagebar.tsx"
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts"
     ]
   },
   "version": "3.5.3"

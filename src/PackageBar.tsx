@@ -78,7 +78,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   }
  useEffect(() => {
   setastate(uninstalledPackage);
-  }, [uninstalledPackage]);
+  }, []); //removed uninstalledPackage arg in list
   
   function installDialog() {
     let body = (
@@ -97,7 +97,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         })
       ]
     }).then(result => {
-      console.log(input);
+      setastate(uninstalledPackage);
       sendRequest(input, true); 
       setInstall(true);
       return result.button.accept;
@@ -112,7 +112,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
-          <p className={PackageBarStyleClasses.searchTitle}>Search</p>
+          <p className={PackageBarStyleClasses.searchTitle}>Package Name</p>
           {isSending && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
           {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, packageName)}</p>}
         </div>
@@ -125,12 +125,10 @@ export function PackageSearcher(props: PackageSearcherProps) {
               name='packageName'
               required
         /> */}
-        <p>7</p>
         {!moduleError && <input id='result' className={PackageBarStyleClasses.packageInput}
               value={input} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
-              placeholder='Package Name'
               type='text'
               name='packageName'
               required
@@ -139,13 +137,15 @@ export function PackageSearcher(props: PackageSearcherProps) {
               value={uninstalledPackage} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
-              placeholder='Package Name'
               type='text'
               name='packageName'
               required
         />}
       </div>
       <p>Input: {input}</p>
+      <p>Package Installer: {uninstalledPackage}</p>
+
+      <p>10</p>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}
         onClick={() => {sendRequest(input, true); setInstall(true);}}>
