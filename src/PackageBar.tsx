@@ -1,6 +1,6 @@
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-import React, { useState, useCallback } from 'react'; 
+import React, { useState, useCallback, useEffect } from 'react'; 
 
 import StyleClasses from './style';
 
@@ -14,27 +14,6 @@ interface PackageSearcherProps {
   kernelId: string;
   kernelName: string;
   uninstalledPackage: string;
-}
-
-function installDialog() {
-  let body = (
-    <div>
-      <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>names</span> in this kernel?</p>
-    </div>
-  );
-  return showDialog({
-    title: 'Package Not Found',
-    body,
-    buttons: [
-      Dialog.cancelButton(),
-      Dialog.okButton({
-        label: 'Install',
-        caption: 'Install package in this kernel'
-      })
-    ]
-  }).then(result => {
-    return result.button.accept;
-  });
 }
 
 //Determine which pip message to show on button click
@@ -58,7 +37,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [messageSuccess, setMessageSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  //const [moduleError, setModuleError] = useState(false);
+  const [moduleError, setModuleError] = useState(false);
   const [uninstalledPackage, setUninstalledPackage] = useState('');
   //Parse stdout to determine status message
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
@@ -73,6 +52,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       } 
       setShowMessage(true);
       setIsSending(false);
+      setModuleError(false);
     }
   }
   const sendRequest = useCallback(async (input: string, install: boolean) => {
@@ -91,15 +71,41 @@ export function PackageSearcher(props: PackageSearcherProps) {
   function populatePackage(uninstalledPackage: string): void {
     const packageInput: HTMLInputElement = document.getElementById('result') as HTMLInputElement;
     packageInput.value = uninstalledPackage;
-    
-    //setModuleError(true);
   }
-  // function clearPackage(): void {
-  //   setInput(''); //uninstalledPackage;
-  // }
+
+  function setastate(uninstalledPackage: string) {
+    setInput(uninstalledPackage);
+  }
+ useEffect(() => {
+  setastate(uninstalledPackage);
+  }, [uninstalledPackage]);
+  
+  function installDialog() {
+    let body = (
+      <div>
+        <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>names</span> in this kernel?</p>
+      </div>
+    );
+    return showDialog({
+      title: 'Package Not Found',
+      body,
+      buttons: [
+        Dialog.cancelButton(),
+        Dialog.okButton({
+          label: 'Install',
+          caption: 'Install package in this kernel'
+        })
+      ]
+    }).then(result => {
+      console.log(input);
+      sendRequest(input, true); 
+      setInstall(true);
+      return result.button.accept;
+    });
+  }
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
-      <button onClick={() => {setUninstalledPackage('names'); installDialog(); populatePackage(uninstalledPackage);}}>
+      <button onClick={() => {setModuleError(true); setUninstalledPackage('names'); installDialog(); populatePackage(uninstalledPackage); setastate(uninstalledPackage);}}>
           Make error occur
       </button>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
@@ -119,16 +125,27 @@ export function PackageSearcher(props: PackageSearcherProps) {
               name='packageName'
               required
         /> */}
-        <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={uninstalledPackage}
+        <p>7</p>
+        {!moduleError && <input id='result' className={PackageBarStyleClasses.packageInput}
+              value={input} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
               placeholder='Package Name'
               type='text'
               name='packageName'
               required
-        />
+        />}
+        {moduleError && <input id='result' className={PackageBarStyleClasses.packageInput}
+              value={uninstalledPackage} // change to input 
+              onChange={e => setInput(e.target.value)}
+              //onClick={e => setInput((e.target as HTMLInputElement).value)}
+              placeholder='Package Name'
+              type='text'
+              name='packageName'
+              required
+        />}
       </div>
+      <p>Input: {input}</p>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}
         onClick={() => {sendRequest(input, true); setInstall(true);}}>

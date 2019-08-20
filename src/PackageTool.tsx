@@ -12,10 +12,6 @@ import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
 
-export function setUninstalledPackage(uninstalledPackage: string) {
-  console.log("New func", uninstalledPackage);
-}
-
 class PackageTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;
   constructor(app: JupyterFrontEnd, notebookTracker: INotebookTracker) {

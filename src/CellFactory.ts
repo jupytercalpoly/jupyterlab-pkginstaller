@@ -2,7 +2,7 @@ import { CodeCell, Cell } from '@jupyterlab/cells';
 
 import { OutputModel } from './OutputModel';
 
-import { setUninstalledPackage } from './PackageTool';
+//import { setUninstalledPackage } from './PackageTool';
 
 import {
   NotebookPanel, StaticNotebook
@@ -24,7 +24,8 @@ export default class ContentFactoryEditor extends NotebookPanel.ContentFactory {
           let outputModel = (options.model.outputs.get(i) as OutputModel)
           if (outputModel._raw.output_type == "error") {
             let uninstalledPackage = outputModel._raw.evalue.toString().split("'")[1];
-            setUninstalledPackage(uninstalledPackage);
+            console.log(uninstalledPackage);
+            //setUninstalledPackage(uninstalledPackage);
           };
         }
       }
