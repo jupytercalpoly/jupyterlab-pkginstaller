@@ -79,7 +79,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   function installDialog(chooseError: string) {
     let body = (
       <div>
-        <p>Would you want to install <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> in this kernel?</p>
+        <p>Would you wanna to install <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> in this kernel?</p>
       </div>
     );
     return showDialog({
@@ -93,14 +93,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
         })
       ]
     }).then(result => {
-      // setpackageToProcess(packageToProcess);
-      // setInput(uninstalledPackage);
-      // setpackageToProcess(uninstalledPackage);
-      // console.log("uninstalledPackage:", uninstalledPackageToProcess);
-      // // console.log("input:", input);
-      // // console.log("packageToProcess:", packageToProcess);
-      // sendRequest(uninstalledPackageToProcess, true); 
-      // setInstall(true);
+      if (result.button.accept) {
+        sendRequest(chooseError, true); setInstall(true);
+      }
       return result.button.accept;
     });
   }
@@ -112,22 +107,21 @@ export function PackageSearcher(props: PackageSearcherProps) {
 
   function chooseerrorfunc(chooseError: string) {
     if (chooseError != null) {installDialog(chooseError);}
+    setModuleErrorOccurred(false);
   }
   function handleError(): void {
     setModuleErrorOccurred(true); 
-    let chooseError: string = ['names', 'pandas', 'time', 'asdaasd', '123'][Math.floor((Math.random() * 5))];
+    let chooseError: string = ['names', 'pandas', 'numpy', 'asdaasd', '123'][Math.floor((Math.random() * 5))];
     console.log('random error', chooseError)
     setUninstalledPackageToProcess(chooseError);
     setInput(chooseError);
     chooseerrorfunc(chooseError);
-    // installDialog(); 
-    // populatePackage(uninstalledPackageToProcess);
   }
 
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
       <button onClick={() => {handleError(); }}>
-          Make error occur
+          Make error
       </button>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
       <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
@@ -153,7 +147,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
               name='packageToProcess'
               required
         />}
-        <p>{input}</p>
       </div>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}

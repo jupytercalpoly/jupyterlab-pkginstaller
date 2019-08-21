@@ -24,7 +24,6 @@ export default class ContentFactoryEditor extends NotebookPanel.ContentFactory {
           let outputModel = (options.model.outputs.get(i) as OutputModel)
           if (outputModel._raw.output_type == "error") {
             let uninstalledPackage = outputModel._raw.evalue.toString().split("'")[1];
-            //Make a new 
             console.log(uninstalledPackage);
             //setUninstalledPackage(uninstalledPackage);
           };
