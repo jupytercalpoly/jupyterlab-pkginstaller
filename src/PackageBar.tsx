@@ -17,8 +17,8 @@ interface PackageSearcherProps {
 }
 
 //Determine which pip message to show on button click
-function getPipMessage(install: boolean, messageSuccess: boolean, packageName: string): string {
-  if (!messageSuccess) { 
+function getPipMessage(install: boolean, successfulProcess: boolean, packageName: string): string {
+  if (!successfulProcess) { 
     let baseMsg: string = packageName + ' could not ';
     install? baseMsg += 'install.' : baseMsg += 'uninstall.';
     return baseMsg;
@@ -37,7 +37,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [messageSuccess, setMessageSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  const [moduleError, setModuleError] = useState(false);
+  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(false);
   const [uninstalledPackage, setUninstalledPackage] = useState('');
   //Parse stdout to determine status message
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
@@ -52,7 +52,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       } 
       setShowMessage(true);
       setIsSending(false);
-      setModuleError(false);
+      setModuleErrorOccurred(false);
     }
   }
   const sendRequest = useCallback(async (input: string, install: boolean) => {
@@ -73,17 +73,14 @@ export function PackageSearcher(props: PackageSearcherProps) {
     packageInput.value = uninstalledPackage;
   }
 
-  function setastate(uninstalledPackage: string) {
-    setInput(uninstalledPackage);
-  }
- useEffect(() => {
-  setastate(uninstalledPackage);
-  }, []); //removed uninstalledPackage arg in list
+  // function setastate(uninstalledPackage: string) {
+  //   setInput(uninstalledPackage);
+  // }
   
   function installDialog() {
     let body = (
       <div>
-        <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>names</span> in this kernel?</p>
+        <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>{uninstalledPackage}</span> in this kernel?</p>
       </div>
     );
     return showDialog({
@@ -97,15 +94,24 @@ export function PackageSearcher(props: PackageSearcherProps) {
         })
       ]
     }).then(result => {
-      setastate(uninstalledPackage);
-      sendRequest(input, true); 
+      // setPackageName(packageName);
+      // setInput(uninstalledPackage);
+      // setPackageName(uninstalledPackage);
+      console.log("uninstalledPackage:", uninstalledPackage);
+      console.log("input:", input);
+      console.log("packageName:", packageName);
+      sendRequest(uninstalledPackage, true); 
       setInstall(true);
       return result.button.accept;
     });
   }
+  useEffect(() => {
+    setInput(uninstalledPackage)
+    setPackageName(uninstalledPackage)
+  }, [uninstalledPackage, input, packageName])
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
-      <button onClick={() => {setModuleError(true); setUninstalledPackage('names'); installDialog(); populatePackage(uninstalledPackage); setastate(uninstalledPackage);}}>
+      <button onClick={() => {setModuleErrorOccurred(true); setUninstalledPackage(['names', 'pandas', 'time', 'asdaasd', '123'][Math.floor((Math.random() * 5))]); installDialog(); populatePackage(uninstalledPackage);}}>
           Make error occur
       </button>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
@@ -125,7 +131,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
               name='packageName'
               required
         /> */}
-        {!moduleError && <input id='result' className={PackageBarStyleClasses.packageInput}
+        {!moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
               value={input} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
@@ -133,7 +139,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
               name='packageName'
               required
         />}
-        {moduleError && <input id='result' className={PackageBarStyleClasses.packageInput}
+        {moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
               value={uninstalledPackage} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
@@ -143,9 +149,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
         />}
       </div>
       <p>Input: {input}</p>
-      <p>Package Installer: {uninstalledPackage}</p>
-
-      <p>10</p>
+      <p>Uninstalledpackage: {uninstalledPackage}</p>
+      <p>Packagename: {packageName}</p>
+      <p>17</p>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}
         onClick={() => {sendRequest(input, true); setInstall(true);}}>
@@ -158,13 +164,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {messageSuccess && showMessage && !isSending && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
-      {/* {<div className={PackageBarStyleClasses.errorContainer}>
-        <p>Module Not Found</p>
-        <div className={PackageBarStyleClasses.errorContainerActions}> 
-           <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>{uninstalledPackage}</span> in this kernel?</p>
-           <button className={PackageBarStyleClasses.pipInstallButton} onClick={() => {sendRequest(input, true); setInstall(true); setInput(uninstalledPackage); clearPackage();}}>Install</button>
-        </div>
-      </div>} */}
     </div>
   );
 }
