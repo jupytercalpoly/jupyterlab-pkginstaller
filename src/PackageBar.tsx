@@ -1,6 +1,6 @@
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-import React, { useState, useCallback, useEffect } from 'react'; 
+import React, { useState, useCallback,  } from 'react'; //useEffect
 
 import StyleClasses from './style';
 
@@ -17,28 +17,29 @@ interface PackageSearcherProps {
 }
 
 //Determine which pip message to show on button click
-function getPipMessage(install: boolean, successfulProcess: boolean, packageName: string): string {
+function getPipMessage(install: boolean, successfulProcess: boolean, packageToProcess: string): string {
   if (!successfulProcess) { 
-    let baseMsg: string = packageName + ' could not ';
+    let baseMsg: string = packageToProcess + ' could not ';
     install? baseMsg += 'install.' : baseMsg += 'uninstall.';
     return baseMsg;
   }
   let baseMsg: string = '✨ ';
   install ? baseMsg += 'Installed ' : baseMsg += 'Uninstalled ';
-  return baseMsg + packageName + '!';
+  return baseMsg + packageToProcess + '!';
 }
 
 //Render a component to search for a package to install
 export function PackageSearcher(props: PackageSearcherProps) {
   const [input, setInput] = useState('');
-  const [packageName, setPackageName] = useState('');
+  const [packageToProcess, setPackageToProcess] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const [messageSuccess, setMessageSuccess] = useState(false);
-  const [isSending, setIsSending] = useState(false)
+  const [successfulProcess, setSuccessfulProcess] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(false);
-  const [uninstalledPackage, setUninstalledPackage] = useState('');
+  const [uninstalledPackageToProcess, setUninstalledPackageToProcess] = useState(null); setUninstalledPackageToProcess;
+
   //Parse stdout to determine status message
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
     let msgContent = msg.content;
@@ -46,18 +47,20 @@ export function PackageSearcher(props: PackageSearcherProps) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});
       setStdOut(stdOut);
       if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied')) {
-        setMessageSuccess(true);
+        setSuccessfulProcess(true);
       } else if (msgContent.text.includes('ERROR') || msgContent.text.includes('Skipping')) {
-        setMessageSuccess(false);
+        setSuccessfulProcess(false);
       } 
       setShowMessage(true);
-      setIsSending(false);
+      setIsProcessing(false);
       setModuleErrorOccurred(false);
     }
   }
+
+  //Process the package in input
   const sendRequest = useCallback(async (input: string, install: boolean) => {
-    setIsSending(true);
-    setPackageName(input);
+    setIsProcessing(true);
+    setPackageToProcess(input);
     let pipCommand: string = '';
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
@@ -66,21 +69,17 @@ export function PackageSearcher(props: PackageSearcherProps) {
         code: pipCommand + input, silent: true
       }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg)}; 
     });
-  }, [isSending]) 
-  
-  function populatePackage(uninstalledPackage: string): void {
-    const packageInput: HTMLInputElement = document.getElementById('result') as HTMLInputElement;
-    packageInput.value = uninstalledPackage;
-  }
-
-  // function setastate(uninstalledPackage: string) {
-  //   setInput(uninstalledPackage);
+  }, [isProcessing]) 
+  // function populatePackage(uninstalledPackage: string): void {
+  //   const packageInput: HTMLInputElement = document.getElementById('result') as HTMLInputElement;
+  //   packageInput.value = uninstalledPackage;
   // }
-  
-  function installDialog() {
+
+  //Display a dialog, called only when there is an import error
+  function installDialog(chooseError: string) {
     let body = (
       <div>
-        <p>Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>{uninstalledPackage}</span> in this kernel?</p>
+        <p>Would you want to install <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> in this kernel?</p>
       </div>
     );
     return showDialog({
@@ -94,24 +93,40 @@ export function PackageSearcher(props: PackageSearcherProps) {
         })
       ]
     }).then(result => {
-      // setPackageName(packageName);
+      // setpackageToProcess(packageToProcess);
       // setInput(uninstalledPackage);
-      // setPackageName(uninstalledPackage);
-      console.log("uninstalledPackage:", uninstalledPackage);
-      console.log("input:", input);
-      console.log("packageName:", packageName);
-      sendRequest(uninstalledPackage, true); 
-      setInstall(true);
+      // setpackageToProcess(uninstalledPackage);
+      // console.log("uninstalledPackage:", uninstalledPackageToProcess);
+      // // console.log("input:", input);
+      // // console.log("packageToProcess:", packageToProcess);
+      // sendRequest(uninstalledPackageToProcess, true); 
+      // setInstall(true);
       return result.button.accept;
     });
   }
-  useEffect(() => {
-    setInput(uninstalledPackage)
-    setPackageName(uninstalledPackage)
-  }, [uninstalledPackage, input, packageName])
+  // useEffect(() => {
+  //   console.log(uninstalledPackageToProcess);
+  //   if (uninstalledPackageToProcess != null) {installDialog();}
+
+  // }, [uninstalledPackageToProcess])
+
+  function chooseerrorfunc(chooseError: string) {
+    if (chooseError != null) {installDialog(chooseError);}
+  }
+  function handleError(): void {
+    setModuleErrorOccurred(true); 
+    let chooseError: string = ['names', 'pandas', 'time', 'asdaasd', '123'][Math.floor((Math.random() * 5))];
+    console.log('random error', chooseError)
+    setUninstalledPackageToProcess(chooseError);
+    setInput(chooseError);
+    chooseerrorfunc(chooseError);
+    // installDialog(); 
+    // populatePackage(uninstalledPackageToProcess);
+  }
+
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
-      <button onClick={() => {setModuleErrorOccurred(true); setUninstalledPackage(['names', 'pandas', 'time', 'asdaasd', '123'][Math.floor((Math.random() * 5))]); installDialog(); populatePackage(uninstalledPackage);}}>
+      <button onClick={() => {handleError(); }}>
           Make error occur
       </button>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
@@ -119,39 +134,27 @@ export function PackageSearcher(props: PackageSearcherProps) {
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Package Name</p>
-          {isSending && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
-          {!isSending && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, messageSuccess, packageName)}</p>}
+          {isProcessing && <p className={PackageBarStyleClasses.messageText}>Working... Please wait.</p>}
+          {!isProcessing && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, successfulProcess, packageToProcess)}</p>}
         </div>
-        {/* <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              //onClick={e => setInput((e.target as HTMLInputElement).value)}
-              placeholder='Package Name'
-              type='text'
-              name='packageName'
-              required
-        /> */}
         {!moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
               value={input} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
               type='text'
-              name='packageName'
+              name='packageToProcess'
               required
         />}
         {moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={uninstalledPackage} // change to input 
+              value={uninstalledPackageToProcess} // change to input 
               onChange={e => setInput(e.target.value)}
               //onClick={e => setInput((e.target as HTMLInputElement).value)}
               type='text'
-              name='packageName'
+              name='packageToProcess'
               required
         />}
+        <p>{input}</p>
       </div>
-      <p>Input: {input}</p>
-      <p>Uninstalledpackage: {uninstalledPackage}</p>
-      <p>Packagename: {packageName}</p>
-      <p>17</p>
       <div className={PackageBarStyleClasses.buttonContainer}>
         <button className={PackageBarStyleClasses.pipButton}
         onClick={() => {sendRequest(input, true); setInstall(true);}}>
@@ -162,7 +165,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
           Uninstall
         </button>
       </div>
-      {messageSuccess && showMessage && !isSending && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
+      {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
     </div>
   );
