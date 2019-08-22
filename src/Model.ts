@@ -1,459 +1,183 @@
-// Copyright (c) Jupyter Development Team.
-// Distributed under the terms of the Modified BSD License.
+'use strict';
 
-import { each, map, toArray } from '@phosphor/algorithm';
+import {
+  IIterator
+} from '@phosphor/algorithm';
 
-import { IDisposable } from '@phosphor/disposable';
+import {
+  VDomModel
+} from '@jupyterlab/apputils';
 
-import { ISignal, Signal } from '@phosphor/signaling';
+import {
+  Kernel, KernelMessage
+} from '@jupyterlab/services';
 
-import { nbformat } from '@jupyterlab/coreutils';
 
-import { IObservableList, ObservableList } from '@jupyterlab/observables';
+export type MessageThread = {
+  args: Kernel.IAnyMessageArgs;
+  children: MessageThread[];
+};
 
-import { IOutputModel } from '@jupyterlab/rendermime';
 
-import { OutputModel } from './OutputModel'
- 
-
-/**
- * The model for an output area.
- */
-export interface IOutputAreaModel extends IDisposable {
-  /**
-   * A signal emitted when the model state changes.
-   */
-  readonly stateChanged: ISignal<IOutputAreaModel, void>;
-
-  /**
-   * A signal emitted when the model changes.
-   */
-  readonly changed: ISignal<IOutputAreaModel, IOutputAreaModel.ChangedArgs>;
-
-  /**
-   * The length of the items in the model.
-   */
-  readonly length: number;
-
-  /**
-   * Whether the output area is trusted.
-   */
-  trusted: boolean;
-
-  /**
-   * The output content factory used by the model.
-   */
-  readonly contentFactory: IOutputAreaModel.IContentFactory;
-
-  /**
-   * Get an item at the specified index.
-   */
-  get(index: number): IOutputModel;
-
-  /**
-   * Add an output, which may be combined with previous output.
-   *
-   * #### Notes
-   * The output bundle is copied.
-   * Contiguous stream outputs of the same `name` are combined.
-   */
-  add(output: nbformat.IOutput): number;
-
-  /**
-   * Set the value at the specified index.
-   */
-  set(index: number, output: nbformat.IOutput): void;
-
-  /**
-   * Clear all of the output.
-   *
-   * @param wait - Delay clearing the output until the next message is added.
-   */
-  clear(wait?: boolean): void;
-
-  /**
-   * Deserialize the model from JSON.
-   *
-   * #### Notes
-   * This will clear any existing data.
-   */
-  fromJSON(values: nbformat.IOutput[]): void;
-
-  /**
-   * Serialize the model to JSON.
-   */
-  toJSON(): nbformat.IOutput[];
+function isHeader(candidate: {[key: string]: undefined} | KernelMessage.IHeader): candidate is KernelMessage.IHeader {
+  return candidate.msg_id !== undefined;
 }
 
-/**
- * The namespace for IOutputAreaModel interfaces.
- */
-export namespace IOutputAreaModel {
-  /**
-   * The options used to create a output area model.
-   */
-  export interface IOptions {
-    /**
-     * The initial values for the model.
-     */
-    values?: nbformat.IOutput[];
 
-    /**
-     * Whether the output is trusted.  The default is false.
-     */
-    trusted?: boolean;
-
-    /**
-     * The output content factory used by the model.
-     *
-     * If not given, a default factory will be used.
-     */
-    contentFactory?: IContentFactory;
+export
+class ThreadIterator implements IIterator<ThreadIterator.IElement> {
+  constructor(threads: MessageThread[], collapsed: {[key: string]: boolean}) {
+    this._threads = threads;
+    this._collapsed = collapsed;
+    this._index = -1;
+    this._child = null;
   }
 
-  /**
-   * A type alias for changed args.
-   */
-  export type ChangedArgs = IObservableList.IChangedArgs<IOutputModel>;
-
-  /**
-   * The interface for an output content factory.
-   */
-  export interface IContentFactory {
-    /**
-     * Create an output model.
-     */
-    createOutputModel(options: IOutputModel.IOptions): IOutputModel;
-  }
-}
-
-/**
- * The default implementation of the IOutputAreaModel.
- */
-export class OutputAreaModel implements IOutputAreaModel {
-  /**
-   * Construct a new observable outputs instance.
-   */
-  constructor(options: IOutputAreaModel.IOptions = {}) {
-    this._trusted = !!options.trusted;
-    this.contentFactory =
-      options.contentFactory || OutputAreaModel.defaultContentFactory;
-    this.list = new ObservableList<IOutputModel>();
-    if (options.values) {
-      each(options.values, value => {
-        this._add(value);
-      });
-    }
-    this.list.changed.connect(this._onListChanged, this);
+  iter() {
+    return this;
   }
 
-  /**
-   * A signal emitted when the model state changes.
-   */
-  get stateChanged(): ISignal<IOutputAreaModel, void> {
-    return this._stateChanged;
-  }
-
-  /**
-   * A signal emitted when the model changes.
-   */
-  get changed(): ISignal<this, IOutputAreaModel.ChangedArgs> {
-    return this._changed;
-  }
-
-  /**
-   * Get the length of the items in the model.
-   */
-  get length(): number {
-    return this.list ? this.list.length : 0;
-  }
-
-  /**
-   * Get whether the model is trusted.
-   */
-  get trusted(): boolean {
-    return this._trusted;
-  }
-
-  /**
-   * Set whether the model is trusted.
-   *
-   * #### Notes
-   * Changing the value will cause all of the models to re-set.
-   */
-  set trusted(value: boolean) {
-    if (value === this._trusted) {
-      return;
-    }
-    let trusted = (this._trusted = value);
-    for (let i = 0; i < this.list.length; i++) {
-      let item = this.list.get(i);
-      let value = item.toJSON();
-      item.dispose();
-      item = this._createItem({ value, trusted });
-      this.list.set(i, item);
-    }
-  }
-
-  /**
-   * The output content factory used by the model.
-   */
-  readonly contentFactory: IOutputAreaModel.IContentFactory;
-
-  /**
-   * Test whether the model is disposed.
-   */
-  get isDisposed(): boolean {
-    return this._isDisposed;
-  }
-
-  /**
-   * Dispose of the resources used by the model.
-   */
-  dispose(): void {
-    if (this.isDisposed) {
-      return;
-    }
-    this._isDisposed = true;
-    this.list.dispose();
-    Signal.clearData(this);
-  }
-
-  /**
-   * Get an item at the specified index.
-   */
-  get(index: number): IOutputModel {
-    return this.list.get(index);
-  }
-
-  /**
-   * Set the value at the specified index.
-   */
-  set(index: number, value: nbformat.IOutput): void {
-    // Normalize stream data.
-    Private.normalize(value);
-    let item = this._createItem({ value, trusted: this._trusted });
-    this.list.set(index, item);
-  }
-
-  /**
-   * Add an output, which may be combined with previous output.
-   *
-   * #### Notes
-   * The output bundle is copied.
-   * Contiguous stream outputs of the same `name` are combined.
-   */
-  add(output: nbformat.IOutput): number {
-    // If we received a delayed clear message, then clear now.
-    if (this.clearNext) {
-      this.clear();
-      this.clearNext = false;
-    }
-
-    return this._add(output);
-  }
-
-  /**
-   * Clear all of the output.
-   *
-   * @param wait Delay clearing the output until the next message is added.
-   */
-  clear(wait: boolean = false): void {
-    this._lastStream = '';
-    if (wait) {
-      this.clearNext = true;
-      return;
-    }
-    each(this.list, (item: IOutputModel) => {
-      item.dispose();
-    });
-    this.list.clear();
-  }
-
-  /**
-   * Deserialize the model from JSON.
-   *
-   * #### Notes
-   * This will clear any existing data.
-   */
-  fromJSON(values: nbformat.IOutput[]) {
-    this.clear();
-    each(values, value => {
-      this._add(value);
-    });
-  }
-
-  /**
-   * Serialize the model to JSON.
-   */
-  toJSON(): nbformat.IOutput[] {
-    return toArray(map(this.list, (output: IOutputModel) => output.toJSON()));
-  }
-
-  /**
-   * Add an item to the list.
-   */
-  private _add(value: nbformat.IOutput): number {
-    let trusted = this._trusted;
-
-    // Normalize the value.
-    Private.normalize(value);
-
-    // Consolidate outputs if they are stream outputs of the same kind.
-    if (
-      nbformat.isStream(value) &&
-      this._lastStream &&
-      value.name === this._lastName
-    ) {
-      // In order to get a list change event, we add the previous
-      // text to the current item and replace the previous item.
-      // This also replaces the metadata of the last item.
-      this._lastStream += value.text as string;
-      this._lastStream = Private.removeOverwrittenChars(this._lastStream);
-      value.text = this._lastStream;
-      let item = this._createItem({ value, trusted });
-      let index = this.length - 1;
-      let prev = this.list.get(index);
-      prev.dispose();
-      this.list.set(index, item);
-      return index;
-    }
-
-    if (nbformat.isStream(value)) {
-      value.text = Private.removeOverwrittenChars(value.text as string);
-    }
-
-    // Create the new item.
-    let item = this._createItem({ value, trusted });
-
-    // Update the stream information.
-    if (nbformat.isStream(value)) {
-      this._lastStream = value.text as string;
-      this._lastName = value.name;
-    } else {
-      this._lastStream = '';
-    }
-
-    // Add the item to our list and return the new length.
-    return this.list.push(item);
-  }
-
-  /**
-   * A flag that is set when we want to clear the output area
-   * *after* the next addition to it.
-   */
-  protected clearNext = false;
-
-  /**
-   * An observable list containing the output models
-   * for this output area.
-   */
-  protected list: IObservableList<IOutputModel> = null;
-
-  /**
-   * Create an output item and hook up its signals.
-   */
-  private _createItem(options: IOutputModel.IOptions): IOutputModel {
-    let factory = this.contentFactory;
-    let item = factory.createOutputModel(options);
-    item.changed.connect(this._onGenericChange, this);
-    return item;
-  }
-
-  /**
-   * Handle a change to the list.
-   */
-  private _onListChanged(
-    sender: IObservableList<IOutputModel>,
-    args: IObservableList.IChangedArgs<IOutputModel>
-  ) {
-    this._changed.emit(args);
-  }
-
-  /**
-   * Handle a change to an item.
-   */
-  private _onGenericChange(): void {
-    this._stateChanged.emit(void 0);
-  }
-
-  private _lastStream: string;
-  private _lastName: 'stdout' | 'stderr';
-  private _trusted = false;
-  private _isDisposed = false;
-  private _stateChanged = new Signal<IOutputAreaModel, void>(this);
-  private _changed = new Signal<this, IOutputAreaModel.ChangedArgs>(this);
-}
-
-/**
- * The namespace for OutputAreaModel class statics.
- */
-export namespace OutputAreaModel {
-  /**
-   * The default implementation of a `IModelOutputFactory`.
-   */
-  export class ContentFactory implements IOutputAreaModel.IContentFactory {
-    /**
-     * Create an output model.
-     */
-    createOutputModel(options: IOutputModel.IOptions): IOutputModel {
-      return new OutputModel(options);
-    }
-  }
-
-  /**
-   * The default output model factory.
-   */
-  export const defaultContentFactory = new ContentFactory();
-}
-
-/**
- * A namespace for module-private functionality.
- */
-namespace Private {
-  /**
-   * Normalize an output.
-   */
-  export function normalize(value: nbformat.IOutput): void {
-    if (nbformat.isStream(value)) {
-      if (Array.isArray(value.text)) {
-        value.text = (value.text as string[]).join('\n');
+  next(): ThreadIterator.IElement | undefined {
+    if (this._child) {
+      let next = this._child.next();
+      if (next !== undefined) {
+        return next;
       }
+      this._child = null;
     }
-  }
-
-  /**
-   * Remove characters that are overridden by backspace characters.
-   */
-  function fixBackspace(txt: string): string {
-    let tmp = txt;
-    do {
-      txt = tmp;
-      // Cancel out anything-but-newline followed by backspace
-      tmp = txt.replace(/[^\n]\x08/gm, '');
-    } while (tmp.length < txt.length);
-    return txt;
-  }
-
-  /**
-   * Remove chunks that should be overridden by the effect of
-   * carriage return characters.
-   */
-  function fixCarriageReturn(txt: string): string {
-    txt = txt.replace(/\r+\n/gm, '\n'); // \r followed by \n --> newline
-    while (txt.search(/\r[^$]/g) > -1) {
-      const base = txt.match(/^(.*)\r+/m)[1];
-      let insert = txt.match(/\r+(.*)$/m)[1];
-      insert = insert + base.slice(insert.length, base.length);
-      txt = txt.replace(/\r+.*$/m, '\r').replace(/^.*\r/m, insert);
+    // Move to next thread
+    ++this._index;
+    if (this._index >= this._threads.length) {
+      return undefined;
     }
-    return txt;
+    const entry = this._threads[this._index];
+    if (entry.children.length > 0 && !this._collapsed[entry.args.msg.header.msg_id]) {
+      // Iterate over children after this
+      this._child = new ThreadIterator(entry.children, this._collapsed);
+    }
+    return {args: entry.args, hasChildren: entry.children.length > 0};
   }
 
-  /*
-   * Remove characters overridden by backspaces and carriage returns
-   */
-  export function removeOverwrittenChars(text: string): string {
-    return fixCarriageReturn(fixBackspace(text));
+  clone(): ThreadIterator {
+    let r = new ThreadIterator(this._threads, this._collapsed);
+    r._index = this._index;
+    if (this._child) {
+      r._child = this._child.clone();
+    }
+    return r;
   }
+
+  private _index: number;
+  private _child: ThreadIterator | null;
+
+  private _threads: MessageThread[];
+  private _collapsed: {[key: string]: boolean};
+}
+
+export
+namespace ThreadIterator {
+  export
+  interface IElement {
+    args: Kernel.IAnyMessageArgs;
+    hasChildren: boolean;
+  }
+}
+
+
+/**
+ * Model for a kernel spy.
+ */
+export
+class KernelSpyModel extends VDomModel {
+  constructor(kernel: Kernel.IKernel) {
+    super();
+    this._kernel = kernel;
+    this._kernel.anyMessage.connect(this.onMessage, this);
+  }
+
+  clear() {
+    this._log.splice(0, this._log.length);
+    this._messages = {};
+    this._childLUT = {};
+    this._roots = [];
+    this.stateChanged.emit(void 0);
+  }
+
+  get kernel() {
+    return this._kernel;
+  }
+
+  get log(): ReadonlyArray<Kernel.IAnyMessageArgs> {
+    return this._log;
+  }
+
+  get tree(): MessageThread[] {
+    return this._roots.map((rootId) => {
+      return this.getThread(rootId, false);
+    });
+  }
+
+  depth(args: Kernel.IAnyMessageArgs | null): number {
+    if (args === null) {
+      return -1;
+    }
+    let depth = 0;
+    while (args = this._findParent(args)) {
+      ++depth;
+    }
+    return depth;
+  }
+
+  getThread(msgId: string, ancestors=true): MessageThread {
+    const args = this._messages[msgId];
+    if (ancestors) {
+      // Work up to root, then work downwards
+      let root = args;
+      let candidate;
+      while (candidate = this._findParent(root)) {
+        root = candidate;
+      }
+      return this.getThread(root.msg.header.msg_id, false);
+    }
+
+    const childMessages = this._childLUT[msgId] || [];
+    let childThreads = childMessages.map((childId) => {
+      return this.getThread(childId, false);
+    });
+    const thread: MessageThread = {
+      args: this._messages[msgId],
+      children: childThreads,
+    };
+    return thread;
+  }
+
+  protected onMessage(sender: Kernel.IKernel, args: Kernel.IAnyMessageArgs) {
+    const {msg} = args;
+    this._log.push(args);
+    this._messages[msg.header.msg_id] = args;
+    const parent = this._findParent(args);
+    if (parent === null) {
+      this._roots.push(msg.header.msg_id);
+    } else {
+      const header = parent.msg.header;
+      this._childLUT[header.msg_id] = this._childLUT[header.msg_id] || [];
+      this._childLUT[header.msg_id].push(msg.header.msg_id);
+    }
+    this.stateChanged.emit(undefined);
+  }
+
+  private _findParent(args: Kernel.IAnyMessageArgs): Kernel.IAnyMessageArgs | null {
+    if (isHeader(args.msg.parent_header)) {
+      return this._messages[args.msg.parent_header.msg_id] || null;
+    }
+    return null;
+  }
+
+  private _log: Kernel.IAnyMessageArgs[] = [];
+
+  private _kernel: Kernel.IKernel;
+
+  private _messages: {[key: string]: Kernel.IAnyMessageArgs} = {};
+  private _childLUT: {[key: string]: string[]} = {};
+  private _roots: string[] = [];
 }
