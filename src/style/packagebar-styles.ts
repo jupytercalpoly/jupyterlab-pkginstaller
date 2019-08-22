@@ -12,6 +12,7 @@ export namespace PackageBarStyleClasses {
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: 10,
+    fontSize: 'var(--jp-ui-font-size1)'
   });
   export const kernelPrompt = style({
     paddingTop: 5,
@@ -23,6 +24,7 @@ export namespace PackageBarStyleClasses {
     padding: '8px 0px',
     margin: 0,
     borderRadius: '2px',
+    fontSize: 'var(--jp-ui-font-size1)',
   });
   export const pipInstallButton = style({
     backgroundColor: 'var(--md-blue-700)',
@@ -33,6 +35,12 @@ export namespace PackageBarStyleClasses {
     float: 'right',
     borderRadius: '2px',
     width: '40px'
+  });
+  export const errorButton = style({
+    backgroundColor: 'white',
+    color: 'var(--jp-ui-inverse-font-color1)',
+    border: 'none',
+    boxShadow: 'none',
   });
   export const errorContainer = style({
     backgroundColor: 'var(--md-orange-100)',
@@ -54,7 +62,7 @@ export namespace PackageBarStyleClasses {
     border: '1px solid var(--md-grey-400)',
     padding: 8,
     boxSizing: 'border-box',
-    fontSize: '1em',
+    fontSize: 'var(--jp-ui-font-size1)',
   });
   export const logsButton = style({
     backgroundColor: 'none',
@@ -65,6 +73,7 @@ export namespace PackageBarStyleClasses {
     marginTop: 4,
     borderRadius: 2,
     float: 'right',
+    fontSize: 'var(--jp-ui-font-size1)',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',
@@ -74,7 +83,7 @@ export namespace PackageBarStyleClasses {
   });
   export const title = style({
     fontWeight: 'bold',
-    fontSize: '18px',
+    fontSize: 'var(--jp-ui-font-size3)',
     lineHeight: '21px',
     color: 'var(--jp-ui-font-color1)',
   });
@@ -99,7 +108,7 @@ export namespace PackageBarStyleClasses {
     letterSpacing: '0.06em',
     color: 'var(--jp-ui-font-color2)',
     fontWeight: 'bold',
-    fontSize: '10.88px',
+    fontSize: 'var(--jp-ui-font-size0)',
     lineHeight: '13px',
     marginBottom: '0.75em',
   });

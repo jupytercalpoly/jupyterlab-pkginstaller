@@ -9,14 +9,15 @@ const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 const customStyles = {
   option: (provided: JSON, state: JSON) => ({
     ...provided,
-    backgroundColor: 'var(--jp-ui-inverse-font-color0)',
+    backgroundColor: 'transparent',
     color: 'var(--jp-ui-font-color1)',
-    fontSize: 10,
+    fontSize: 'var(--jp-ui-font-size1)',
     wordWrap: 'break-word',
   }),
-  menu: (provided: JSON, state: JSON) => ({
-    ...provided,
-    borderRadius: 0,
+  menu: () => ({
+    border: 'var(--jp-border-width) solid var(--jp-border-color1)',
+    borderRadius: 'var(--jp-border-radius)',
+    boxShadow: 'inset 0 0 5px var(--jp-border-width) var(--jp-input-active-box-shadow-color)',
     marginTop: 40,
     position: 'relative',
     backgroundColor: 'var(--jp-ui-inverse-font-color0)',

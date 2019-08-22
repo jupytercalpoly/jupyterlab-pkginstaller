@@ -52,12 +52,12 @@ export function PackageSearcher(props: PackageSearcherProps) {
         setSuccessfulProcess(false);
       } 
       setShowMessage(true);
-      setIsProcessing(false);
       setModuleErrorOccurred(false);
+      setIsProcessing(false);
     }
   }
 
-  //Process the package in input
+  //Process the packasge in input
   const sendRequest = useCallback(async (input: string, install: boolean) => {
     setIsProcessing(true);
     setPackageToProcess(input);
@@ -120,9 +120,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
 
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
-      <button onClick={() => {handleError(); }}>
-          Make error
-      </button>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
       <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
@@ -160,6 +157,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
+      <button className={PackageBarStyleClasses.errorButton} onClick={() => {handleError(); }}>
+          Make error
+      </button>
     </div>
   );
 }

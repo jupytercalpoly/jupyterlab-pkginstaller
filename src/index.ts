@@ -37,6 +37,7 @@ const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = 
   }
 };
 
+
 export default [
   extension,
   codeCellExtension
