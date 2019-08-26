@@ -12,6 +12,9 @@ import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
 
+import { KernelSpyView } from './widget';
+import { Kernel } from '@jupyterlab/services';
+
 class PackageTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;
   constructor(app: JupyterFrontEnd, notebookTracker: INotebookTracker) {
@@ -41,8 +44,10 @@ class PackageTool extends NotebookTools.Tool {
           layout.widgets[0].dispose();
         }
         let session = this.notebookTracker.currentWidget.session
+        const widget = new KernelSpyView(session.kernel! as Kernel.IKernel);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
         layout.addWidget(cellWidget);
+        layout.addWidget(widget);
       });
     }
   }
