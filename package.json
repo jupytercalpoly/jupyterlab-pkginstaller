@@ -36,12 +36,17 @@
     "@jupyterlab/notebook": "^1.0.2",
     "react": "^16.8.6",
     "react-inspector": "^3.0.2",
-    "react-select": "^3.0.4"
+    "react-select": "^3.0.4",
+    "react-selector": "0.0.5"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
     "rimraf": "^2.6.1",
-    "typescript": "~3.5.2"
+    "typescript": "~3.5.2",
+    "@jupyterlab/docregistry": "^1.0.2",
+    "@jupyterlab/services": "^4.0.5",
+    "@phosphor/commands": "^1.6.2",
+    "@phosphor/messaging": "^1.2.3"
   },
   "sideEffects": [
     "style/*.css"
