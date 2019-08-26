@@ -10,7 +10,6 @@ import {
   INotebookTools, INotebookTracker, NotebookPanel
 } from '@jupyterlab/notebook';
 
-import CellFactory from './CellFactory';
 
 /*Kernel spy*/
 'use strict';
@@ -107,8 +106,8 @@ function addCommands(
     );
   }
   commands.addCommand(CommandIDs.newSpy, {
-    label: 'New kernel spy',
-    caption: 'Open a window to inspect messages sent to/from a kernel',
+    label: 'Show errors',
+    //caption: 'Open a window to inspect messages sent to/from a kernel',
     iconClass: 'jp-Icon jp-Icon-16 jp-kernelspyIcon',
     isEnabled: hasKernel,
     execute: (args) => {
@@ -181,24 +180,24 @@ const pkginstaller: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
-    console.log("done");
+    console.log("heyo");
   }
 };
 
-const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = {
-  id: 'addEditorExtension',
-  autoStart: true,
-  provides: NotebookPanel.IContentFactory,
-  activate: (app: JupyterFrontEnd, cellTools: INotebookTools) => {
-    // const errorTool = new ErrorTool();
-    // cellTools.addItem({ tool: errorTool });
-    return new CellFactory();
-  }
-};
+// const codeCellExtension: JupyterFrontEndPlugin<NotebookPanel.IContentFactory> = {
+//   id: 'addEditorExtension',
+//   autoStart: true,
+//   provides: NotebookPanel.IContentFactory,
+//   activate: (app: JupyterFrontEnd, cellTools: INotebookTools) => {
+//     // const errorTool = new ErrorTool();
+//     // cellTools.addItem({ tool: errorTool });
+//     return new CellFactory();
+//   }
+// };
 
 
 export default [
   pkginstaller,
-  codeCellExtension,
+  //codeCellExtension,
   extension
 ];

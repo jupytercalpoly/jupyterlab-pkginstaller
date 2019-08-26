@@ -47,9 +47,7 @@ export class KernelSpyView extends Widget {
     this._messagelog = new MessageLogView(this._model);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
-    this.title.label = 'Kernel spy';
-    this.title.closable = true;
-    this.title.iconClass = 'jp-kernelspyIcon';
+    this.title.label = 'Show errors';
     let layout = this.layout = new BoxLayout();
     this._toolbar = new Toolbar();
     this._toolbar.addClass('jp-kernelspy-toolbar');
