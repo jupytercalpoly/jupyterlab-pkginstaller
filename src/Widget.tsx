@@ -16,7 +16,8 @@ import '../style/index.css';
 
 function Message(props: any): any {
   const msg = props.message;
-  return <p>{msg.content.evalue}</p>;
+  const msgId = msg.header.msg_id;
+  return <div key={`${msgId}`}>{msg.content.evalue}</div>;
 }
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   constructor(model: KernelSpyModel) {
