@@ -26,7 +26,7 @@ import {
   INotebookModel, 
 } from '@jupyterlab/notebook';
 
-import { Kernel } from '@jupyterlab/services';
+//import { Kernel } from '@jupyterlab/services';
 
 import { find } from '@phosphor/algorithm';
 
@@ -38,7 +38,6 @@ import {
   IDisposable, DisposableDelegate
 } from '@phosphor/disposable';
 
-import { KernelSpyView } from './widget';
 
 import '../style/index.css';
 
@@ -95,7 +94,7 @@ function addCommands(
     palette: ICommandPalette,
     menu: IMainMenu
     ): void {
-  const { commands, shell } = app;
+  const { commands, shell } = app; shell;
   /**
    * Whether there is an active notebook.
    */
@@ -115,11 +114,11 @@ function addCommands(
       if (!current) {
         return;
       }
-      const widget = new KernelSpyView(current.context.session.kernel! as Kernel.IKernel);
-      shell.add(widget, 'main');
-      if (args['activate'] !== false) {
-        shell.activateById(widget.id);
-      }
+      // const widget = new KernelSpyView(current.context.session.kernel! as Kernel.IKernel);
+      // shell.add(widget, 'main');
+      // if (args['activate'] !== false) {
+      //   shell.activateById(widget.id);
+      // }
     }
   });
 }
