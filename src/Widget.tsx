@@ -14,6 +14,7 @@ import { KernelSpyModel, ThreadIterator } from './model';
 
 import '../style/index.css';
 
+
 function Message(props: any): any {
   const msg = props.message;
   const msgId = msg.header.msg_id;
@@ -35,6 +36,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
         }));
       }
     });
+    console.log(elements);
     return elements;
   }
   protected collapsed: {[key: string]: boolean} = {};
@@ -44,6 +46,7 @@ export class KernelSpyView extends Widget {
   constructor(kernel: Kernel.IKernel) {
     super();
     this._model = new KernelSpyModel(kernel);
+    //console.log("Model log", this._model.log.prop);
     this._messagelog = new MessageLogView(this._model);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
@@ -55,7 +58,13 @@ export class KernelSpyView extends Widget {
     layout.addWidget(this._messagelog);
     BoxLayout.setStretch(this._toolbar, 0);
     BoxLayout.setStretch(this._messagelog, 1);
+    
   }
+
+  get messageLog(): MessageLogView {
+    return this._messagelog;
+  }
+
   get model(): KernelSpyModel {
     return this._model;
   }

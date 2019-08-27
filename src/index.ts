@@ -138,7 +138,7 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
       palette: ICommandPalette,
       mainMenu: IMainMenu,
       ) => {
-    console.log(5);
+    console.log(3);
     let {commands, docRegistry} = app;
     let extension = new KernelSpyExtension(commands);
     docRegistry.addWidgetExtension('Notebook', extension);
@@ -180,7 +180,6 @@ const pkginstaller: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
-    console.log("heyo");
   }
 };
 

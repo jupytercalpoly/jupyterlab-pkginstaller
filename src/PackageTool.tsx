@@ -31,8 +31,12 @@ class PackageTool extends NotebookTools.Tool {
         layout.widgets[0].dispose();
       }
       let session = this.notebookTracker.currentWidget.session
+      const widget = new KernelSpyView(session.kernel! as Kernel.IKernel);
+      layout.addWidget(widget);
+      console.log('Widget model', widget.messageLog);
       const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
       layout.addWidget(cellWidget);
+      
     });
   }
   protected onActiveNotebookPanelChanged(msg: Message, uninstalledPackage: string = ''): void {
@@ -43,11 +47,20 @@ class PackageTool extends NotebookTools.Tool {
         for (let i = 0; i < count; i++) {
           layout.widgets[0].dispose();
         }
-        let session = this.notebookTracker.currentWidget.session
+        let session = this.notebookTracker.currentWidget.session;
         const widget = new KernelSpyView(session.kernel! as Kernel.IKernel);
+        layout.addWidget(widget);
+        console.log('Widget model', widget.messageLog);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
         layout.addWidget(cellWidget);
-        layout.addWidget(widget);
+        // ReactDOM.render(
+        //   <TagsToolComponent
+        //     widget={widget}
+        //     tagsList={tagsList}
+        //     allTagsList={allTagsList}
+        //   />,
+        //   widget.node
+        // );
       });
     }
   }
