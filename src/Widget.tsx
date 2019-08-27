@@ -36,9 +36,11 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
         })];
       }
     });
-    console.log(elements[0].props.children);
     return [elements[0]];
   }
+  // get elemento(): React.ReactElement<any>[] {
+  //   return this.render();
+  // }
   protected collapsed: {[key: string]: boolean} = {};
 }
 
@@ -48,6 +50,7 @@ export class KernelSpyView extends Widget {
     this._model = new KernelSpyModel(kernel);
     //log("Model log", this._model.log[this._model.log.length - 1]);
     this._messagelog = new MessageLogView(this._model);
+    //console.log("Elemento", this._messagelog);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
     this.title.label = 'Show errors';
@@ -60,7 +63,6 @@ export class KernelSpyView extends Widget {
     BoxLayout.setStretch(this._messagelog, 1);
     
   }
-
   get messageLog(): MessageLogView {
     return this._messagelog;
   }
