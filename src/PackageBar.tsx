@@ -111,7 +111,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   }
   function handleError(): void {
     setModuleErrorOccurred(true); 
-    let chooseError: string = ['numpy', 'matplotlib'][Math.floor((Math.random() * 2))];
+    let chooseError: string = props.uninstalledPackage;
     console.log('random error', chooseError)
     setUninstalledPackageToProcess(chooseError);
     setInput(chooseError);

@@ -27,17 +27,17 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   }
   protected render(): React.ReactElement<any>[] {
     const model = this.model!;
-    const elements: React.ReactElement<any>[] = [];
+    let elements: React.ReactElement<any>[] = [];
     let threads = new ThreadIterator(model.tree, this.collapsed);
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
-        elements.push(Message({ 
+        elements = [Message({ 
           message: args.msg
-        }));
+        })];
       }
     });
-    console.log(elements);
-    return elements;
+    console.log(elements[0].props.children);
+    return [elements[0]];
   }
   protected collapsed: {[key: string]: boolean} = {};
 }
@@ -46,7 +46,7 @@ export class KernelSpyView extends Widget {
   constructor(kernel: Kernel.IKernel) {
     super();
     this._model = new KernelSpyModel(kernel);
-    //console.log("Model log", this._model.log.prop);
+    //log("Model log", this._model.log[this._model.log.length - 1]);
     this._messagelog = new MessageLogView(this._model);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
