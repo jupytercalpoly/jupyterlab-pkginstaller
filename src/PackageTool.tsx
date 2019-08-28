@@ -13,7 +13,7 @@ import { ReactWidget } from '@jupyterlab/apputils';
 import * as React from 'react';
 import { KernelSpyModel } from './model';
 
-import { KernelSpyView, MessageLogView } from './widget';
+import { MessageLogView } from './widget';
 import { Kernel } from '@jupyterlab/services';
 
 class PackageTool extends NotebookTools.Tool {
@@ -35,10 +35,11 @@ class PackageTool extends NotebookTools.Tool {
       //const widget = new KernelSpyView(session.kernel! as Kernel.IKernel);
       //layout.addWidget(widget);
       //console.log('MessageLog', widget.messageLog);
-      const view = new MessageLogView(new KernelSpyModel(session.kernel! as Kernel.IKernel));
+      let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
+      const view = new MessageLogView(model);
+      layout.addWidget(view);
       const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
       layout.addWidget(cellWidget);
-      layout.addWidget(view);
     });
   }
   protected onActiveNotebookPanelChanged(msg: Message, uninstalledPackage: string = ''): void {
@@ -50,9 +51,9 @@ class PackageTool extends NotebookTools.Tool {
           layout.widgets[0].dispose();
         }
         let session = this.notebookTracker.currentWidget.session;
-        const widget = new KernelSpyView(session.kernel! as Kernel.IKernel);
-        layout.addWidget(widget);
-        //console.log('Widget model', widget.messageLog);
+        let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
+        const view = new MessageLogView(model);
+        layout.addWidget(view);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
         layout.addWidget(cellWidget);
         // ReactDOM.render(
