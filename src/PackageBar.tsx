@@ -121,7 +121,8 @@ export function PackageSearcher(props: PackageSearcherProps) {
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
-      <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
+      <p>{props.uninstalledPackage}</p>
+      <p className={PackageBarStyleClasses.topBar}>Current Environment :-) {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Package Name</p>
