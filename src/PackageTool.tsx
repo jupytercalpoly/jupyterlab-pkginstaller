@@ -55,7 +55,7 @@ class PackageTool extends NotebookTools.Tool {
         const view = new MessageLogView(model);
         layout.addWidget(view);
         //console.log(view.node);
-        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={view.node.outerHTML}/>);
+        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={Math.random().toString(36).substring(7)}/>);
         layout.addWidget(cellWidget);
         // ReactDOM.render(
         //   <TagsToolComponent
