@@ -27,7 +27,7 @@ function Message(props: any): any {
   const msgId = msg.header.msg_id;
   return (
   <div key={`${msgId}`}>
-    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]}/>
+    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]} moduleError={props.moduleError}/>
   </div>
   );
 }
@@ -48,14 +48,10 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
         elements = [Message({ 
-          message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId
+          message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId, moduleError: true
         })];
       }
     });
-    // ReactDOM.render(
-    //   element,
-    //   this.node
-    // );
     return [elements[0]];
   }
   // get elemento(): React.ReactElement<any>[] {

@@ -138,7 +138,6 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
       palette: ICommandPalette,
       mainMenu: IMainMenu,
       ) => {
-    console.log('as');
     let {commands, docRegistry} = app;
     let extension = new KernelSpyExtension(commands);
     docRegistry.addWidgetExtension('Notebook', extension);

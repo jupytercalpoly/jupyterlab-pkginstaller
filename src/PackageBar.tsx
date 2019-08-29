@@ -14,6 +14,7 @@ interface PackageSearcherProps {
   kernelId: string;
   kernelName: string;
   uninstalledPackage: string;
+  moduleError: boolean;
 }
 
 //Determine which pip message to show on button click
@@ -37,7 +38,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [successfulProcess, setSuccessfulProcess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(false);
+  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
   const [uninstalledPackageToProcess, setUninstalledPackageToProcess] = useState(null); setUninstalledPackageToProcess;
 
   //Parse stdout to determine status message
@@ -109,8 +110,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
     if (chooseError != null) {installDialog(chooseError);}
     setModuleErrorOccurred(false);
   }
-  function handleError(): void {
-    setModuleErrorOccurred(true); 
+  if (moduleErrorOccurred) { 
     let chooseError: string = props.uninstalledPackage;
     console.log('random error', chooseError)
     setUninstalledPackageToProcess(chooseError);
@@ -158,9 +158,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
-      <button className={PackageBarStyleClasses.errorButton} onClick={() => {handleError(); }}>
+      {/* <button className={PackageBarStyleClasses.errorButton} onClick={() => {(); }}>
           Make error
-      </button>
+      </button> */}
     </div>
   );
 }
