@@ -13,6 +13,11 @@ import { Widget, BoxLayout } from '@phosphor/widgets';
 import { KernelSpyModel, ThreadIterator } from './model';
 
 import '../style/index.css';
+//import ReactDOM from 'react-dom';
+// function Welcome() {
+//   return <h1>{Math.random().toString(36).substring(7)}</h1>;
+// }
+
 
 
 function Message(props: any): any {
@@ -20,6 +25,9 @@ function Message(props: any): any {
   const msgId = msg.header.msg_id;
   return <div key={`${msgId}`}>{msg.content.evalue}</div>;
 }
+// function Messagey(props: any): any {
+//   return <div>asdasd</div>;
+// }
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   constructor(model: KernelSpyModel) {
     super();
@@ -32,10 +40,14 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
         elements = [Message({ 
-          message: args.msg
+          message:args.msg
         })];
       }
     });
+    // ReactDOM.render(
+    //   element,
+    //   this.node
+    // );
     return [elements[0]];
   }
   // get elemento(): React.ReactElement<any>[] {

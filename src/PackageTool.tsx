@@ -6,11 +6,11 @@ import { Message } from '@phosphor/messaging';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { PackageSearcher } from './PackageBar';
+//import { PackageSearcher } from './PackageBar';
 
-import { ReactWidget } from '@jupyterlab/apputils';
+//import { ReactWidget } from '@jupyterlab/apputils';
 
-import * as React from 'react';
+//import * as React from 'react';
 import { KernelSpyModel } from './model';
 
 import { MessageLogView } from './widget';
@@ -38,8 +38,8 @@ class PackageTool extends NotebookTools.Tool {
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
       const view = new MessageLogView(model);
       layout.addWidget(view);
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
-      layout.addWidget(cellWidget);
+      // const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
+      // layout.addWidget(cellWidget);
     });
   }
   protected onActiveCellChanged(msg: Message): void {
@@ -51,12 +51,13 @@ class PackageTool extends NotebookTools.Tool {
           layout.widgets[0].dispose();
         }
         let session = this.notebookTracker.currentWidget.session;
+        
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const view = new MessageLogView(model);
-        layout.addWidget(view);
+        const phosWid = new MessageLogView(model);
+        layout.addWidget(phosWid);
         //console.log(view.node);
-        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={Math.random().toString(36).substring(7)}/>);
-        layout.addWidget(cellWidget);
+        // const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={Math.random().toString(36).substring(7)}/>);
+        // layout.addWidget(cellWidget);
         // ReactDOM.render(
         //   <TagsToolComponent
         //     widget={widget}
