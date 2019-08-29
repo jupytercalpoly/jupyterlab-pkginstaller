@@ -26,7 +26,7 @@ import {
   INotebookModel, 
 } from '@jupyterlab/notebook';
 
-import { Kernel } from '@jupyterlab/services';
+//import { Kernel } from '@jupyterlab/services';
 
 import { find } from '@phosphor/algorithm';
 
@@ -38,7 +38,7 @@ import {
   IDisposable, DisposableDelegate
 } from '@phosphor/disposable';
 
-import { KernelSpyView } from './widget';
+//import { KernelSpyView } from './widget';
 
 import '../style/index.css';
 
@@ -88,41 +88,41 @@ export class KernelSpyExtension implements IKernelSpyExtension {
 }
 /**
  * Add the main file view commands to the application's command registry.
- */
-function addCommands(
-    app: JupyterFrontEnd,
-    tracker: INotebookTracker,
-    palette: ICommandPalette,
-    menu: IMainMenu
-    ): void {
-  const { commands, shell } = app;
-  /**
-   * Whether there is an active notebook.
-   */
-  function hasKernel(): boolean {
-    return (
-      tracker.currentWidget !== null &&
-      tracker.currentWidget.context.session.kernel !== null
-    );
-  }
-  commands.addCommand(CommandIDs.newSpy, {
-    label: 'Show errors',
-    //caption: 'Open a window to inspect messages sent to/from a kernel',
-    iconClass: 'jp-Icon jp-Icon-16 jp-kernelspyIcon',
-    isEnabled: hasKernel,
-    execute: (args) => {
-      let current = tracker.currentWidget;
-      if (!current) {
-        return;
-      }
-      const widget = new KernelSpyView(current.context.session.kernel! as Kernel.IKernel);
-      shell.add(widget, 'main');
-      if (args['activate'] !== false) {
-        shell.activateById(widget.id);
-      }
-    }
-  });
-}
+//  */
+// function addCommands(
+//     app: JupyterFrontEnd,
+//     tracker: INotebookTracker,
+//     palette: ICommandPalette,
+//     menu: IMainMenu
+//     ): void {
+//   const { commands, shell } = app;
+//   /**
+//    * Whether there is an active notebook.
+//    */
+//   function hasKernel(): boolean {
+//     return (
+//       tracker.currentWidget !== null &&
+//       tracker.currentWidget.context.session.kernel !== null
+//     );
+//   }
+//   commands.addCommand(CommandIDs.newSpy, {
+//     label: 'Show errors',
+//     //caption: 'Open a window to inspect messages sent to/from a kernel',
+//     iconClass: 'jp-Icon jp-Icon-16 jp-kernelspyIcon',
+//     isEnabled: hasKernel,
+//     execute: (args) => {
+//       let current = tracker.currentWidget;
+//       if (!current) {
+//         return;
+//       }
+//       const widget = new KernelSpyView(current.context.session.kernel! as Kernel.IKernel);
+//       shell.add(widget, 'main');
+//       if (args['activate'] !== false) {
+//         shell.activateById(widget.id);
+//       }
+//     }/
+//   });
+//}
 
 /**
  * Initialization data for the jupyterlab-kernelspy extension.
@@ -143,7 +143,7 @@ const extension: JupyterFrontEndPlugin<IKernelSpyExtension> = {
     docRegistry.addWidgetExtension('Notebook', extension);
     // TODO: Recreate views from layout restorer
 
-    addCommands(app, tracker, palette, mainMenu);
+    //addCommands(app, tracker, palette, mainMenu);
     function refreshNewCommand() {
       commands.notifyCommandChanged(CommandIDs.newSpy);
     }
