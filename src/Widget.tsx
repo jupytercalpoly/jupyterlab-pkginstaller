@@ -41,7 +41,6 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
         if (count > 1) {
           this.layouty.widgets[count - 1].dispose();  
         }
-        console.log(this.layouty.widgets.length);
         elements = [Message({ 
           message:args.msg, kernelName: this.kernelName, kernelId: this.kernelId, moduleError: true, layouty: this.layouty
         })];

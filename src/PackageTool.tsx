@@ -35,10 +35,8 @@ class PackageTool extends NotebookTools.Tool {
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
       const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
       layout.addWidget(view);
-      console.log("What is value of view on mount", view);
       const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
       layout.addWidget(cellWidget);
-      console.log(layout.widgets.length);
     });
   }
   protected onActiveCellChanged(msg: Message): void {
