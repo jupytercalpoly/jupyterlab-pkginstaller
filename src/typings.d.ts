@@ -1,1 +1,0 @@
-/// <reference path="./react-inspector.d.ts"/>
