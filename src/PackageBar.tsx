@@ -4,7 +4,7 @@ import React, { useState, useCallback,  } from 'react'; //useEffect
 
 import StyleClasses from './style';
 
-import { Dropdown } from './LogsContainer';
+import { LogsDropdown } from './LogsDropdown';
 
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 import { PanelLayout } from '@phosphor/widgets';
@@ -149,7 +149,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
-      {showMessage && <Dropdown stdOut={stdOut}/>}
+      {showMessage && <LogsDropdown stdOut={stdOut}/>}
       {/* <button className={PackageBarStyleClasses.errorButton} onClick={() => {(); }}>
           Make error
       </button> */}

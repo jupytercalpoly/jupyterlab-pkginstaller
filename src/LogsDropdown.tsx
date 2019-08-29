@@ -32,11 +32,11 @@ const customStyles = {
   })
 }
 
-interface DropdownProps {
+interface LogsDropdownProps {
   stdOut: Array<string>;
 }
 
-export function Dropdown(props: DropdownProps) {
+export function LogsDropdown(props: LogsDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   function toggleOpen() { 
     setIsOpen(!isOpen);
