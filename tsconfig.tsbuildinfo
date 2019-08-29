@@ -878,7 +878,7 @@
         "signature": "7a7e8dec050f4ad9d6b093812a3a203acb13a32364079db20f7a6fde38f8427c"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/widget.tsx": {
-        "version": "c527c5f4332cb9412a12febc75b61e716f935aeb6c7b6f9940a6a4bc0f365a6e",
+        "version": "392db1cb03d15a52ba3f728c1d05e1bd6bf6ff51f381bfbc53963a7ccf174f17",
         "signature": "298c1defc4ed78950ef347c4914f54cd1ba6337c40c751c74cda485979c7aa03"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx": {
@@ -2043,7 +2043,8 @@
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/services/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/algorithm/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/widgets/lib/index.d.ts",
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts"
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagebar.tsx"
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/index.d.ts",
@@ -2243,23 +2244,6 @@
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/style/index.ts": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/style/packagebar-styles.ts"
       ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/internal/utilities.d.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/types.d.ts"
-      ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/internal/typestyle.d.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/types.d.ts"
-      ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/index.d.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/csstype/index.d.ts",
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/prop-types/index.d.ts",
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/global.d.ts"
-      ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/react-inspector.d.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/index.d.ts"
-      ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/typings.d.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/react-inspector.d.ts"
-      ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/widget.tsx": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/index.d.ts",
@@ -2280,6 +2264,23 @@
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/messaging/lib/index.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/internal/utilities.d.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/types.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/internal/typestyle.d.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/typestyle/lib/types.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/index.d.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/csstype/index.d.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/prop-types/index.d.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/global.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/react-inspector.d.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@types/react/index.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/typings.d.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/react-inspector.d.ts"
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/truststatus.d.ts": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/apputils/lib/index.d.ts",

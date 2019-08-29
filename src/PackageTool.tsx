@@ -36,7 +36,7 @@ class PackageTool extends NotebookTools.Tool {
       //layout.addWidget(widget);
       //console.log('MessageLog', widget.messageLog);
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-      const view = new MessageLogView(model);
+      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
       layout.addWidget(view);
       // const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''}/>);
       // layout.addWidget(cellWidget);
@@ -53,7 +53,7 @@ class PackageTool extends NotebookTools.Tool {
         let session = this.notebookTracker.currentWidget.session;
         
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const phosWid = new MessageLogView(model);
+        const phosWid = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
         layout.addWidget(phosWid);
         //console.log(view.node);
         // const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={Math.random().toString(36).substring(7)}/>);

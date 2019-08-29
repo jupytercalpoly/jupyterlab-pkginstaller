@@ -18,18 +18,24 @@ import '../style/index.css';
 //   return <h1>{Math.random().toString(36).substring(7)}</h1>;
 // }
 
+import { PackageSearcher } from './PackageBar';
+
 
 
 function Message(props: any): any {
   const msg = props.message;
   const msgId = msg.header.msg_id;
-  return <div key={`${msgId}`}>{msg.content.evalue}</div>;
+  return (
+  <div key={`${msgId}`}>
+    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]}/>
+  </div>
+  );
 }
 // function Messagey(props: any): any {
 //   return <div>asdasd</div>;
 // }
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-  constructor(model: KernelSpyModel) {
+  constructor(model: KernelSpyModel, kernelId: string, kernelName: string) {
     super();
     this.model = model;
   }
@@ -61,7 +67,7 @@ export class KernelSpyView extends Widget {
     super();
     this._model = new KernelSpyModel(kernel);
     //log("Model log", this._model.log[this._model.log.length - 1]);
-    this._messagelog = new MessageLogView(this._model);
+    this._messagelog = new MessageLogView(this._model, 'a', 'a');
     //console.log("Elemento", this._messagelog);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
