@@ -24,11 +24,8 @@ import { PackageSearcher } from './PackageBar';
 
 function Message(props: any): any {
   const msg = props.message;
-  const msgId = msg.header.msg_id;
   return (
-  <div key={`${msgId}`}>
     <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]} moduleError={props.moduleError} layouty={props.layouty}/>
-  </div>
   );
 }
 // function Messagey(props: any): any {
@@ -52,7 +49,6 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
           message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId, moduleError: true, layouty: this.layouty
         })];
       }
-      console.log(this.layouty.widgets.length);
     });
     return [elements[0]];
   }

@@ -92,7 +92,9 @@ class KernelSpyModel extends VDomModel {
   constructor(kernel: Kernel.IKernel) {
     super();
     this._kernel = kernel;
-    this._kernel.anyMessage.connect(this.onMessage, this);
+    if (this._kernel) {
+      this._kernel.anyMessage.connect(this.onMessage, this);
+    }
   }
 
   clear() {
