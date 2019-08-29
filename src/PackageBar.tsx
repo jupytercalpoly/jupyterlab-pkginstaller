@@ -7,7 +7,7 @@ import StyleClasses from './style';
 import { Dropdown } from './Dropdown';
 
 import { Dialog, showDialog } from '@jupyterlab/apputils';
-
+import { PanelLayout } from '@phosphor/widgets';
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 interface PackageSearcherProps {
@@ -15,6 +15,7 @@ interface PackageSearcherProps {
   kernelName: string;
   uninstalledPackage: string;
   moduleError: boolean;
+  layouty: PanelLayout;
 }
 
 //Determine which pip message to show on button click

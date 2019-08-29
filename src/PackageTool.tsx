@@ -33,9 +33,9 @@ class PackageTool extends NotebookTools.Tool {
       }
       let session = this.notebookTracker.currentWidget.session;
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
+      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
       layout.addWidget(view);
-      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false}/>);
+      const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
       layout.addWidget(cellWidget);
     });
   }
@@ -49,9 +49,9 @@ class PackageTool extends NotebookTools.Tool {
         }
         let session = this.notebookTracker.currentWidget.session;
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
+        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
         layout.addWidget(view);
-        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false}/>);
+        const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
         layout.addWidget(cellWidget);
       });
     }

@@ -8,7 +8,7 @@ import { Kernel } from '@jupyterlab/services';
 
 import { each } from '@phosphor/algorithm';
 
-import { Widget, BoxLayout } from '@phosphor/widgets';
+import { Widget, BoxLayout, PanelLayout } from '@phosphor/widgets';
 
 import { KernelSpyModel, ThreadIterator } from './model';
 
@@ -27,7 +27,7 @@ function Message(props: any): any {
   const msgId = msg.header.msg_id;
   return (
   <div key={`${msgId}`}>
-    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]} moduleError={props.moduleError}/>
+    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={msg.content.evalue.split("'")[1]} moduleError={props.moduleError} layouty={props.layouty}/>
   </div>
   );
 }
@@ -35,11 +35,12 @@ function Message(props: any): any {
 //   return <div>asdasd</div>;
 // }
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-  constructor(model: KernelSpyModel, kernelId: string, kernelName: string) {
+  constructor(model: KernelSpyModel, kernelId: string, kernelName: string, layouty: PanelLayout) {
     super();
     this.model = model;
     this.kernelName = kernelName;
     this.kernelId = kernelId;
+    this.layouty = this.layouty;
   }
   protected render(): React.ReactElement<any>[] {
     const model = this.model!;
@@ -48,18 +49,17 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
         elements = [Message({ 
-          message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId, moduleError: true
+          message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId, moduleError: true, layouty: this.layouty
         })];
       }
+      console.log(this.layouty.widgets.length);
     });
     return [elements[0]];
   }
-  // get elemento(): React.ReactElement<any>[] {
-  //   return this.render();
-  // }
   protected collapsed: {[key: string]: boolean} = {};
   protected kernelName: string;
   protected kernelId: string;
+  protected layouty: PanelLayout;
 }
 
 export class KernelSpyView extends Widget {
@@ -67,7 +67,7 @@ export class KernelSpyView extends Widget {
     super();
     this._model = new KernelSpyModel(kernel);
     //log("Model log", this._model.log[this._model.log.length - 1]);
-    this._messagelog = new MessageLogView(this._model, 'a', 'a');
+    //this._messagelog = new MessageLogView(this._model, 'a', 'a', 'a' as PanelLayout);
     //console.log("Elemento", this._messagelog);
     this.addClass('jp-kernelspy-view');
     this.id = `kernelspy-${kernel.id}`;
@@ -76,9 +76,9 @@ export class KernelSpyView extends Widget {
     this._toolbar = new Toolbar();
     this._toolbar.addClass('jp-kernelspy-toolbar');
     layout.addWidget(this._toolbar);
-    layout.addWidget(this._messagelog);
+    //layout.addWidget(this._messagelog);
     BoxLayout.setStretch(this._toolbar, 0);
-    BoxLayout.setStretch(this._messagelog, 1);
+    //BoxLayout.setStretch(this._messagelog, 1);
     
   }
   get messageLog(): MessageLogView {

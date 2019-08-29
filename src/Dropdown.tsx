@@ -15,9 +15,9 @@ const customStyles = {
     wordWrap: 'break-word',
   }),
   menu: () => ({
-    border: 'var(--jp-border-width) solid var(--jp-border-color1)',
+    border: 'none',
     borderRadius: 'var(--jp-border-radius)',
-    boxShadow: 'inset 0 0 5px var(--jp-border-width) var(--jp-input-active-box-shadow-color)',
+    boxShadow: 'inset 0 0 3px var(--jp-border-width) var(--jp-input-active-box-shadow-color)',
     marginTop: 40,
     position: 'relative',
     backgroundColor: 'var(--jp-ui-inverse-font-color0)',
