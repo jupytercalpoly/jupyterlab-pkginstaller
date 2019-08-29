@@ -4,7 +4,7 @@ import React, { useState, useCallback,  } from 'react'; //useEffect
 
 import StyleClasses from './style';
 
-import { LogsDropdown } from './LogsDropdown';
+import { Dropdown } from './Dropdown';
 
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 import { PanelLayout } from '@phosphor/widgets';
@@ -72,10 +72,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
       }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg)}; 
     });
   }, [isProcessing]) 
-  // function populatePackage(uninstalledPackage: string): void {
-  //   const packageInput: HTMLInputElement = document.getElementById('result') as HTMLInputElement;
-  //   packageInput.value = uninstalledPackage;
-  // }
 
   //Display a dialog, called only when there is an import error
   function installDialog(chooseError: string) {
@@ -149,7 +145,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
-      {showMessage && <LogsDropdown stdOut={stdOut}/>}
+      {showMessage && <Dropdown stdOut={stdOut}/>}
       {/* <button className={PackageBarStyleClasses.errorButton} onClick={() => {(); }}>
           Make error
       </button> */}

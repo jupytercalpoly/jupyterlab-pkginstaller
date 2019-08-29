@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   IIterator
 } from '@phosphor/algorithm';
@@ -12,18 +10,14 @@ import {
   Kernel, KernelMessage
 } from '@jupyterlab/services';
 
-
 export type MessageThread = {
   args: Kernel.IAnyMessageArgs;
   children: MessageThread[];
 };
 
-
 function isHeader(candidate: {[key: string]: undefined} | KernelMessage.IHeader): candidate is KernelMessage.IHeader {
   return candidate.msg_id !== undefined;
 }
-
-
 export
 class ThreadIterator implements IIterator<ThreadIterator.IElement> {
   constructor(threads: MessageThread[], collapsed: {[key: string]: boolean}) {
@@ -83,9 +77,8 @@ namespace ThreadIterator {
   }
 }
 
-
 /**
- * Model for a kernel spy.
+ * A model that monitors the kernel
  */
 export
 class KernelSpyModel extends VDomModel {

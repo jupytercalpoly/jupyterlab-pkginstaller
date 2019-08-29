@@ -32,30 +32,36 @@ const customStyles = {
   })
 }
 
-interface LogsDropdownProps {
+interface DropdownProps {
   stdOut: Array<string>;
 }
 
-export function LogsDropdown(props: LogsDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  function toggleOpen() { 
-    setIsOpen(!isOpen);
+/**
+  * Render a toggleable dropdown of stdout logs from the installation process.
+  */
+export function Dropdown(props: DropdownProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  function toggleVisibility() { 
+    setIsVisible(!isVisible);
   }
   return (
     <div>
-      <button className={PackageBarStyleClasses.logsButton} onClick={(e) => toggleOpen()}>See logs</button>
+      <button className={PackageBarStyleClasses.logsButton} 
+        onClick={() => toggleVisibility()}>
+        See logs
+      </button>
       <Async
         key={JSON.stringify(props.stdOut)}
         options={props.stdOut}
         defaultValue={{ label: '', value: '' }}
         maxMenuHeight={100}
-        isOptionDisabled={(option: JSON) => true}
+        isOptionDisabled={() => true}
         styles={customStyles}
         isClearable={false}
         backspaceRemovesValue={false}
         isSearchable={false}
         components={{ DropdownIndicator: null }}
-        menuIsOpen={isOpen}
+        menuIsOpen={isVisible}
       />
     </div>
   );
