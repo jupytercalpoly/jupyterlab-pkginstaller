@@ -38,6 +38,8 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   constructor(model: KernelSpyModel, kernelId: string, kernelName: string) {
     super();
     this.model = model;
+    this.kernelName = kernelName;
+    this.kernelId = kernelId;
   }
   protected render(): React.ReactElement<any>[] {
     const model = this.model!;
@@ -46,7 +48,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
         elements = [Message({ 
-          message:args.msg
+          message:args.msg, kernelName: this.kernelName, kernelid: this.kernelId
         })];
       }
     });
@@ -60,6 +62,8 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   //   return this.render();
   // }
   protected collapsed: {[key: string]: boolean} = {};
+  protected kernelName: string;
+  protected kernelId: string;
 }
 
 export class KernelSpyView extends Widget {
