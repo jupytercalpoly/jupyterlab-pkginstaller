@@ -4,7 +4,7 @@ import React, { useState, useCallback,  } from 'react'; //useEffect
 
 import StyleClasses from './style';
 
-import { Dropdown } from './Dropdown';
+import { Dropdown } from './LogsContainer';
 
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 import { PanelLayout } from '@phosphor/widgets';
@@ -101,11 +101,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  // useEffect(() => {
-  //   console.log(uninstalledPackageToProcess);
-  //   if (uninstalledPackageToProcess != null) {installDialog();}
-
-  // }, [uninstalledPackageToProcess])
 
   function chooseerrorfunc(chooseError: string) {
     if (chooseError != null) {installDialog(chooseError);}
@@ -113,7 +108,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
   }
   if (moduleErrorOccurred) { 
     let chooseError: string = props.uninstalledPackage;
-    console.log('random error', chooseError)
     setUninstalledPackageToProcess(chooseError);
     setInput(chooseError);
     chooseerrorfunc(chooseError);
@@ -122,7 +116,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
-      <p>{props.uninstalledPackage}</p>
       <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
@@ -131,17 +124,15 @@ export function PackageSearcher(props: PackageSearcherProps) {
           {!isProcessing && showMessage && <p className={PackageBarStyleClasses.messageText}>{getPipMessage(install, successfulProcess, packageToProcess)}</p>}
         </div>
         {!moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={input} // change to input 
+              value={input} 
               onChange={e => setInput(e.target.value)}
-              //onClick={e => setInput((e.target as HTMLInputElement).value)}
               type='text'
               name='packageToProcess'
               required
         />}
         {moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={uninstalledPackageToProcess} // change to input 
+              value={uninstalledPackageToProcess} 
               onChange={e => setInput(e.target.value)}
-              //onClick={e => setInput((e.target as HTMLInputElement).value)}
               type='text'
               name='packageToProcess'
               required

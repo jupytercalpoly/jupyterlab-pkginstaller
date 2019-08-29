@@ -35,11 +35,13 @@ class PackageTool extends NotebookTools.Tool {
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
       const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
       layout.addWidget(view);
+      console.log("What is value of view on mount", view);
       const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
       layout.addWidget(cellWidget);
+      console.log(layout.widgets.length);
     });
   }
-  protected onActiveNotebookPanelChanged(msg: Message): void {
+  protected onActiveCellChanged(msg: Message): void {
     if (this.notebookTracker.currentWidget && this.notebookTracker.currentWidget.session) {
       this.notebookTracker.currentWidget.session.ready.then(() => {
         let layout = this.layout as PanelLayout;
@@ -51,8 +53,10 @@ class PackageTool extends NotebookTools.Tool {
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
         const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
         layout.addWidget(view);
+        console.log("What is value of view on cell change", view);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
         layout.addWidget(cellWidget);
+        console.log(layout.widgets.length);
       });
     }
   }
