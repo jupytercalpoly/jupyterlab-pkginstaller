@@ -874,11 +874,11 @@
         "signature": "c03247b9d5b88491ca41870ea156bc8e53b5f8ab2d4b97ec8080cd070ff93f87"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/widget.tsx": {
-        "version": "993b480b0ffdfa3b659d75eb1edef215ce568f7a217a1c1449226f6e3f630b4e",
-        "signature": "de961ed19c20e1cf85df3d8e24332178060b160398cc9fd29f9ac36c7f14bc69"
+        "version": "bf77217ed3c639f7dfe5cc4b8095e2687809c24aefcded8cb1643d72ab2873c4",
+        "signature": "64c6553c67587f2675cc81dd8ea579bc74ad9ac044498636d85e7c7c8d0aba3d"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx": {
-        "version": "fc9b8538bb356e399a49cb9fca5623adf1f8d8d3d0767d81db9ec76fefba4f2d",
+        "version": "e963dab647b8d29024d859fc7529f14e05ace43981cc103b02615019c15a0db3",
         "signature": "5fb465b15621bba35eae75055b99cf9addffc58975f388cfe477e4ad1664cb20"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": {

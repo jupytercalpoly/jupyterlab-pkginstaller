@@ -26,10 +26,11 @@ function Message(props: any) {
   * Render a PackageSearcher that responds to the current state of errorModule.
   */
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-  constructor(model: KernelSpyModel, session: any, layouty: PanelLayout) {
+  constructor(model: KernelSpyModel, kernelId: string, kernelName: string, layouty: PanelLayout) {
     super();
     this.model = model;
-    this.session = session;
+    this.kernelId = kernelId;
+    this.kernelName = kernelName;
     this.layouty = layouty;
 
   }
@@ -44,14 +45,15 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
           this.layouty.widgets[count - 1].dispose();  
         }
         errorMessage = Message({ 
-          message:args.msg, kernelName: this.session.kernelDisplayName, kernelId: this.session.kernel.id, moduleError: true, layouty: this.layouty
+          message:args.msg, kernelName: this.kernelName, kernelId: this.kernelId, moduleError: true, layouty: this.layouty
         });
       }
     });
     return errorMessage;
   }
   protected collapsed: {[key: string]: boolean} = {};
-  protected session: any;
+  protected kernelId: string;
+  protected kernelName: string;
   protected layouty: PanelLayout;
 }
 
