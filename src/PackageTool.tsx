@@ -1,10 +1,10 @@
-import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
-
 import { PanelLayout } from '@phosphor/widgets';
 
 import { Message } from '@phosphor/messaging';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
+
+import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
 
 import { PackageSearcher } from './PackageBar';
 
@@ -51,10 +51,8 @@ class PackageTool extends NotebookTools.Tool {
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
         const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
         layout.addWidget(view);
-        console.log("What is value of view on cell change", view);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
         layout.addWidget(cellWidget);
-        console.log(layout.widgets.length);
       });
     }
   }

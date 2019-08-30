@@ -1,13 +1,15 @@
+import { PanelLayout } from '@phosphor/widgets';
+
+import { Dialog, showDialog } from '@jupyterlab/apputils';
+
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
-import React, { useState, useCallback,  } from 'react'; //useEffect
-
-import StyleClasses from './style';
+import React, { useState, useCallback } from 'react'; 
 
 import { Dropdown } from './Dropdown';
 
-import { Dialog, showDialog } from '@jupyterlab/apputils';
-import { PanelLayout } from '@phosphor/widgets';
+import StyleClasses from './style';
+
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 interface PackageSearcherProps {
@@ -18,7 +20,10 @@ interface PackageSearcherProps {
   layouty: PanelLayout;
 }
 
-//Determine which pip message to show on button click
+/**
+  * Return a human-friendly message indicating whether the installation 
+  * or uninstallation process was successful.
+  */
 function getPipMessage(install: boolean, successfulProcess: boolean, packageToProcess: string): string {
   if (!successfulProcess) { 
     let baseMsg: string = packageToProcess + ' could not ';
@@ -30,7 +35,10 @@ function getPipMessage(install: boolean, successfulProcess: boolean, packageToPr
   return baseMsg + packageToProcess + '!';
 }
 
-//Render a component to search for a package to install
+/**
+  * Render a search-bar-and-buttons UI that allows
+  * installation and uninstallation of packages.
+  */
 export function PackageSearcher(props: PackageSearcherProps) {
   const [input, setInput] = useState('');
   const [packageToProcess, setPackageToProcess] = useState('');
@@ -40,17 +48,21 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
-  const [uninstalledPackageToProcess, setUninstalledPackageToProcess] = useState(null); setUninstalledPackageToProcess;
 
-  //Parse stdout to determine status message
+  /**
+    * Parse stdout messages during the installation or uninstallation process to
+    * determine if the process is successful.
+    */
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
     let msgContent = msg.content;
     if (msgContent.hasOwnProperty('text')) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});
       setStdOut(stdOut);
-      if (msgContent.text.includes('Successfully') || msgContent.text.includes('already satisfied')) {
+      if (msgContent.text.includes('Successfully') || 
+        msgContent.text.includes('already satisfied')) {
         setSuccessfulProcess(true);
-      } else if (msgContent.text.includes('ERROR') || msgContent.text.includes('Skipping')) {
+      } else if (msgContent.text.includes('ERROR') || 
+        msgContent.text.includes('Skipping')) {
         setSuccessfulProcess(false);
       } 
       setShowMessage(true);
@@ -59,25 +71,35 @@ export function PackageSearcher(props: PackageSearcherProps) {
     }
   }
 
-  //Process the packasge in input
+  /**
+    * Execute an inline pip magic in the current active kernel's 
+    * environment to install or uninstall a package.
+    */
   const sendRequest = useCallback(async (input: string, install: boolean) => {
     setIsProcessing(true);
     setPackageToProcess(input);
     let pipCommand: string = '';
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
-      const kernel = Kernel.connectTo((kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]);
+      const kernel = Kernel.connectTo(
+        (kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]
+      );
       kernel.requestExecute({
         code: pipCommand + input, silent: true
       }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg)}; 
     });
   }, [isProcessing]) 
 
-  //Display a dialog, called only when there is an import error
+  /**
+    * Show a Package Not Found dialog if a ModuleNotFound error occurs.
+    */
   function installDialog(chooseError: string) {
     let body = (
       <div>
-        <p>Would you wanna to install <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> in this kernel?</p>
+        <p>
+          Would you like to install 
+          <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> 
+          in this kernel?</p>
       </div>
     );
     return showDialog({
@@ -92,23 +114,20 @@ export function PackageSearcher(props: PackageSearcherProps) {
       ]
     }).then(result => {
       if (result.button.accept) {
-        sendRequest(chooseError, true); setInstall(true);
+        sendRequest(chooseError, true); 
+        setInstall(true);
       }
       return result.button.accept;
     });
   }
-
-  function chooseerrorfunc(chooseError: string) {
-    if (chooseError != null) {installDialog(chooseError);}
+  if (moduleErrorOccurred) { 
+    let uninstalledPackage: string = props.uninstalledPackage;
+    if (uninstalledPackage) {
+      installDialog(uninstalledPackage);
+    }
+    setInput(uninstalledPackage);
     setModuleErrorOccurred(false);
   }
-  if (moduleErrorOccurred) { 
-    let chooseError: string = props.uninstalledPackage;
-    setUninstalledPackageToProcess(chooseError);
-    setInput(chooseError);
-    chooseerrorfunc(chooseError);
-  }
-
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
@@ -127,7 +146,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
               required
         />}
         {moduleErrorOccurred && <input id='result' className={PackageBarStyleClasses.packageInput}
-              value={uninstalledPackageToProcess} 
+              value={props.uninstalledPackage} 
               onChange={e => setInput(e.target.value)}
               type='text'
               name='packageToProcess'
@@ -146,11 +165,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
-      {/* <button className={PackageBarStyleClasses.errorButton} onClick={() => {(); }}>
-          Make error
-      </button> */}
     </div>
   );
 }
-
 
