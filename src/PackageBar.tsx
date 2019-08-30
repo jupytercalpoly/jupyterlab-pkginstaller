@@ -25,14 +25,16 @@ interface PackageSearcherProps {
   * or uninstallation process was successful.
   */
 function getPipMessage(install: boolean, successfulProcess: boolean, packageToProcess: string): string {
-  if (!successfulProcess) { 
-    let baseMsg: string = packageToProcess + ' could not ';
-    install? baseMsg += 'install.' : baseMsg += 'uninstall.';
-    return baseMsg;
+  if (successfulProcess === true) {
+    let baseMsg: string = '✨ ';
+    install ? baseMsg += 'Installed ' : baseMsg += 'Uninstalled ';
+    return baseMsg + packageToProcess + '!';
+  } else if (successfulProcess === false) {
+  let baseMsg: string = packageToProcess + ' could not ';
+  install? baseMsg += 'install.' : baseMsg += 'uninstall.';
+  return baseMsg;
   }
-  let baseMsg: string = '✨ ';
-  install ? baseMsg += 'Installed ' : baseMsg += 'Uninstalled ';
-  return baseMsg + packageToProcess + '!';
+  return 'Working... Please wait.';
 }
 
 /**
@@ -44,7 +46,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [packageToProcess, setPackageToProcess] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const [successfulProcess, setSuccessfulProcess] = useState(true);
+  const [successfulProcess, setSuccessfulProcess] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
