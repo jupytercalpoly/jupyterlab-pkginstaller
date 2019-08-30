@@ -44,7 +44,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [packageToProcess, setPackageToProcess] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const [successfulProcess, setSuccessfulProcess] = useState(false);
+  const [successfulProcess, setSuccessfulProcess] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
@@ -54,10 +54,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
     * determine if the process is successful.
     */
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
-    console.log("Install", install);
-    console.log("successfulProcess", successfulProcess);
-    console.log("isprocessing", isProcessing);
-    console.log("stdout", stdOut);
     let msgContent = msg.content;
     if (msgContent.hasOwnProperty('text')) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});
