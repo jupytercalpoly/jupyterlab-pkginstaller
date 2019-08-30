@@ -8,6 +8,11 @@ import { Kernel } from '@jupyterlab/services';
 
 import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
 
+// import {
+//   Toolbar
+// } from '@jupyterlab/apputils';
+
+
 import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
@@ -36,7 +41,7 @@ class PackageTool extends NotebookTools.Tool {
       }
       let session = this.notebookTracker.currentWidget.session;
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
+      const view = new MessageLogView(model, session, layout);
       layout.addWidget(view);
       const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
       layout.addWidget(cellWidget);
@@ -52,7 +57,7 @@ class PackageTool extends NotebookTools.Tool {
         }
         let session = this.notebookTracker.currentWidget.session;
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
+        const view = new MessageLogView(model, session, layout);
         layout.addWidget(view);
         const cellWidget = ReactWidget.create(<PackageSearcher kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
         layout.addWidget(cellWidget);

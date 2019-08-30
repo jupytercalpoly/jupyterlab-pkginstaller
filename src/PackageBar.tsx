@@ -54,6 +54,10 @@ export function PackageSearcher(props: PackageSearcherProps) {
     * determine if the process is successful.
     */
   function parseMessage(msg: KernelMessage.IStreamMsg): void {
+    console.log("Install", install);
+    console.log("successfulProcess", successfulProcess);
+    console.log("isprocessing", isProcessing);
+    console.log("stdout", stdOut);
     let msgContent = msg.content;
     if (msgContent.hasOwnProperty('text')) {
       stdOut.unshift({value: msgContent.text, label: msgContent.text});
@@ -65,9 +69,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
         msgContent.text.includes('Skipping')) {
         setSuccessfulProcess(false);
       } 
+      setIsProcessing(false);
       setShowMessage(true);
       setModuleErrorOccurred(false);
-      setIsProcessing(false);
     }
   }
 
@@ -86,7 +90,8 @@ export function PackageSearcher(props: PackageSearcherProps) {
       );
       kernel.requestExecute({
         code: pipCommand + input, silent: true
-      }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg)}; 
+      }).onIOPub = msg => {parseMessage(msg as KernelMessage.IStreamMsg); 
+      }; 
     });
   }, [isProcessing]) 
 
@@ -97,9 +102,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
     let body = (
       <div>
         <p>
-          Would you like to install 
-          <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> 
-          in this kernel?</p>
+          Would you like to install <span className={PackageBarStyleClasses.uninstalledPackage}>{chooseError}</span> in this kernel?</p>
       </div>
     );
     return showDialog({

@@ -626,11 +626,11 @@
         "signature": "e513cc3eb943d0cdee9183fe1cb819568c5434e59257d4233e46a838a08a1078"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts": {
-        "version": "4fa8740192c3ac18b65044fa1bdf53d25aae94c365daacd8f4622a98426f7f65",
-        "signature": "3495a25957b44c052dc7d1ae7a3439e180ff249b7d09684e14afdf2667d4637c"
+        "version": "f16b7413bd82f263f58c21641f1fe8c18c96a67b61d9e9c4c78ecd70fff733ff",
+        "signature": "a5f8ea1b7c2c8701f998a5ac0bad45b16afbb9daa462f728218ff9470c23640b"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagebar.tsx": {
-        "version": "9561810f3e9301a6c618e00d981ae4e5f7dacc9fb8ed4aa49a339ab9aee32853",
+        "version": "025d18fc5e89b12422ef5630f8d6897b7f7fd312aa90b449aece4989b0f4c416",
         "signature": "fcd0be4670e655746ad0fa7b282fec6fb010dba95506f814e184ef3ca9202418"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/tokens.d.ts": {
@@ -874,11 +874,11 @@
         "signature": "c03247b9d5b88491ca41870ea156bc8e53b5f8ab2d4b97ec8080cd070ff93f87"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/widget.tsx": {
-        "version": "a088e3da2c12c519917363b2cffdf1e6a244e9d6f83630bce12af6befd1cd485",
-        "signature": "818dc372f5192de12d17bb1f61fe7de53951fad19b2a6a01099b3c04cf1c8a16"
+        "version": "993b480b0ffdfa3b659d75eb1edef215ce568f7a217a1c1449226f6e3f630b4e",
+        "signature": "de961ed19c20e1cf85df3d8e24332178060b160398cc9fd29f9ac36c7f14bc69"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx": {
-        "version": "d641cf878ed714c33c43cfa27ff2958ad8afcd31113979be0a99848f77a12f23",
+        "version": "fc9b8538bb356e399a49cb9fca5623adf1f8d8d3d0767d81db9ec76fefba4f2d",
         "signature": "5fb465b15621bba35eae75055b99cf9addffc58975f388cfe477e4ad1664cb20"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": {

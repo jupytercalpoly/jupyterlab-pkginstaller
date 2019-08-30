@@ -78,7 +78,7 @@ namespace ThreadIterator {
 }
 
 /**
- * Construct a model that monitors kernel messages
+ * Construct a model that monitors kernel messages.
  */
 export
 class KernelSpyModel extends VDomModel {
