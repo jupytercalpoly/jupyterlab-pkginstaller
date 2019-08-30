@@ -4,17 +4,20 @@ import { Message } from '@phosphor/messaging';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
+import { Kernel } from '@jupyterlab/services';
 
-import { PackageSearcher } from './PackageBar';
+import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
 
 import { ReactWidget } from '@jupyterlab/apputils';
 
 import * as React from 'react';
-import { KernelSpyModel } from './model';
 
-import { MessageLogView } from './widget';
-import { Kernel } from '@jupyterlab/services';
+import { PackageSearcher } from './PackageBar';
+
+import { KernelSpyModel } from './Model';
+
+import { MessageLogView } from './Widget';
+
 
 class PackageTool extends NotebookTools.Tool {
   readonly app: JupyterFrontEnd;

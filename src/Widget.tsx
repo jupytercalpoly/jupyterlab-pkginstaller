@@ -12,6 +12,9 @@ import { PackageSearcher } from './PackageBar';
 
 import '../style/index.css';
 
+/**
+  * Return a PackageSearcher aware of the uninstalled package to process.
+  */
 function Message(props: any) {
   const packagefromMessage = props.message.content.evalue.split("'")[1];
   return (
@@ -19,6 +22,9 @@ function Message(props: any) {
   );
 }
 
+/**
+  * Render a PackageSearcher that responds to the current state of errorModule.
+  */
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   constructor(model: KernelSpyModel, kernelId: string, kernelName: string, layouty: PanelLayout) {
     super();
