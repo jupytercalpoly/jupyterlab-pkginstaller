@@ -50,6 +50,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
+  const [toggleDialog, setToggleDialog] = useState(false); setToggleDialog;
 
   /**
     * Parse stdout messages during the installation or uninstallation process to
@@ -121,7 +122,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  if (moduleErrorOccurred) { 
+  if (moduleErrorOccurred && toggleDialog) { 
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);
