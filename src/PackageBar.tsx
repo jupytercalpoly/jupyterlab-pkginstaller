@@ -10,6 +10,73 @@ import { Dropdown } from './Dropdown';
 
 import StyleClasses from './style';
 
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+import FormGroup from '@material-ui/core/FormGroup';
+import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+
+
+const AntSwitch = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 28,
+      height: 16,
+      padding: 0,
+      display: 'flex',
+    },
+    switchBase: {
+      padding: 2,
+      color: theme.palette.grey[500],
+      '&$checked': {
+        transform: 'translateX(12px)',
+        color: theme.palette.common.white,
+        '& + $track': {
+          opacity: 1,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
+        },
+      },
+    },
+    thumb: {
+      width: 12,
+      height: 12,
+      boxShadow: 'none',
+    },
+    track: {
+      border: `1px solid ${theme.palette.grey[500]}`,
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+  }),
+)(Switch);
+
+export default function CustomizedSwitches() {
+  const [toggleDialog, setToggleDialog] = React.useState({
+    checkedC: false,
+  });
+
+  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
+  };
+
+  return (
+    <FormGroup>
+        <Grid component="label" container alignItems="center" spacing={1}>
+          <Grid item>
+            <AntSwitch
+              checked={toggleDialog.checkedC}
+              onChange={handleChange('checkedC')}
+              value="checkedC"
+            />
+          </Grid>
+          <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
+        </Grid>
+    </FormGroup>
+  );
+}
+
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 interface PackageSearcherProps {
@@ -50,7 +117,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
-  const [toggleDialog, setToggleDialog] = useState(false); setToggleDialog;
 
   /**
     * Parse stdout messages during the installation or uninstallation process to
@@ -122,7 +188,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  if (moduleErrorOccurred && toggleDialog) { 
+  if (moduleErrorOccurred) { 
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);
@@ -166,7 +232,9 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
+      <CustomizedSwitches></CustomizedSwitches>
       {showMessage && <Dropdown stdOut={stdOut}/>}
+      
     </div>
   );
 }

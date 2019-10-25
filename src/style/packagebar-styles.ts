@@ -64,6 +64,15 @@ export namespace PackageBarStyleClasses {
     boxSizing: 'border-box',
     fontSize: 'var(--jp-ui-font-size1)',
   });
+  export const switchText = style({
+    fontSize: 'var(--jp-ui-font-size0)',
+  });
+  export const switchAccent = style({
+    fontSize: 'var(--jp-ui-font-size0)',
+    textTransform: 'uppercase',
+    color: 'var(--jp-ui-font-color2)',
+
+  });
   export const logsButton = style({
     backgroundColor: 'none',
     color: 'var(--md-blue-700)',
