@@ -1,15 +1,19 @@
 import {
-  JupyterFrontEnd, JupyterFrontEndPlugin,  ILabShell
+  JupyterFrontEnd, JupyterFrontEndPlugin,  ILabShell, ILayoutRestorer
 } from '@jupyterlab/application';
 
-import {
-  INotebookTools, INotebookTracker, 
-} from '@jupyterlab/notebook';
+// import { ReactWidget } from "@jupyterlab/apputils";
+import { Widget } from '@phosphor/widgets';
 
-import PackageTool from './PackageTool';
+// import {
+//   INotebookTools, INotebookTracker, 
+// } from '@jupyterlab/notebook';
 
+// import PackageTool from './PackageTool';
+import MyWidget from './toc';
 
-import { Widget } from "@phosphor/widgets";
+// import { Widget } from "@phosphor/widgets";
+
 
 import '../style/index.css';
 
@@ -26,22 +30,30 @@ import '../style/index.css';
 //   }
 // };
 
+const id = "@jupyterlab/dataregistry-extension:data-explorer";
+/**
+ * Adds a visual data explorer to the sidebar.
+ */
 export default {
   activate,
-  id: "@jupyterlab-packageinstaller",
-  requires: [ILabShell, INotebookTools, INotebookTracker],
+  id,
+  requires: [ILabShell, ILayoutRestorer],
   autoStart: true
-} as JupyterFrontEndPlugin<any>;
+} as JupyterFrontEndPlugin<void>;
 
 function activate(
-  app: JupyterFrontEnd,
+  lab: JupyterFrontEnd,
   labShell: ILabShell,
-  notebookTracker: INotebookTracker
-): any {
-  
-  const widget : Widget = new PackageTool(app, notebookTracker);
+  restorer: ILayoutRestorer
+): void {
+
+  // Create a dataset with this URL
+  const widget: Widget = new MyWidget();
+  widget.id = "@jupyterlab-dataRegistry/explorer";
   widget.title.iconClass = "jp-SpreadsheetIcon jp-SideBar-tabIcon";
-  widget.title.caption = "Package Installer";
+  widget.title.caption = "Data Explorer";
+
+  restorer.add(widget, widget.id);
   labShell.add(widget, "left");
 }
 
