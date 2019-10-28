@@ -2138,8 +2138,8 @@
         "signature": "52d4c3c0cec6b97cadd483ca6ce13da08c4bb9da0ca21e2910111c92a4c1cf20"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": {
-        "version": "baa628410d978e8a482c1eec37c68aa9c7cad8a5042ba64462839b7075a454c2",
-        "signature": "ea7f87144dbfb77b2416261e27815f80422e44d4a11bd2b6e56c3c784a69cff6"
+        "version": "6d17cca3977573ee0e1747732356aa5f2f622bc61f91ab270de12cc887a769dc",
+        "signature": "7ae1c92a7be861312fa1e98dd0eef759301e9e6cd457d0aa0e0b409f749b54d4"
       },
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/typings/declaration.d.ts": {
         "version": "d1845feb24fcee67ff33316bf21d3056645192373e8f5c0b499cc66037d76bc7",
@@ -4752,6 +4752,8 @@
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/widgets/lib/index.d.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/index.d.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/packagetool.tsx",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/toc.tsx"
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/typings/react-inspector.d.ts": [
@@ -4920,6 +4922,10 @@
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/index.d.ts",
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/messaging/lib/index.d.ts"
+      ],
+      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": [
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/application/lib/index.d.ts",
+        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts"
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/widget.tsx": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/model.ts",
@@ -6194,10 +6200,6 @@
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/toc.tsx": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/apputils/lib/index.d.ts"
-      ],
-      "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/src/index.ts": [
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@phosphor/application/lib/index.d.ts",
-        "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/application/lib/index.d.ts"
       ],
       "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/notebook/lib/truststatus.d.ts": [
         "/users/marisaaquilina/projects/pkginstaller/jupyterlab-pkginstaller/node_modules/@jupyterlab/apputils/lib/index.d.ts",

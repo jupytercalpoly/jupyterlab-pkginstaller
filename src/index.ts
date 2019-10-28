@@ -5,11 +5,11 @@ import {
 // import { ReactWidget } from "@jupyterlab/apputils";
 import { Widget } from '@phosphor/widgets';
 
-// import {
-//   INotebookTools, INotebookTracker, 
-// } from '@jupyterlab/notebook';
+import {
+  INotebookTools, INotebookTracker, 
+} from '@jupyterlab/notebook';
 
-// import PackageTool from './PackageTool';
+import PackageTool from './PackageTool';
 import MyWidget from './toc';
 
 // import { Widget } from "@phosphor/widgets";
@@ -20,21 +20,21 @@ import '../style/index.css';
 /**
  * Initialization data for the pkginstaller extension.
  */
-// const pkginstaller: JupyterFrontEndPlugin<void> = {
-//   id: 'pkginstaller',
-//   autoStart: true,
-//   requires: [INotebookTools, INotebookTracker],
-//   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
-//     const packageTool = new PackageTool(app, notebookTracker);
-//     cellTools.addItem({ tool: packageTool });
-//   }
-// };
+const pkginstaller: JupyterFrontEndPlugin<void> = {
+  id: 'pkginstaller',
+  autoStart: true,
+  requires: [INotebookTools, INotebookTracker],
+  activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
+    const packageTool = new PackageTool(app, notebookTracker);
+    cellTools.addItem({ tool: packageTool });
+  }
+};
 
 const id = "@jupyterlab/dataregistry-extension:data-explorer";
 /**
  * Adds a visual data explorer to the sidebar.
  */
-export default {
+const panelly: JupyterFrontEndPlugin<void> = {
   activate,
   id,
   requires: [ILabShell, ILayoutRestorer],
@@ -57,6 +57,6 @@ function activate(
   labShell.add(widget, "left");
 }
 
-// export default [
-//   pkginstaller
-// ];
+export default [
+  pkginstaller, panelly
+];
