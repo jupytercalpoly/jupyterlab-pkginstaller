@@ -54,11 +54,12 @@ const AntSwitch = withStyles((theme: Theme) =>
 
 export default function CustomizedSwitches() {
   const [toggleDialog, setToggleDialog] = React.useState({
-    checkedC: false,
+    dialogOn: false,
   });
 
   const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
+    console.log(toggleDialog);
   };
 
   return (
@@ -66,9 +67,9 @@ export default function CustomizedSwitches() {
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>
             <AntSwitch
-              checked={toggleDialog.checkedC}
-              onChange={handleChange('checkedC')}
-              value="checkedC"
+              checked={toggleDialog.dialogOn}
+              onChange={handleChange('dialogOn')}
+              value="dialogOn"
             />
           </Grid>
           <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
@@ -117,6 +118,15 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
+  const [toggleDialog, setToggleDialog] = React.useState({
+    dialogOn: false,
+  });
+
+  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
+    console.log(toggleDialog);
+  };
+
 
   /**
     * Parse stdout messages during the installation or uninstallation process to
@@ -188,7 +198,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  if (moduleErrorOccurred) { 
+  if (moduleErrorOccurred && toggleDialog.dialogOn) { 
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);
@@ -232,7 +242,19 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
-      <CustomizedSwitches></CustomizedSwitches>
+      <FormGroup>
+        <Grid component="label" container alignItems="center" spacing={1}>
+          <Grid item>
+            <AntSwitch
+              checked={toggleDialog.dialogOn}
+              onChange={handleChange('dialogOn')}
+              value="dialogOn"
+            />
+          </Grid>
+          <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
+          {toggleDialog.dialogOn && <p>dialogon</p>}
+        </Grid>
+      </FormGroup>
       {showMessage && <Dropdown stdOut={stdOut}/>}
       
     </div>

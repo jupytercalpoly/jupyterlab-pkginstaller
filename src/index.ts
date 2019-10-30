@@ -6,14 +6,27 @@ import {
 import { Widget } from '@phosphor/widgets';
 
 import {
-  INotebookTools, INotebookTracker, 
+  INotebookTools, INotebookTracker, NotebookPanel
 } from '@jupyterlab/notebook';
 
 import PackageTool from './PackageTool';
 import MyWidget from './toc';
 
+import {
+  IStatusBar,
+  KernelStatus
+} from '@jupyterlab/statusbar';
+
+import { IClientSession } from '@jupyterlab/apputils';
+
+import { Title } from '@phosphor/widgets';
+
 // import { Widget } from "@phosphor/widgets";
 
+import {
+  ConsolePanel,
+  IConsoleTracker
+} from '@jupyterlab/console';
 
 import '../style/index.css';
 
@@ -57,6 +70,84 @@ function activate(
   labShell.add(widget, "left");
 }
 
+/**
+ * A plugin that provides a kernel status item to the status bar.
+ */
+export const kernelStatus: JupyterFrontEndPlugin<void> = {
+  id: 'randyykernel',
+  autoStart: true,
+  requires: [IStatusBar, INotebookTracker, IConsoleTracker, ILabShell],
+  activate: (
+    app: JupyterFrontEnd,
+    statusBar: IStatusBar,
+    notebookTracker: INotebookTracker,
+    consoleTracker: IConsoleTracker,
+    labShell: ILabShell
+  ) => {
+    // When the status item is clicked, launch the kernel
+    // selection dialog for the current session.
+    let currentSession: IClientSession | null = null;
+    const changeKernel = async () => {
+      if (!currentSession) {
+        return;
+      }
+      await currentSession.selectKernel();
+    };
+
+    // Create the status item.
+    const item = new KernelStatus({
+      onClick: changeKernel
+    });
+
+    // When the title of the active widget changes, update the label
+    // of the hover text.
+    const onTitleChanged = (title: Title<Widget>) => {
+      item.model!.activityName = title.label;
+    };
+
+    // Keep the session object on the status item up-to-date.
+    labShell.currentChanged.connect((_, change) => {
+      const { oldValue, newValue } = change;
+
+      // Clean up after the old value if it exists,
+      // listen for changes to the title of the activity
+      if (oldValue) {
+        oldValue.title.changed.disconnect(onTitleChanged);
+      }
+      if (newValue) {
+        newValue.title.changed.connect(onTitleChanged);
+      }
+
+      // Grab the session off of the current widget, if it exists.
+      if (newValue && consoleTracker.has(newValue)) {
+        currentSession = (newValue as ConsolePanel).session;
+      } else if (newValue && notebookTracker.has(newValue)) {
+        currentSession = (newValue as NotebookPanel).session;
+      } else {
+        currentSession = null;
+      }
+      item.model!.session = currentSession;
+      console.log("Yay, this works", currentSession.kernel);
+    });
+
+    // statusBar.registerStatusItem(
+    //   'statusyy',
+    //   {
+    //     item,
+    //     align: 'left',
+    //     rank: 1,
+    //     isActive: () => {
+    //       const current = labShell.currentWidget;
+    //       return (
+    //         current &&
+    //         (notebookTracker.has(current) || consoleTracker.has(current))
+    //       );
+    //     }
+    //   }
+    // );
+  }
+};
+
 export default [
-  pkginstaller, panelly
+  pkginstaller, panelly, kernelStatus
 ];
