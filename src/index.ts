@@ -74,7 +74,7 @@ function activate(
  * A plugin that provides a kernel status item to the status bar.
  */
 export const kernelStatus: JupyterFrontEndPlugin<void> = {
-  id: 'randyykernel',
+  id: '@jupyterlab/statusbar-extension:kernel-status1',
   autoStart: true,
   requires: [IStatusBar, INotebookTracker, IConsoleTracker, ILabShell],
   activate: (
@@ -103,6 +103,7 @@ export const kernelStatus: JupyterFrontEndPlugin<void> = {
     // of the hover text.
     const onTitleChanged = (title: Title<Widget>) => {
       item.model!.activityName = title.label;
+      console.log(item.model!.session.kernelDisplayName);
     };
 
     // Keep the session object on the status item up-to-date.
@@ -127,24 +128,23 @@ export const kernelStatus: JupyterFrontEndPlugin<void> = {
         currentSession = null;
       }
       item.model!.session = currentSession;
-      console.log("Yay, this works", currentSession.kernel);
     });
 
-    // statusBar.registerStatusItem(
-    //   'statusyy',
-    //   {
-    //     item,
-    //     align: 'left',
-    //     rank: 1,
-    //     isActive: () => {
-    //       const current = labShell.currentWidget;
-    //       return (
-    //         current &&
-    //         (notebookTracker.has(current) || consoleTracker.has(current))
-    //       );
-    //     }
-    //   }
-    // );
+    statusBar.registerStatusItem(
+      '@jupyterlab/statusbar-extension:kernel-status1',
+      {
+        item,
+        align: 'left',
+        rank: 1,
+        isActive: () => {
+          const current = labShell.currentWidget; 
+          return (
+            current &&
+            (notebookTracker.has(current) || consoleTracker.has(current))
+          );
+        }
+      }
+    );
   }
 };
 
