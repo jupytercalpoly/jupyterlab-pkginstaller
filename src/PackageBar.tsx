@@ -254,7 +254,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
             />
           </Grid>
           <p className={PackageBarStyleClasses.switchText}>Enable Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
-          {toggleDialog.dialogOn && <p>dialogon</p>}
         </Grid>
       </FormGroup>
       {showMessage && <Dropdown stdOut={stdOut}/>}
