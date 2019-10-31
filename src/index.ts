@@ -94,6 +94,12 @@ export const kernelStatus: JupyterFrontEndPlugin<void> = {
       await currentSession.selectKernel();
     };
 
+    currentSession!.kernelChanged.connect(() => {
+      void currentSession.kernel.ready.then(() => {
+        console.log("kernel was changed");
+      });
+    });
+
     // Create the status item.
     const item = new KernelStatus({
       onClick: changeKernel
@@ -103,7 +109,7 @@ export const kernelStatus: JupyterFrontEndPlugin<void> = {
     // of the hover text.
     const onTitleChanged = (title: Title<Widget>) => {
       item.model!.activityName = title.label;
-      console.log(item.model!.session.kernelDisplayName);
+      console.log(item.model!.session);
     };
 
     // Keep the session object on the status item up-to-date.

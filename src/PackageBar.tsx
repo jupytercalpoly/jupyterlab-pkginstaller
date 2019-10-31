@@ -207,8 +207,10 @@ export function PackageSearcher(props: PackageSearcherProps) {
     setModuleErrorOccurred(false);
   }
   return (
+ 
+    
     <div className={PackageBarStyleClasses.packageContainer}>
-      <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
+      <p className={PackageBarStyleClasses.PIComponentHeader}>PyPI Package Installer</p>
       <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
@@ -251,13 +253,13 @@ export function PackageSearcher(props: PackageSearcherProps) {
               value="dialogOn"
             />
           </Grid>
-          <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
+          <p className={PackageBarStyleClasses.switchText}>Enable Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
           {toggleDialog.dialogOn && <p>dialogon</p>}
         </Grid>
       </FormGroup>
       {showMessage && <Dropdown stdOut={stdOut}/>}
-      
-    </div>
+      </div>
+  
   );
 }
 

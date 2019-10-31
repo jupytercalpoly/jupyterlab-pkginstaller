@@ -5,7 +5,6 @@ export namespace PackageBarStyleClasses {
     padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
-    margin: 'auto',
     borderTop: '1px solid var(--jp-border-color2)',
   });
   export const topBar = style({
@@ -73,6 +72,23 @@ export namespace PackageBarStyleClasses {
     color: 'var(--jp-ui-font-color2)',
 
   });
+  export const PIComponent = style({
+    background: "var(--jp-layout-color1)",
+    minWidth: "var(--jp-sidebar-min-width)",
+    overflow: "visible",
+    display: "flex",
+    flex: "0 0 auto",
+    height: '100vh',
+  });
+  export const PIComponentHeader = style({
+    fontSize: "var(--jp-ui-font-size0)",
+    fontWeight: 600,
+    letterSpacing: 1,
+    margin: 0,
+    padding: "8px 12px",
+    textTransform: "uppercase",
+    display: "block"
+  })
   export const logsButton = style({
     backgroundColor: 'none',
     color: 'var(--md-blue-700)',

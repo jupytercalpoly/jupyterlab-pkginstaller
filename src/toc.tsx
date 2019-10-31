@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { ReactWidget } from '@jupyterlab/apputils';
 
-function MyComponent() {
-  return <div>My Widget</div>;
-}
+import StyleClasses from './style';
+import { PackageSearcher } from './PackageBar';
+const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 export default class MyWidget extends ReactWidget {
   render() {
-    return <MyComponent />;
+    return (
+      <div className={PackageBarStyleClasses.PIComponent}>
+        <PackageSearcher kernelId={null} kernelName={null} uninstalledPackage={null} moduleError={null} layouty={null}/>
+      </div>
+    );
   }
 }
