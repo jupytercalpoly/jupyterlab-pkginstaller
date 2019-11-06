@@ -10,7 +10,7 @@ import {
 } from '@jupyterlab/notebook';
 
 import PackageTool from './PackageTool';
-import MyWidget from './toc';
+import PInstallerWidget from './PackageInstaller';
 
 //import PackageSearcher from './PackageBar';
 import {
@@ -21,8 +21,6 @@ import {
 import { IClientSession } from '@jupyterlab/apputils';
 
 import { Title } from '@phosphor/widgets';
-
-// import { Widget } from "@phosphor/widgets";
 
 import {
   ConsolePanel,
@@ -65,7 +63,7 @@ function activate(
   // Create a dataset with this URL
   //const newwidget = new PackageTool(app, notebookTracker); newwidget;
   // console.log(notebookTracker.currentWidget.session.kernel.id);
-  let widget: Widget = new MyWidget(notebookTracker);
+  let widget: Widget = new PInstallerWidget(notebookTracker);
   widget.id = "@jupyterlab-dataRegistry/explorer";
   widget.title.iconClass = "jp-SpreadsheetIcon jp-SideBar-tabIcon";
   widget.title.caption = "Data Explorer";

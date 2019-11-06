@@ -11,8 +11,11 @@ import { Dropdown } from './Dropdown';
 import StyleClasses from './style';
 
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+
 import FormGroup from '@material-ui/core/FormGroup';
+
 import Switch from '@material-ui/core/Switch';
+
 import Grid from '@material-ui/core/Grid';
 
 

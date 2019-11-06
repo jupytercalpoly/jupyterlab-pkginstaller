@@ -35,13 +35,13 @@
 // }
 
 import * as React from 'react';
-import { ReactWidget } from '@jupyterlab/apputils';
+import { ReactWidget,  } from '@jupyterlab/apputils'; //UseSignal
 //import StyleClasses from './style';
 //import { PackageSearcher } from './PackageBar';
 import {Message} from '@phosphor/messaging';
 //const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
-export default class MyWidget extends ReactWidget {
+export default class PInstallerWidget extends ReactWidget {
   constructor(randomInt: any) {
     super();
     this.randomInt = randomInt;
@@ -53,7 +53,10 @@ export default class MyWidget extends ReactWidget {
   }
   render() {
     return (
-      <p>{this.num}</p>
+      <p></p>
+      // <UseSignal signal={this.randomInt.currentWidget.session.kernelChanged}>
+
+      // </UseSignal>
       // <div className={PackageBarStyleClasses.PIComponent}>
       //   <PackageSearcher kernelId={null} kernelName={null} uninstalledPackage={null} moduleError={null} layouty={null}/>
       // </div>
