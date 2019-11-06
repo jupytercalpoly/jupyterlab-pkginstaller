@@ -64,13 +64,18 @@ function activate(
 
   // Create a dataset with this URL
   //const newwidget = new PackageTool(app, notebookTracker); newwidget;
-  console.log(notebookTracker.currentWidget.session.kernel.id);
-  const widget: Widget = new MyWidget(notebookTracker.currentWidget.session.kernel!.id);
+  // console.log(notebookTracker.currentWidget.session.kernel.id);
+  let widget: Widget = new MyWidget(notebookTracker);
   widget.id = "@jupyterlab-dataRegistry/explorer";
   widget.title.iconClass = "jp-SpreadsheetIcon jp-SideBar-tabIcon";
   widget.title.caption = "Data Explorer";
   restorer.add(widget, widget.id);
   labShell.add(widget, "left");
+  notebookTracker.currentChanged.connect(() => {
+    console.log(notebookTracker);
+    widget.update();
+  });
+
 }
 
 /**
