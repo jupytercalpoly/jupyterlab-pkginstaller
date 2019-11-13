@@ -64,9 +64,9 @@ function activate(
   //const newwidget = new PackageTool(app, notebookTracker); newwidget;
   // console.log(notebookTracker.currentWidget.session.kernel.id);
   let widget: Widget = new PInstallerWidget(notebookTracker);
-  widget.id = "@jupyterlab-dataRegistry/explorer";
-  widget.title.iconClass = "jp-SpreadsheetIcon jp-SideBar-tabIcon";
-  widget.title.caption = "Data Explorer";
+  widget.id = "@jupyterlab-pkginstaller";
+  widget.title.iconClass = "jp-PackageInstaller-icon jp-SideBar-tabIcon";
+  widget.title.caption = "Package Installer";
   restorer.add(widget, widget.id);
   labShell.add(widget, "left");
   notebookTracker.currentChanged.connect(() => {

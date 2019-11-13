@@ -56,6 +56,7 @@ export namespace PackageBarStyleClasses {
   export const uninstalledPackage = style({
     backgroundColor: 'var(--md-grey-200)',
     padding: '2px 4px',
+    color: 'var(--jp-ui-inverse-font-color1)'
   });
   export const packageInput = style({
     border: '1px solid var(--md-grey-400)',

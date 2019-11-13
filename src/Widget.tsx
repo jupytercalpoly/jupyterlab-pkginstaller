@@ -18,7 +18,7 @@ import '../style/index.css';
 function Message(props: any) {
   const packagefromMessage = props.message.content.evalue.split("'")[1];
   return (
-    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={packagefromMessage} moduleError={props.message.content.ename == "ModuleNotFoundError"} layouty={props.layouty}/>
+    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={packagefromMessage} moduleError={props.message.content.ename == "ModuleNotFoundError"} layouty={props.layouty} nb={null}/>
   );
 }
 

@@ -20,12 +20,14 @@ import Grid from '@material-ui/core/Grid';
 
 
 const AntSwitch = withStyles((theme: Theme) =>
+//MuiSwitch-root WithStyles(ForwardRef(Switch))-root-550 needs no overflow
   createStyles({
     root: {
       width: 28,
       height: 16,
       padding: 0,
       display: 'flex',
+      overflow: 'visible'
     },
     switchBase: {
       padding: 2,
@@ -89,6 +91,7 @@ interface PackageSearcherProps {
   uninstalledPackage: string;
   moduleError: boolean;
   layouty: PanelLayout;
+  nb: any;
 }
 
 /**
@@ -114,17 +117,23 @@ function getPipMessage(install: boolean, successfulProcess: boolean, packageToPr
   */
 export function PackageSearcher(props: PackageSearcherProps) {
   const [input, setInput] = useState('');
+  const [nb, setNb] = useState(props.nb); setNb;
   const [packageToProcess, setPackageToProcess] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [successfulProcess, setSuccessfulProcess] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
+  const [kernelName, setKernelName] = useState("Connecting...");
+  const [kernelId, setKernelId] = useState("Connecting...");
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
   const [toggleDialog, setToggleDialog] = React.useState({
     dialogOn: false,
   });
-
+  nb.currentWidget.session.ready.then(()=>{nb.currentWidget.session.kernel.ready.then(()=>{
+    setKernelName(nb.currentWidget.session.kernelDisplayName);
+    setKernelId(nb.currentWidget.session.kernel.id);
+  })});
   const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
     console.log(toggleDialog);
@@ -164,7 +173,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
       const kernel = Kernel.connectTo(
-        (kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]
+        (kernelModels.filter(kernelModel => kernelModel.id === kernelId))[0]
       );
       kernel.requestExecute({
         code: pipCommand + input, silent: true
@@ -209,12 +218,11 @@ export function PackageSearcher(props: PackageSearcherProps) {
     setInput(uninstalledPackage);
     setModuleErrorOccurred(false);
   }
+  
   return (
- 
-    
     <div className={PackageBarStyleClasses.packageContainer}>
       <p className={PackageBarStyleClasses.PIComponentHeader}>PyPI Package Installer</p>
-      <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
+      <p className={PackageBarStyleClasses.topBar}>Current Environment: {kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Package Name</p>

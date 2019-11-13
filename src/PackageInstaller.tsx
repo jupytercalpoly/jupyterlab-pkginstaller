@@ -1,67 +1,33 @@
-// import * as React from 'react';
-// import { ReactWidget } from '@jupyterlab/apputils';
-// //import StyleClasses from './style';
-// //import { PackageSearcher } from './PackageBar';
-// import {Message} from '@phosphor/messaging';
-// //const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
-
-// export default class MyWidget extends ReactWidget {
-//   constructor(randomInt: any) {
-//     super();
-//     this.randomInt = randomInt;
-//     this.kernelId = null; 
-//     this.kernelName = null;
-//     console.log("UPDATE*********");
-//   }
-//   protected onUpdateRequest(msg: Message): void {
-//     this.randomInt.currentWidget.session.ready.then(() => {
-//       let session = this.randomInt.currentWidget.session;
-//       this.kernelId = session.kernel.id;
-//       this.kernelName = session.kernelDisplayName;
-//       console.log(this.kernelId, this.kernelName);
-//     });
-//   }
-//   render() {
-//     return (
-//       <p>{this.kernelId}</p>
-//       // <div className={PackageBarStyleClasses.PIComponent}>
-//       //   <PackageSearcher kernelId={null} kernelName={null} uninstalledPackage={null} moduleError={null} layouty={null}/>
-//       // </div>
-//     );
-//   }
-//   private randomInt: any;
-//   private kernelId: any; 
-//   private kernelName: any;
-// }
-
 import * as React from 'react';
-import { ReactWidget,  } from '@jupyterlab/apputils'; //UseSignal
-//import StyleClasses from './style';
-//import { PackageSearcher } from './PackageBar';
-import {Message} from '@phosphor/messaging';
-//const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
+import { ReactWidget, UseSignal } from '@jupyterlab/apputils'; 
+import StyleClasses from './style';
+import { PackageSearcher } from './PackageBar';
+const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 export default class PInstallerWidget extends ReactWidget {
-  constructor(randomInt: any) {
+  constructor(notebookTracker: any) {
     super();
-    this.randomInt = randomInt;
-    this.num = "hiya";
-    console.log(this.randomInt);
+    this.notebookTracker = notebookTracker;
+    console.log(this.notebookTracker);
   }
-  protected onUpdateRequest(msg: Message): void {
-    this.num = this.num + "a";
+  
+  some_method() {
+    return this.notebookTracker.currentWidget.session.kernelId;
   }
   render() {
     return (
-      <p></p>
-      // <UseSignal signal={this.randomInt.currentWidget.session.kernelChanged}>
-
-      // </UseSignal>
-      // <div className={PackageBarStyleClasses.PIComponent}>
-      //   <PackageSearcher kernelId={null} kernelName={null} uninstalledPackage={null} moduleError={null} layouty={null}/>
-      // </div>
+      <UseSignal signal={this.notebookTracker.currentWidget.session.kernelChanged}>
+        {() => (
+          <div className={PackageBarStyleClasses.PIComponent}>
+            <p>{this.some_method()}</p>
+            <PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernelId} nb = {this.notebookTracker} kernelName={this.notebookTracker.currentWidget.session.kernelName} uninstalledPackage={null} moduleError={null} layouty={null}/>
+          </div>
+          )
+        }
+      </UseSignal>
+   
     );
   }
-  private randomInt: any;
-  private num: any;
+  private notebookTracker: any;
+  // private word: any;
 }
