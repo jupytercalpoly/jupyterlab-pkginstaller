@@ -126,7 +126,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [stdOut, setStdOut] = useState([]);
   const [kernelName, setKernelName] = useState("Connecting...");
   const [kernelId, setKernelId] = useState("Connecting...");
-  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
+  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(true);
   const [toggleDialog, setToggleDialog] = React.useState({
     dialogOn: false,
   });
@@ -138,7 +138,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
     setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
     console.log(toggleDialog);
   };
-
 
   /**
     * Parse stdout messages during the installation or uninstallation process to
@@ -210,7 +209,8 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  if (moduleErrorOccurred && toggleDialog.dialogOn) { 
+  console.log("moduleErrorOccured?", moduleErrorOccurred);
+  if (moduleErrorOccurred && toggleDialog.dialogOn) {  //&& toggleDialog.dialogOn
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);

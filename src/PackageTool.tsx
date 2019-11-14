@@ -21,7 +21,7 @@ import { PackageSearcher } from './PackageBar';
 
 import { KernelSpyModel } from './Model';
 
-import { MessageLogView } from './Widget';
+import { MessageLogView } from './Logs';
 
 
 class PackageTool extends NotebookTools.Tool {

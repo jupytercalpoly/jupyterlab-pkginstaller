@@ -6,10 +6,10 @@ import {
 import { Widget } from '@phosphor/widgets';
 
 import {
-  INotebookTools, INotebookTracker, NotebookPanel
+  INotebookTracker, NotebookPanel // INotebookTools,
 } from '@jupyterlab/notebook';
 
-import PackageTool from './PackageTool';
+// import PackageTool from './PackageTool';
 import PInstallerWidget from './PackageInstaller';
 
 //import PackageSearcher from './PackageBar';
@@ -32,15 +32,15 @@ import '../style/index.css';
 /**
  * Initialization data for the pkginstaller extension.
  */
-const pkginstaller: JupyterFrontEndPlugin<void> = {
-  id: 'pkginstaller',
-  autoStart: true,
-  requires: [INotebookTools, INotebookTracker],
-  activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
-    const packageTool = new PackageTool(app, notebookTracker);
-    cellTools.addItem({ tool: packageTool });
-  }
-};
+// const pkginstaller: JupyterFrontEndPlugin<void> = {
+//   id: 'pkginstaller',
+//   autoStart: true,
+//   requires: [INotebookTools, INotebookTracker],
+//   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
+//     const packageTool = new PackageTool(app, notebookTracker);
+//     cellTools.addItem({ tool: packageTool });
+//   }
+// };
 
 const id = "@jupyterlab/dataregistry-extension:data-explorer";
 /**
@@ -161,5 +161,5 @@ export const kernelStatus: JupyterFrontEndPlugin<void> = {
 };
 
 export default [
-  pkginstaller, panelly, kernelStatus
+  panelly, kernelStatus, //pkginstaller
 ];
