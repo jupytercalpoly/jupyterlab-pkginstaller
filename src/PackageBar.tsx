@@ -18,6 +18,56 @@ import Switch from '@material-ui/core/Switch';
 
 import Grid from '@material-ui/core/Grid';
 
+import Button from "@material-ui/core/Button";
+
+import Snackbar, { SnackbarOrigin } from "@material-ui/core/Snackbar";
+
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
+
+function PositionedSnackbar() {
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: "top",
+    horizontal: "center"
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState: SnackbarOrigin) => () => {
+    setState({ open: true, ...newState });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const action = (
+    <Button color="secondary" size="small">
+      Install
+    </Button>
+  );
+
+  return (
+    <div>
+      <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
+        Bottom-Left
+      </Button>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        key={`${vertical},${horizontal}`}
+        open={open}
+        onClose={handleClose}
+        ContentProps={{
+          "aria-describedby": "message-id"
+        }}
+        message={<span id="message-id">Install in current environment?</span>}
+        action={action}
+      />
+    </div>
+  );
+}
 
 const AntSwitch = withStyles((theme: Theme) =>
 //MuiSwitch-root WithStyles(ForwardRef(Switch))-root-550 needs no overflow
@@ -125,7 +175,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
   const [kernelName, setKernelName] = useState("Connecting...");
-  const [kernelId, setKernelId] = useState("Connecting...");
+  const [kernelId, setKernelId] = useState("Connecting..."); kernelId;
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(true);
   const [toggleDialog, setToggleDialog] = React.useState({
     dialogOn: false,
@@ -172,7 +222,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
       const kernel = Kernel.connectTo(
-        (kernelModels.filter(kernelModel => kernelModel.id === kernelId))[0]
+        (kernelModels.filter(kernelModel => kernelModel.id === nb.currentWidget.session.kernel.id))[0]
       );
       kernel.requestExecute({
         code: pipCommand + input, silent: true
@@ -268,6 +318,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </Grid>
       </FormGroup>
       {showMessage && <Dropdown stdOut={stdOut}/>}
+      <PositionedSnackbar></PositionedSnackbar>
       </div>
   
   );

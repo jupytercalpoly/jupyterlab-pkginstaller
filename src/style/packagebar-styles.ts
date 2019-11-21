@@ -5,7 +5,6 @@ export namespace PackageBarStyleClasses {
     padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
-    borderTop: '1px solid var(--jp-border-color2)',
   });
   export const topBar = style({
     display: 'flex',
