@@ -24,6 +24,9 @@ export namespace PackageBarStyleClasses {
     borderRadius: '2px',
     fontSize: 'var(--jp-ui-font-size1)',
   });
+  export const snackbar = style({
+    backgroundColor: 'red',
+  });
   export const pipInstallButton = style({
     backgroundColor: 'var(--md-blue-700)',
     color: 'var(--jp-ui-inverse-font-color1)',

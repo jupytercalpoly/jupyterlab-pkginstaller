@@ -44,7 +44,7 @@ function PositionedSnackbar() {
   };
 
   const action = (
-    <Button color="secondary" size="small">
+    <Button color="primary" size="small">
       Install
     </Button>
   );
@@ -63,6 +63,9 @@ function PositionedSnackbar() {
           "aria-describedby": "message-id"
         }}
         message={<span id="message-id">Install in current environment?</span>}
+        classes={{
+          root: PackageBarStyleClasses.snackbar
+        }}
         action={action}
       />
     </div>
