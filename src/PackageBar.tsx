@@ -1,4 +1,4 @@
-import { PanelLayout } from '@phosphor/widgets';
+//import { PanelLayout } from '@phosphor/widgets';
 
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 
@@ -143,7 +143,7 @@ interface PackageSearcherProps {
   kernelName: string;
   uninstalledPackage: string;
   moduleError: boolean;
-  layouty: PanelLayout;
+  // layouty: PanelLayout;
   nb: any;
 }
 

@@ -6,12 +6,15 @@ import {
 import { Widget } from '@phosphor/widgets';
 
 import {
-  INotebookTracker, //NotebookPanel // INotebookTools,
+  INotebookTracker, INotebookTools //NotebookPanel // INotebookTools,
 } from '@jupyterlab/notebook';
 
-// import PackageTool from './PackageTool';
+import PackageTool from './PackageTool';
 import PInstallerWidget from './PackageInstaller';
 
+import { KernelSpyModel } from './Model';
+
+import { MessageLogView } from './Logs';
 //import PackageSearcher from './PackageBar';
 // import {
 //   IStatusBar,
@@ -21,7 +24,7 @@ import PInstallerWidget from './PackageInstaller';
 // import { IClientSession } from '@jupyterlab/apputils';
 
 // import { Title } from '@phosphor/widgets';
-
+import { Kernel } from '@jupyterlab/services';
 // import {
 //   ConsolePanel,
 //   IConsoleTracker
@@ -32,15 +35,15 @@ import '../style/index.css';
 /**
  * Initialization data for the pkginstaller extension.
  */
-// const pkginstaller: JupyterFrontEndPlugin<void> = {
-//   id: 'pkginstaller',
-//   autoStart: true,
-//   requires: [INotebookTools, INotebookTracker],
-//   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
-//     const packageTool = new PackageTool(app, notebookTracker);
-//     cellTools.addItem({ tool: packageTool });
-//   }
-// };
+const pkginstaller: JupyterFrontEndPlugin<void> = {
+  id: 'pkginstaller',
+  autoStart: true,
+  requires: [INotebookTools, INotebookTracker],
+  activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
+    const packageTool = new PackageTool(app, notebookTracker);
+    cellTools.addItem({ tool: packageTool });
+  }
+};
 
 const id = "@jupyterlab/dataregistry-extension:data-explorer";
 /**
@@ -71,6 +74,11 @@ function activate(
   labShell.add(widget, "left");
   notebookTracker.currentChanged.connect(() => {
     console.log(notebookTracker);
+    let session = notebookTracker.currentWidget.session;
+    let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
+    const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
+    //layout.addWidget(view);
+    view;
     widget.update();
   });
 
@@ -161,5 +169,5 @@ function activate(
 // };
 
 export default [
-  panelly, //kernelStatus, //pkginstaller
+  panelly, pkginstaller//kernelStatus, //pkginstaller
 ];

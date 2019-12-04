@@ -13,11 +13,11 @@ import { NotebookTools, INotebookTracker } from '@jupyterlab/notebook';
 // } from '@jupyterlab/apputils';
 
 
-import { ReactWidget } from '@jupyterlab/apputils';
+// import { ReactWidget } from '@jupyterlab/apputils';
 
-import * as React from 'react';
+// import * as React from 'react';
 
-import { PackageSearcher } from './PackageBar';
+// import { PackageSearcher } from './PackageBar';
 
 import { KernelSpyModel } from './Model';
 
@@ -41,10 +41,10 @@ class PackageTool extends NotebookTools.Tool {
       }
       let session = this.notebookTracker.currentWidget.session;
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
+      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);//, layout);
       layout.addWidget(view);
-      const cellWidget = ReactWidget.create(<PackageSearcher nb={null} kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
-      layout.addWidget(cellWidget);
+      // const cellWidget = ReactWidget.create(<PackageSearcher nb={null} kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
+      // layout.addWidget(cellWidget);
     });
   }
   protected onActiveCellChanged(msg: Message): void {
@@ -57,10 +57,10 @@ class PackageTool extends NotebookTools.Tool {
         }
         let session = this.notebookTracker.currentWidget.session;
         let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName, layout);
+        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);//, layout);
         layout.addWidget(view);
-        const cellWidget = ReactWidget.create(<PackageSearcher nb={null} kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
-        layout.addWidget(cellWidget);
+        // const cellWidget = ReactWidget.create(<PackageSearcher nb={null} kernelId={session.kernel.id} kernelName={session.kernelDisplayName} uninstalledPackage={''} moduleError={false} layouty={layout}/>);
+        // layout.addWidget(cellWidget);
       });
     }
   }
