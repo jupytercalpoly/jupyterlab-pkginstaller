@@ -6,15 +6,16 @@ import {
 import { Widget } from '@phosphor/widgets';
 
 import {
-  INotebookTracker, INotebookTools //NotebookPanel // INotebookTools,
+  INotebookTracker, INotebookTools//NotebookPanel // INotebookTools,
 } from '@jupyterlab/notebook';
 
 import PackageTool from './PackageTool';
 import PInstallerWidget from './PackageInstaller';
 
-import { KernelSpyModel } from './Model';
+//import { KernelSpyView } from './KernelSpyView';
+//import { MessageLogView } from './Logs';
+//import { Kernel } from '@jupyterlab/services';
 
-import { MessageLogView } from './Logs';
 //import PackageSearcher from './PackageBar';
 // import {
 //   IStatusBar,
@@ -24,7 +25,6 @@ import { MessageLogView } from './Logs';
 // import { IClientSession } from '@jupyterlab/apputils';
 
 // import { Title } from '@phosphor/widgets';
-import { Kernel } from '@jupyterlab/services';
 // import {
 //   ConsolePanel,
 //   IConsoleTracker
@@ -67,18 +67,18 @@ function activate(
   //const newwidget = new PackageTool(app, notebookTracker); newwidget;
   // console.log(notebookTracker.currentWidget.session.kernel.id);
   let widget: Widget = new PInstallerWidget(notebookTracker);
+  //let layout = new PanelLayout();
   widget.id = "@jupyterlab-pkginstaller";
   widget.title.iconClass = "jp-PackageInstaller-icon jp-SideBar-tabIcon";
   widget.title.caption = "Package Installer";
   restorer.add(widget, widget.id);
   labShell.add(widget, "left");
   notebookTracker.currentChanged.connect(() => {
-    console.log(notebookTracker);
-    let session = notebookTracker.currentWidget.session;
-    let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-    const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
-    //layout.addWidget(view);
-    view;
+    // console.log(notebookTracker);
+    //let session = notebookTracker.currentWidget.session;
+    // let widget1 = new KernelSpyView(notebookTracker.currentWidget.context.session.kernel! as Kernel.IKernel);
+    // (app.shell).add(widget1);
+    // view;
     widget.update();
   });
 
@@ -169,5 +169,5 @@ function activate(
 // };
 
 export default [
-  panelly, pkginstaller//kernelStatus, //pkginstaller
+  panelly, pkginstaller //kernelStatus, //pkginstaller
 ];

@@ -1,6 +1,6 @@
 import { each } from '@phosphor/algorithm';
 
-import { PanelLayout } from '@phosphor/widgets';
+// import { PanelLayout } from '@phosphor/widgets';
 
 import { VDomRenderer } from '@jupyterlab/apputils';
 
@@ -31,8 +31,8 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     this.model = model;
     this.kernelId = kernelId;
     this.kernelName = kernelName;
-    this.layouty = layouty;
-
+    // this.layouty = layouty;
+    console.log("Constrctor");
   }
   protected render(): React.ReactElement<any> {
     const model = this.model!;
@@ -55,6 +55,6 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   protected collapsed: {[key: string]: boolean} = {};
   protected kernelId: string;
   protected kernelName: string;
-  protected layouty: PanelLayout;
+  //protected layouty: PanelLayout;
 }
 
