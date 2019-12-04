@@ -18,7 +18,7 @@ import '../style/index.css';
 function Message(props: any) {
   const packagefromMessage = props.message.content.evalue.split("'")[1];
   return (
-    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={packagefromMessage} moduleError={props.message.content.ename == "ModuleNotFoundError"} nb={null}/>//layouty={props.layouty} nb={null}/>
+    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={packagefromMessage} moduleError={props.message.content.ename == "ModuleNotFoundError"} nb={null}/>
   );
 }
 
@@ -44,6 +44,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
         // if (count > 1) {
         //   this.layouty.widgets[count - 1].dispose();  
         // }
+        console.log("ERROR OCCURED BLEEBOOOP");
         errorMessage = Message({ 
           message:args.msg, kernelName: this.kernelName, kernelId: this.kernelId, moduleError: null//, layouty: this.layouty
         });

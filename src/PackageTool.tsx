@@ -36,6 +36,8 @@ class PackageTool extends NotebookTools.Tool {
     this.notebookTracker.currentWidget.session.ready.then(() => {
       let layout = this.layout as PanelLayout;
       let count = layout.widgets.length;
+      // let {length: count} = layout.widgets;
+      // let {widgets: {length: count}} = layout;
       for (let i = 0; i < count; i++) {
         layout.widgets[0].dispose();
       }
