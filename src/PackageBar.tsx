@@ -20,10 +20,11 @@ import { Dropdown } from './Dropdown';
 
 import StyleClasses from './style';
 
+const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
+
 export interface State extends SnackbarOrigin {
   open: boolean;
 }
-
 
 function PositionedSnackbar() {
   const [state, setState] = React.useState<State>({
@@ -31,6 +32,7 @@ function PositionedSnackbar() {
     vertical: "top",
     horizontal: "center"
   });
+
   const { vertical, horizontal, open } = state;
 
   const handleClick = (newState: SnackbarOrigin) => () => {
@@ -71,7 +73,6 @@ function PositionedSnackbar() {
 }
 
 const AntSwitch = withStyles((theme: Theme) =>
-//MuiSwitch-root WithStyles(ForwardRef(Switch))-root-550 needs no overflow
   createStyles({
     root: {
       width: 28,
@@ -134,14 +135,11 @@ export default function CustomizedSwitches() {
   );
 }
 
-const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
-
 interface PackageSearcherProps {
   kernelId: string;
   kernelName: string;
   uninstalledPackage: string;
   moduleError: boolean;
-  // layouty: PanelLayout;
   nb: any;
 }
 
@@ -260,8 +258,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  console.log("moduleErrorOccured?", moduleErrorOccurred);
-  if (moduleErrorOccurred && toggleDialog.dialogOn) {  //&& toggleDialog.dialogOn
+  if (moduleErrorOccurred && toggleDialog.dialogOn) {  
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);
@@ -321,7 +318,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
       {showMessage && <Dropdown stdOut={stdOut}/>}
       <PositionedSnackbar></PositionedSnackbar>
       </div>
-  
   );
 }
 

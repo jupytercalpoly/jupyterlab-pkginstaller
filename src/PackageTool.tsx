@@ -21,19 +21,19 @@ class PackageTool extends NotebookTools.Tool {
     this.layout = new PanelLayout();
   } 
   protected onAfterAttach(msg: Message): void {
-    this.notebookTracker.currentWidget.session.ready.then(() => {
+    let { session }  = this.notebookTracker.currentWidget;
+    session.ready.then(() => {
       let layout = this.layout as PanelLayout;
       let count = layout.widgets.length;
       for (let i = 0; i < count; i++) {
         layout.widgets[0].dispose();
       }
-      let session = this.notebookTracker.currentWidget.session;
       let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
       const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
       layout.addWidget(view);
     });
   }
-  protected onActiveCellChanged(msg: Message): void {
+  protected onActiveNotebookPanelChanged(msg: Message): void {
     if (this.notebookTracker.currentWidget && this.notebookTracker.currentWidget.session) {
       this.notebookTracker.currentWidget.session.ready.then(() => {
         let layout = this.layout as PanelLayout;
@@ -48,7 +48,6 @@ class PackageTool extends NotebookTools.Tool {
       });
     }
   }
-  
   private notebookTracker:INotebookTracker;
 }
 

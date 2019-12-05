@@ -12,19 +12,23 @@ export default class PInstallerWidget extends ReactWidget {
   constructor(notebookTracker: any) {
     super();
     this.notebookTracker = notebookTracker;
-    
   }
   render() {
+    let { session } = this.notebookTracker.currentWidget;
     return (
-      <UseSignal signal={this.notebookTracker.currentWidget.session.kernelChanged}>
-        {() => (
+      <UseSignal signal={session.kernelChanged}>
+        {() => 
           <div className={PackageBarStyleClasses.PIComponent}>
-            <PackageSearcher kernelId={this.notebookTracker.currentWidget.session.kernelId} nb = {this.notebookTracker} kernelName={this.notebookTracker.currentWidget.session.kernelName} uninstalledPackage={null} moduleError={null} />//layouty={null}/>
+            <PackageSearcher 
+              kernelId={session.kernelId} 
+              nb = {this.notebookTracker}
+              kernelName={session.kernelName} 
+              uninstalledPackage={null}
+              moduleError={null}
+            />
           </div>
-          )
         }
       </UseSignal>
-   
     );
   }
   private notebookTracker: any;
