@@ -14,9 +14,16 @@ import '../style/index.css';
   * Return a PackageSearcher aware of the uninstalled package to process.
   */
 function Message(props: any) {
-  const packagefromMessage = props.message.content.evalue.split("'")[1];
+  const parsedPackage = props.message.content.evalue.split("'")[1];
+  const { ename } = props.message.content;
   return (
-    <PackageSearcher kernelId={props.kernelId} kernelName={props.kernelName} uninstalledPackage={packagefromMessage} moduleError={props.message.content.ename == "ModuleNotFoundError"} nb={null}/>
+    <PackageSearcher 
+      kernelId={props.kernelId} 
+      kernelName={props.kernelName} 
+      uninstalledPackage={parsedPackage} 
+      moduleError={ename == "ModuleNotFoundError"} 
+      nb={null}
+    />
   );
 }
 
@@ -29,22 +36,24 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     this.model = model;
     this.kernelId = kernelId;
     this.kernelName = kernelName;
-    // this.layouty = layouty;
-    console.log("Constrctor");
   }
   protected render(): React.ReactElement<any> {
     const model = this.model!;
     let errorMessage: React.ReactElement<any>;
     let threads = new ThreadIterator(model.tree, this.collapsed);
+    
     each(threads, ({args, hasChildren}) => {
-      if (args.msg.header.msg_type=="error") {
+      let { msg_type } = args.msg.header;
+      if (msg_type == "error") {
         console.log("ERROR OCCURED BLEEBOOOP");
         errorMessage = Message({ 
-          message:args.msg, kernelName: this.kernelName, kernelId: this.kernelId, moduleError: null//, layouty: this.layouty
+          message: args.msg, 
+          kernelName: this.kernelName, 
+          kernelId: this.kernelId, 
+          moduleError: null
         });
       }
     });
-    console.log(errorMessage);
     return errorMessage;
   }
   protected collapsed: {[key: string]: boolean} = {};

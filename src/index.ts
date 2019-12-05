@@ -29,12 +29,11 @@ const pkginstaller: JupyterFrontEndPlugin<void> = {
     restorer: ILayoutRestorer,
   ) => {  
     let widget: Widget = new PInstallerWidget(notebookTracker);
-    widget.id = "@jupyterlab-pkginstaller";
-    widget.title.iconClass = "jp-PackageInstaller-icon jp-SideBar-tabIcon";
-    widget.title.caption = "Package Installer";
+    widget.id = '@jupyterlab-pkginstaller';
+    widget.title.iconClass = 'jp-PackageInstaller-icon jp-SideBar-tabIcon';
+    widget.title.caption = 'Package Installer';
     restorer.add(widget, widget.id);
-    labShell.add(widget, "left");
-
+    labShell.add(widget, 'left');
     const packageTool = new PackageTool(app, notebookTracker);
     cellTools.addItem({ tool: packageTool });
     notebookTracker.currentChanged.connect(() => {
