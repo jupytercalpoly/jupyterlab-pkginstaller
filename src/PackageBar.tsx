@@ -173,13 +173,14 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [successfulProcess, setSuccessfulProcess] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  const [kernelName, setKernelName] = useState("Connecting...");
-  const [kernelId, setKernelId] = useState("Connecting..."); kernelId;
+  console.log("PROPS.KERNELNAME", props.kernelName);
+  const [kernelName, setKernelName] = useState(props.kernelName);
+  const [kernelId, setKernelId] = useState(props.kernelId); kernelId;
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(true);
   const [toggleDialog, setToggleDialog] = React.useState({
     dialogOn: false,
   });
-  nb.currentWidget.session.ready.then(()=>{nb.currentWidget.session.kernel.ready.then(()=>{
+  nb.currentWidget && nb.currentWidget.session.ready.then(()=>{nb.currentWidget.session.kernel.ready.then(()=>{
     setKernelName(nb.currentWidget.session.kernelDisplayName);
     setKernelId(nb.currentWidget.session.kernel.id);
   })});

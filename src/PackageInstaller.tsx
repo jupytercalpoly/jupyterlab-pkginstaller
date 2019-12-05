@@ -14,7 +14,12 @@ export default class PInstallerWidget extends ReactWidget {
     this.notebookTracker = notebookTracker;
   }
   render() {
-    let { session } = this.notebookTracker.currentWidget;
+    let { currentWidget } = this.notebookTracker;
+    currentWidget && currentWidget.session && currentWidget.session.ready.then(()=>{
+      let { session } = currentWidget;
+      console.log("PROPS.KERNELNAME", session.kernelDisplayName);
+    });
+    let { session } = currentWidget;
     return (
       <UseSignal signal={session.kernelChanged}>
         {() => 
@@ -22,7 +27,7 @@ export default class PInstallerWidget extends ReactWidget {
             <PackageSearcher 
               kernelId={session.kernelId} 
               nb = {this.notebookTracker}
-              kernelName={session.kernelName} 
+              kernelName={session.kernelDisplayName} 
               uninstalledPackage={null}
               moduleError={null}
             />

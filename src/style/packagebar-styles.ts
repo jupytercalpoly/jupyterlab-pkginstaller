@@ -5,6 +5,7 @@ export namespace PackageBarStyleClasses {
     padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
   });
   export const topBar = style({
     display: 'flex',
@@ -14,6 +15,7 @@ export namespace PackageBarStyleClasses {
   });
   export const kernelPrompt = style({
     paddingTop: 5,
+    fontSize: 'var(--jp-ui-font-size0)',
   })
   export const pipButton = style({
     backgroundColor: 'var(--md-blue-700)',
@@ -77,18 +79,17 @@ export namespace PackageBarStyleClasses {
   });
   export const PIComponent = style({
     background: "var(--jp-layout-color1)",
-    minWidth: "var(--jp-sidebar-min-width)",
     overflow: "visible",
     display: "flex",
     flex: "0 0 auto",
     height: '100vh',
+    padding: 12,
   });
   export const PIComponentHeader = style({
     fontSize: "var(--jp-ui-font-size0)",
     fontWeight: 600,
     letterSpacing: 1,
     margin: 0,
-    padding: "8px 12px",
     textTransform: "uppercase",
     display: "block"
   })

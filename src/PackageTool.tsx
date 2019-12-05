@@ -34,19 +34,17 @@ class PackageTool extends NotebookTools.Tool {
     });
   }
   protected onActiveNotebookPanelChanged(msg: Message): void {
-    if (this.notebookTracker.currentWidget && this.notebookTracker.currentWidget.session) {
-      this.notebookTracker.currentWidget.session.ready.then(() => {
-        let layout = this.layout as PanelLayout;
-        let count = layout.widgets.length;
-        for (let i = 0; i < count; i++) {
-          layout.widgets[0].dispose();
-        }
-        let session = this.notebookTracker.currentWidget.session;
-        let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
-        const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);//, layout);
-        layout.addWidget(view);
-      });
-    }
+    let { session }  = this.notebookTracker.currentWidget;
+    session.ready.then(() => {
+      let layout = this.layout as PanelLayout;
+      let count = layout.widgets.length;
+      for (let i = 0; i < count; i++) {
+        layout.widgets[0].dispose();
+      }
+      let model = new KernelSpyModel(session.kernel! as Kernel.IKernel);
+      const view = new MessageLogView(model, session.kernel.id, session.kernelDisplayName);
+      layout.addWidget(view);
+    });
   }
   private notebookTracker:INotebookTracker;
 }
