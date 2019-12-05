@@ -1,14 +1,8 @@
-//import { PanelLayout } from '@phosphor/widgets';
-
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
 import React, { useState, useCallback } from 'react'; 
-
-import { Dropdown } from './Dropdown';
-
-import StyleClasses from './style';
 
 import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
 
@@ -21,6 +15,10 @@ import Grid from '@material-ui/core/Grid';
 import Button from "@material-ui/core/Button";
 
 import Snackbar, { SnackbarOrigin } from "@material-ui/core/Snackbar";
+
+import { Dropdown } from './Dropdown';
+
+import StyleClasses from './style';
 
 export interface State extends SnackbarOrigin {
   open: boolean;

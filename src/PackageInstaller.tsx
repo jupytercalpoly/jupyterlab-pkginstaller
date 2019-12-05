@@ -1,7 +1,11 @@
 import * as React from 'react';
+
 import { ReactWidget, UseSignal } from '@jupyterlab/apputils'; 
+
 import StyleClasses from './style';
+
 import { PackageSearcher } from './PackageBar';
+
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
 export default class PInstallerWidget extends ReactWidget {
@@ -24,5 +28,4 @@ export default class PInstallerWidget extends ReactWidget {
     );
   }
   private notebookTracker: any;
-  // private word: any;
 }

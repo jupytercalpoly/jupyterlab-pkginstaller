@@ -1,7 +1,5 @@
 import { each } from '@phosphor/algorithm';
 
-// import { PanelLayout } from '@phosphor/widgets';
-
 import { VDomRenderer } from '@jupyterlab/apputils';
 
 import * as React from 'react';
@@ -26,7 +24,7 @@ function Message(props: any) {
   * Render a PackageSearcher that responds to the current state of errorModule.
   */
 export class MessageLogView extends VDomRenderer<KernelSpyModel> {
-  constructor(model: KernelSpyModel, kernelId: string, kernelName: string){//, layouty: PanelLayout) {
+  constructor(model: KernelSpyModel, kernelId: string, kernelName: string){
     super();
     this.model = model;
     this.kernelId = kernelId;
@@ -40,10 +38,6 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     let threads = new ThreadIterator(model.tree, this.collapsed);
     each(threads, ({args, hasChildren}) => {
       if (args.msg.header.msg_type=="error") {
-        // let count = this.layouty.widgets.length;
-        // if (count > 1) {
-        //   this.layouty.widgets[count - 1].dispose();  
-        // }
         console.log("ERROR OCCURED BLEEBOOOP");
         errorMessage = Message({ 
           message:args.msg, kernelName: this.kernelName, kernelId: this.kernelId, moduleError: null//, layouty: this.layouty
@@ -56,6 +50,5 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
   protected collapsed: {[key: string]: boolean} = {};
   protected kernelId: string;
   protected kernelName: string;
-  //protected layouty: PanelLayout;
 }
 

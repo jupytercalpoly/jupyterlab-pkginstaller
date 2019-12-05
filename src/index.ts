@@ -1,8 +1,8 @@
+import { Widget } from '@phosphor/widgets';
+
 import {
   JupyterFrontEnd, JupyterFrontEndPlugin,  ILabShell, ILayoutRestorer
 } from '@jupyterlab/application';
-
-import { Widget } from '@phosphor/widgets';
 
 import {
   INotebookTracker, INotebookTools
@@ -18,7 +18,7 @@ import '../style/index.css';
  * Initialization data for the pkginstaller extension.
  */
 const pkginstaller: JupyterFrontEndPlugin<void> = {
-  id: 'pkginstaller',
+  id: '@jupyterlab/pkginstaller-extension',
   autoStart: true,
   requires: [INotebookTools, INotebookTracker],
   activate: (app: JupyterFrontEnd, cellTools: INotebookTools, notebookTracker: INotebookTracker) => {  
@@ -54,9 +54,8 @@ function activate(
   notebookTracker.currentChanged.connect(() => {
     widget.update();
   });
-
 }
 
 export default [
-  panelly, pkginstaller //kernelStatus, //pkginstaller
+  panelly, pkginstaller 
 ];
