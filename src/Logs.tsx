@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import { KernelSpyModel, ThreadIterator } from './Model';
 
-import { PackageSearcher } from './PackageBar';
+import { PackageInstaller } from './PackageInstaller';
 
 import '../style/index.css';
 
@@ -17,7 +17,7 @@ function Message(props: any) {
   const parsedPackage = props.message.content.evalue.split("'")[1];
   const { ename } = props.message.content;
   return (
-    <PackageSearcher 
+    <PackageInstaller 
       kernelId={props.kernelId} 
       kernelName={props.kernelName} 
       uninstalledPackage={parsedPackage} 
@@ -45,7 +45,7 @@ export class MessageLogView extends VDomRenderer<KernelSpyModel> {
     each(threads, ({args, hasChildren}) => {
       let { msg_type } = args.msg.header;
       if (msg_type == "error") {
-        console.log("ERROR OCCURED BLEEBOOOP");
+        console.log("ERROR OCCURED");
         errorMessage = Message({ 
           message: args.msg, 
           kernelName: this.kernelName, 

@@ -10,7 +10,7 @@ import {
 
 import PackageTool from './PackageTool';
 
-import PInstallerWidget from './PackageInstaller';
+import PInstallerWidget from './Widget';
 
 import '../style/index.css';
 
