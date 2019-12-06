@@ -6,9 +6,8 @@ import StyleClasses from './style';
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Collapse from "@material-ui/core/Collapse";
-import Button from "@material-ui/core/Button";
+// import CardActions from "@material-ui/core/CardActions";
+// import Collapse from "@material-ui/core/Collapse";
 // const customStyles = {
 //   option: (provided: JSON, state: JSON) => ({
 //     ...provided,
@@ -58,18 +57,14 @@ export function Dropdown(props: DropdownProps) {
         onClick={() => toggleVisibility()}>
         See logs
       </button> */}
-      <Card>
-      <CardActions disableSpacing>
-        <button className={PackageBarStyleClasses.logsButton} 
+      <button className={PackageBarStyleClasses.logsButton} 
           onClick={handleExpandClick}
         >See logs
         </button>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+      <Card>
+        {expanded && <CardContent>
           {props.stdOut.map(e => <p style={{wordBreak: 'break-word', fontSize: 10, padding: '2px 0px'}}>{Object.values(e)[0].toString()}</p>)}
-        </CardContent>
-      </Collapse>
+        </CardContent>}
     </Card>
       {/* {props.stdOut.forEach(element => Object.values(element).forEach(msg => <p>{msg}</p>))} */}
 {/*       
