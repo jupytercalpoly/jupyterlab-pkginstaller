@@ -1,0 +1,6 @@
+
+.packageInstaller {
+  /* This is needed so that all font sizing of children done in ems is
+   * relative to this base size */
+  background: var(--jp-layout-color2);
+}

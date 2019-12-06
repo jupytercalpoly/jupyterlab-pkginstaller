@@ -1,11 +1,10 @@
 import { style } from 'typestyle';
 
-export namespace PackageBarStyleClasses {
+export namespace PackageInstallerStyleClasses {
   export const packageContainer = style({
     padding: '2em 1em',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
   });
   export const topBar = style({
     display: 'flex',
@@ -15,7 +14,6 @@ export namespace PackageBarStyleClasses {
   });
   export const kernelPrompt = style({
     paddingTop: 5,
-    fontSize: 'var(--jp-ui-font-size0)',
   })
   export const pipButton = style({
     backgroundColor: 'var(--md-blue-700)',
@@ -25,6 +23,9 @@ export namespace PackageBarStyleClasses {
     margin: 0,
     borderRadius: '2px',
     fontSize: 'var(--jp-ui-font-size1)',
+  });
+  export const snackbar = style({
+    backgroundColor: 'red',
   });
   export const pipInstallButton = style({
     backgroundColor: 'var(--md-blue-700)',
@@ -76,17 +77,18 @@ export namespace PackageBarStyleClasses {
   });
   export const PIComponent = style({
     background: "var(--jp-layout-color1)",
+    minWidth: "var(--jp-sidebar-min-width)",
     overflow: "visible",
     display: "flex",
     flex: "0 0 auto",
     height: '100vh',
-    padding: 12,
   });
   export const PIComponentHeader = style({
     fontSize: "var(--jp-ui-font-size0)",
     fontWeight: 600,
     letterSpacing: 1,
     margin: 0,
+    padding: "8px 12px",
     textTransform: "uppercase",
     display: "block"
   })
@@ -94,14 +96,12 @@ export namespace PackageBarStyleClasses {
     backgroundColor: 'none',
     color: 'var(--md-blue-700)',
     border: 'none',
+    padding: '8px',
     margin: 0,
-    padding: '4px 0px',
     marginTop: 4,
     borderRadius: 2,
-    fontSize: 'var(--jp-ui-font-size0)',
-  });
-  export const formGroup = style({
-    padding: '8px 0px',
+    float: 'right',
+    fontSize: 'var(--jp-ui-font-size1)',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',

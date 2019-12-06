@@ -1,10 +1,20 @@
-import { PanelLayout } from '@phosphor/widgets';
-
 import { Dialog, showDialog } from '@jupyterlab/apputils';
 
 import { Kernel, KernelMessage } from '@jupyterlab/services';
 
 import React, { useState, useCallback } from 'react'; 
+
+import { withStyles, Theme, createStyles } from '@material-ui/core/styles';
+
+import FormGroup from '@material-ui/core/FormGroup';
+
+import Switch from '@material-ui/core/Switch';
+
+import Grid from '@material-ui/core/Grid';
+
+import Button from "@material-ui/core/Button";
+
+import Snackbar, { SnackbarOrigin } from "@material-ui/core/Snackbar";
 
 import { Dropdown } from './Dropdown';
 
@@ -12,12 +22,53 @@ import StyleClasses from './style';
 
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
 
+export interface State extends SnackbarOrigin {
+  open: boolean;
+}
+
+const AntSwitch = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 28,
+      height: 16,
+      padding: 0,
+      display: 'flex',
+      overflow: 'visible'
+    },
+    switchBase: {
+      padding: 2,
+      color: theme.palette.grey[500],
+      '&$checked': {
+        transform: 'translateX(12px)',
+        color: theme.palette.common.white,
+        '& + $track': {
+          opacity: 1,
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
+        },
+      },
+    },
+    thumb: {
+      width: 12,
+      height: 12,
+      boxShadow: 'none',
+    },
+    track: {
+      border: `1px solid ${theme.palette.grey[500]}`,
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor: theme.palette.common.white,
+    },
+    checked: {},
+  }),
+)(Switch);
+
 interface PackageSearcherProps {
   kernelId: string;
   kernelName: string;
   uninstalledPackage: string;
   moduleError: boolean;
-  layouty: PanelLayout;
+  nb: any;
 }
 
 /**
@@ -41,15 +92,51 @@ function getPipMessage(install: boolean, successfulProcess: boolean, packageToPr
   * Render a search-bar-and-buttons UI that allows
   * installation and uninstallation of packages.
   */
-export function PackageSearcher(props: PackageSearcherProps) {
+export function PackageInstaller(props: PackageSearcherProps) {
   const [input, setInput] = useState('');
+  const [nb, setNb] = useState(props.nb); setNb;
   const [packageToProcess, setPackageToProcess] = useState('');
   const [install, setInstall] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [successfulProcess, setSuccessfulProcess] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(props.moduleError);
+  const [kernelName, setKernelName] = useState(props.kernelName);
+  const [kernelId, setKernelId] = useState(props.kernelId); kernelId;
+  const [moduleErrorOccurred, setModuleErrorOccurred] = useState(true);
+  const [toggleDialog, setToggleDialog] = React.useState({
+    dialogOn: false,
+  });
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: "top",
+    horizontal: "center"
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState: SnackbarOrigin) => () => {
+    setState({ open: true, ...newState });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const action = (
+    <Button color="primary" size="small">
+      Install
+    </Button>
+  );
+  nb.currentWidget && nb.currentWidget.session.ready.then(()=>{nb.currentWidget.session.kernel.ready.then(()=>{
+    setKernelName(nb.currentWidget.session.kernelDisplayName);
+    setKernelId(nb.currentWidget.session.kernel.id);
+  })});
+  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleClick({ vertical: "bottom", horizontal: "left" });
+    setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
+    console.log(toggleDialog);
+  };
 
   /**
     * Parse stdout messages during the installation or uninstallation process to
@@ -84,7 +171,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
     install ? pipCommand = '%pip install ' : pipCommand = '%pip uninstall -y ';
     Kernel.listRunning().then(kernelModels => {
       const kernel = Kernel.connectTo(
-        (kernelModels.filter(kernelModel => kernelModel.id === props.kernelId))[0]
+        (kernelModels.filter(kernelModel => kernelModel.id === nb.currentWidget.session.kernel.id))[0]
       );
       kernel.requestExecute({
         code: pipCommand + input, silent: true
@@ -121,7 +208,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       return result.button.accept;
     });
   }
-  if (moduleErrorOccurred) { 
+  if (moduleErrorOccurred && toggleDialog.dialogOn) {  
     let uninstalledPackage: string = props.uninstalledPackage;
     if (uninstalledPackage) {
       installDialog(uninstalledPackage);
@@ -129,10 +216,11 @@ export function PackageSearcher(props: PackageSearcherProps) {
     setInput(uninstalledPackage);
     setModuleErrorOccurred(false);
   }
+  
   return (
     <div className={PackageBarStyleClasses.packageContainer}>
-      <p className={PackageBarStyleClasses.title}>Install PyPI Packages</p>
-      <p className={PackageBarStyleClasses.topBar}>Current Environment: {props.kernelName}</p>
+      <p className={PackageBarStyleClasses.PIComponentHeader}>PyPI Package Installer</p>
+      <p className={PackageBarStyleClasses.topBar}>Current Environment: {kernelName}</p>
       <div className={PackageBarStyleClasses.search}>
         <div className={PackageBarStyleClasses.heading}>
           <p className={PackageBarStyleClasses.searchTitle}>Package Name</p>
@@ -166,7 +254,33 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
-    </div>
+      <FormGroup className={PackageBarStyleClasses.formGroup}>
+        <Grid component="label" container alignItems="center" spacing={1}>
+          <Grid item>
+            <AntSwitch
+              checked={toggleDialog.dialogOn}
+              onChange={handleChange('dialogOn')}
+              value="dialogOn"
+            />
+          </Grid>
+          <p className={PackageBarStyleClasses.switchText}>Enable Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
+        </Grid>
+      </FormGroup>
+      <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
+        Open dialog
+      </Button>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        key={`${vertical},${horizontal}`}
+        open={open}
+        onClose={handleClose}
+        ContentProps={{
+          "aria-describedby": "message-id"
+        }}
+        message={<span id="message-id">Install in current environment?</span>}
+        action={action}
+      />
+      </div>
   );
 }
 

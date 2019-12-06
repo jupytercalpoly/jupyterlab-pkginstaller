@@ -1,0 +1,7 @@
+[data-jp-theme-light='true'] .jp-PackageInstaller-icon {
+  background-image: url(PI-light.svg);
+}
+
+[data-jp-theme-light='false'] .jp-PackageInstaller-icon {
+  background-image: url(PI-dark.svg);
+}
