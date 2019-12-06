@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import Async from 'react-select';
 
 import StyleClasses from './style';
-
 const PackageBarStyleClasses = StyleClasses.PackageBarStyleClasses;
-
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+import Button from "@material-ui/core/Button";
 const customStyles = {
   option: (provided: JSON, state: JSON) => ({
     ...provided,
@@ -44,6 +47,10 @@ export function Dropdown(props: DropdownProps) {
   function toggleVisibility() { 
     setIsVisible(!isVisible);
   }
+  const [expanded, setExpanded] = React.useState(false);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   // props.stdOut.forEach(element => Object.values(element).map(msg => <p>{msg}</p>));
   return (
     <div>
@@ -51,6 +58,19 @@ export function Dropdown(props: DropdownProps) {
         onClick={() => toggleVisibility()}>
         See logs
       </button>
+      <Card>
+      <CardActions disableSpacing>
+        <Button
+          onClick={handleExpandClick}
+        >See more
+        </Button>
+      </CardActions>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <p>sasd</p>
+        </CardContent>
+      </Collapse>
+    </Card>
       {/* {props.stdOut.forEach(element => Object.values(element).forEach(msg => <p>{msg}</p>))} */}
       {props.stdOut.map(e => <p>{Object.values(e)[0].toString()}</p>)}
       <Async
