@@ -98,9 +98,13 @@ export namespace PackageBarStyleClasses {
     color: 'var(--md-blue-700)',
     border: 'none',
     margin: 0,
+    padding: '4px 0px',
     marginTop: 4,
     borderRadius: 2,
-    fontSize: 'var(--jp-ui-font-size1)',
+    fontSize: 'var(--jp-ui-font-size0)',
+  });
+  export const formGroup = style({
+    padding: '4px 0px',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',

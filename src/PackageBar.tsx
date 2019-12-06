@@ -117,7 +117,7 @@ export default function CustomizedSwitches() {
   };
 
   return (
-    <FormGroup>
+    <FormGroup style={{padding: '4px 0px'}}>
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>
             <AntSwitch
@@ -301,7 +301,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
       {showMessage && <Dropdown stdOut={stdOut}/>}
-      <FormGroup>
+      <FormGroup className={PackageBarStyleClasses.formGroup}>
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>
             <AntSwitch
