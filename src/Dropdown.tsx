@@ -44,14 +44,15 @@ export function Dropdown(props: DropdownProps) {
   function toggleVisibility() { 
     setIsVisible(!isVisible);
   }
-  props.stdOut.forEach(element => Object.values(element).forEach(msg => <p>{msg}</p>));
+  // props.stdOut.forEach(element => Object.values(element).map(msg => <p>{msg}</p>));
   return (
     <div>
       <button className={PackageBarStyleClasses.logsButton} 
         onClick={() => toggleVisibility()}>
         See logs
       </button>
-      {}
+      {/* {props.stdOut.forEach(element => Object.values(element).forEach(msg => <p>{msg}</p>))} */}
+      {props.stdOut.map(e => <p>{Object.values(e)[0].toString()}</p>)}
       <Async
         key={JSON.stringify(props.stdOut)}
         options={props.stdOut}
