@@ -52,7 +52,7 @@ function PositionedSnackbar() {
   return (
     <div>
       <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
-        Bottom-Left
+        Open dialog
       </Button>
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
@@ -173,7 +173,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [successfulProcess, setSuccessfulProcess] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false)
   const [stdOut, setStdOut] = useState([]);
-  console.log("PROPS.KERNELNAME", props.kernelName);
   const [kernelName, setKernelName] = useState(props.kernelName);
   const [kernelId, setKernelId] = useState(props.kernelId); kernelId;
   const [moduleErrorOccurred, setModuleErrorOccurred] = useState(true);
