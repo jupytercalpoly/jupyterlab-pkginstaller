@@ -33,7 +33,14 @@ import CardContent from "@material-ui/core/CardContent";
 //     position: 'initial',
 //   })
 // }
-
+const compStyle = {
+  border: 'none',
+  borderRadius: 'var(--jp-border-radius)',
+  boxShadow: 'inset 0 0 3px var(--jp-border-width) var(--jp-input-active-box-shadow-color)',
+  backgroundColor: 'var(--jp-ui-inverse-font-color0)',
+  maxHeight: 200, 
+  overflow: 'auto'
+}
 interface DropdownProps {
   stdOut: Array<string>;
 }
@@ -61,9 +68,9 @@ export function Dropdown(props: DropdownProps) {
           onClick={handleExpandClick}
         >See logs
         </button>
-      <Card>
-        {expanded && <CardContent>
-          {props.stdOut.map(e => <p style={{wordBreak: 'break-word', fontSize: 10, padding: '2px 0px'}}>{Object.values(e)[0].toString()}</p>)}
+      <Card style={{boxShadow: 'none'}}>
+        {expanded && <CardContent style={compStyle}>
+          {props.stdOut.map(e => <p style={{wordBreak: 'break-word', fontSize: 10, padding: '4px 0px'}}>{Object.values(e)[0].toString()}</p>)}
         </CardContent>}
     </Card>
       {/* {props.stdOut.forEach(element => Object.values(element).forEach(msg => <p>{msg}</p>))} */}

@@ -97,11 +97,9 @@ export namespace PackageBarStyleClasses {
     backgroundColor: 'none',
     color: 'var(--md-blue-700)',
     border: 'none',
-    padding: '8px',
     margin: 0,
     marginTop: 4,
     borderRadius: 2,
-    float: 'right',
     fontSize: 'var(--jp-ui-font-size1)',
   });
   export const packageLabel = style({

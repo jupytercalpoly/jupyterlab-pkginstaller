@@ -63,9 +63,6 @@ function PositionedSnackbar() {
           "aria-describedby": "message-id"
         }}
         message={<span id="message-id">Install in current environment?</span>}
-        classes={{
-          root: PackageBarStyleClasses.snackbar
-        }}
         action={action}
       />
     </div>
@@ -303,6 +300,7 @@ export function PackageSearcher(props: PackageSearcherProps) {
         </button>
       </div>
       {successfulProcess && showMessage && !isProcessing && <p className={PackageBarStyleClasses.kernelPrompt}>You may need to update the kernel to see updated packages.</p>}
+      {showMessage && <Dropdown stdOut={stdOut}/>}
       <FormGroup>
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>
@@ -315,7 +313,6 @@ export function PackageSearcher(props: PackageSearcherProps) {
           <p className={PackageBarStyleClasses.switchText}>Enable Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
         </Grid>
       </FormGroup>
-      {showMessage && <Dropdown stdOut={stdOut}/>}
       <PositionedSnackbar></PositionedSnackbar>
       </div>
   );
