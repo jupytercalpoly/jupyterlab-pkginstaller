@@ -26,9 +26,6 @@ export namespace PackageBarStyleClasses {
     borderRadius: '2px',
     fontSize: 'var(--jp-ui-font-size1)',
   });
-  export const snackbar = style({
-    backgroundColor: 'red',
-  });
   export const pipInstallButton = style({
     backgroundColor: 'var(--md-blue-700)',
     color: 'var(--jp-ui-inverse-font-color1)',
@@ -104,7 +101,7 @@ export namespace PackageBarStyleClasses {
     fontSize: 'var(--jp-ui-font-size0)',
   });
   export const formGroup = style({
-    padding: '4px 0px',
+    padding: '8px 0px',
   });
   export const packageLabel = style({
     textTransform: 'uppercase',

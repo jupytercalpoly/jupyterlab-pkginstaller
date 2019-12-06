@@ -26,48 +26,48 @@ export interface State extends SnackbarOrigin {
   open: boolean;
 }
 
-function PositionedSnackbar() {
-  const [state, setState] = React.useState<State>({
-    open: false,
-    vertical: "top",
-    horizontal: "center"
-  });
+// function PositionedSnackbar() {
+//   const [state, setState] = React.useState<State>({
+//     open: false,
+//     vertical: "top",
+//     horizontal: "center"
+//   });
 
-  const { vertical, horizontal, open } = state;
+//   const { vertical, horizontal, open } = state;
 
-  const handleClick = (newState: SnackbarOrigin) => () => {
-    setState({ open: true, ...newState });
-  };
+//   const handleClick = (newState: SnackbarOrigin) => () => {
+//     setState({ open: true, ...newState });
+//   };
 
-  const handleClose = () => {
-    setState({ ...state, open: false });
-  };
+//   const handleClose = () => {
+//     setState({ ...state, open: false });
+//   };
 
-  const action = (
-    <Button color="primary" size="small">
-      Install
-    </Button>
-  );
+//   const action = (
+//     <Button color="primary" size="small">
+//       Install
+//     </Button>
+//   );
 
-  return (
-    <div>
-      <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
-        Open dialog
-      </Button>
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        key={`${vertical},${horizontal}`}
-        open={open}
-        onClose={handleClose}
-        ContentProps={{
-          "aria-describedby": "message-id"
-        }}
-        message={<span id="message-id">Install in current environment?</span>}
-        action={action}
-      />
-    </div>
-  );
-}
+//   return (
+//     <div>
+//       <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
+//         Open dialog
+//       </Button>
+//       <Snackbar
+//         anchorOrigin={{ vertical, horizontal }}
+//         key={`${vertical},${horizontal}`}
+//         open={open}
+//         onClose={handleClose}
+//         ContentProps={{
+//           "aria-describedby": "message-id"
+//         }}
+//         message={<span id="message-id">Install in current environment?</span>}
+//         action={action}
+//       />
+//     </div>
+//   );
+// }
 
 const AntSwitch = withStyles((theme: Theme) =>
   createStyles({
@@ -106,31 +106,31 @@ const AntSwitch = withStyles((theme: Theme) =>
   }),
 )(Switch);
 
-export default function CustomizedSwitches() {
-  const [toggleDialog, setToggleDialog] = React.useState({
-    dialogOn: false,
-  });
+// export default function CustomizedSwitches() {
+//   const [toggleDialog, setToggleDialog] = React.useState({
+//     dialogOn: false,
+//   });
 
-  const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
-    console.log(toggleDialog);
-  };
+//   const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+//     setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
+//     console.log(toggleDialog);
+//   };
 
-  return (
-    <FormGroup style={{padding: '4px 0px'}}>
-        <Grid component="label" container alignItems="center" spacing={1}>
-          <Grid item>
-            <AntSwitch
-              checked={toggleDialog.dialogOn}
-              onChange={handleChange('dialogOn')}
-              value="dialogOn"
-            />
-          </Grid>
-          <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
-        </Grid>
-    </FormGroup>
-  );
-}
+//   return (
+//     <FormGroup style={{padding: '4px 0px'}}>
+//         <Grid component="label" container alignItems="center" spacing={1}>
+//           <Grid item>
+//             <AntSwitch
+//               checked={toggleDialog.dialogOn}
+//               onChange={handleChange('dialogOn')}
+//               value="dialogOn"
+//             />
+//           </Grid>
+//           <p className={PackageBarStyleClasses.switchText}>Enable PackageNotFound Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
+//         </Grid>
+//     </FormGroup>
+//   );
+// }
 
 interface PackageSearcherProps {
   kernelId: string;
@@ -176,11 +176,33 @@ export function PackageSearcher(props: PackageSearcherProps) {
   const [toggleDialog, setToggleDialog] = React.useState({
     dialogOn: false,
   });
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: "top",
+    horizontal: "center"
+  });
+
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState: SnackbarOrigin) => () => {
+    setState({ open: true, ...newState });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  const action = (
+    <Button color="primary" size="small">
+      Install
+    </Button>
+  );
   nb.currentWidget && nb.currentWidget.session.ready.then(()=>{nb.currentWidget.session.kernel.ready.then(()=>{
     setKernelName(nb.currentWidget.session.kernelDisplayName);
     setKernelId(nb.currentWidget.session.kernel.id);
   })});
   const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    handleClick({ vertical: "bottom", horizontal: "left" });
     setToggleDialog({ ...toggleDialog, [name]: event.target.checked });
     console.log(toggleDialog);
   };
@@ -313,7 +335,20 @@ export function PackageSearcher(props: PackageSearcherProps) {
           <p className={PackageBarStyleClasses.switchText}>Enable Dialogs <span className={PackageBarStyleClasses.switchAccent}>Experimental</span></p>
         </Grid>
       </FormGroup>
-      <PositionedSnackbar></PositionedSnackbar>
+      <Button onClick={handleClick({ vertical: "bottom", horizontal: "left" })}>
+        Open dialog
+      </Button>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        key={`${vertical},${horizontal}`}
+        open={open}
+        onClose={handleClose}
+        ContentProps={{
+          "aria-describedby": "message-id"
+        }}
+        message={<span id="message-id">Install in current environment?</span>}
+        action={action}
+      />
       </div>
   );
 }
